@@ -347,7 +347,7 @@ namespace PodcasCo
             browserPathTextBox.Text = UserSetting.BrowserPath;
             proxyUseCheckBox.Checked = UserSetting.ProxyUse;
             proxyServerTextBox.Text = UserSetting.ProxyServer;
-            proxyPortTextBox.Text = UserSetting.ProxyPort;
+            proxyPortTextBox.Text = UserSetting.ProxyPort.ToString();
         }
 
         private void SettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -358,7 +358,7 @@ namespace PodcasCo
             UserSetting.BrowserPath = browserPathTextBox.Text.Trim();
             UserSetting.ProxyUse = proxyUseCheckBox.Checked;
             UserSetting.ProxyServer = proxyServerTextBox.Text.Trim();
-            UserSetting.ProxyPort = proxyPortTextBox.Text.Trim();
+            UserSetting.ProxyPort = int.Parse(proxyPortTextBox.Text.Trim());
 
             try
             {

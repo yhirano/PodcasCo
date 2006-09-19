@@ -103,68 +103,75 @@ namespace PodcasCo
         /// <summary>
         /// プロキシのポート番号
         /// </summary>
-        private static string proxyPort = "";
+        private static int proxyPort = 0;
 
         /// <summary>
         /// プロキシのポート番号
         /// </summary>
-        public static string ProxyPort
+        public static int ProxyPort
         {
             get
             {
-                try
+                if (0x00 <= proxyPort && proxyPort <= 0xFFFF)
                 {
-                    if (0x00 <= int.Parse(proxyPort) && int.Parse(proxyPort) <= 0xFFFF)
-                    {
-                        return proxyPort;
-                    }
-                    else
-                    {
-                        return "";
-                    }
+                    return proxyPort;
                 }
-                catch (ArgumentException)
+                else
                 {
-                    return "";
-                }
-                catch (FormatException)
-                {
-                    return "";
-                }
-                catch (OverflowException)
-                {
-                    return "";
+                    return 0;
                 }
             }
             set
             {
-                try
+                if (0x00 <= value && value <= 0xFFFF)
                 {
-                    if (0x00 <= int.Parse(value) && int.Parse(value) <= 0xFFFF)
-                    {
-                        proxyPort = value;
-                    }
+                    proxyPort = value;
                 }
-                catch (ArgumentException)
-                {
-                    ;
-                }
-                catch (FormatException)
-                {
-                    ;
-                }
-                catch (OverflowException)
+                else
                 {
                     ;
                 }
             }
+        }
 
+        /// <summary>
+        /// ダウンロード時のバッファサイズ
+        /// </summary>
+        private static long downLoadBufferSize = 0x1FFFF; // 128KB
+
+        /// <summary>
+        /// ダウンロード時のバッファサイズ
+        /// </summary>
+        public static long DownLoadBufferSize
+        {
+            get
+            {
+                if (0xFFFF <= downLoadBufferSize && downLoadBufferSize <= 0x3FFFF)
+                {
+                    return downLoadBufferSize;
+                }
+                else
+                {
+                    return 0x1FFFF;
+                }
+            }
+            set
+            {
+                if (0xFFFF <= value && value <= 0x3FFFF)
+                {
+                    downLoadBufferSize = value;
+                }
+                else
+                {
+                    ;
+                }
+            }
         }
 
         /// <summary>
         /// アプリケーションの設定ファイル
         /// </summary>
-        private const string settingPath = "Setting.xml";
+        private const string SETTING_PATH = "Setting.xml";
 
         /// <summary>
         /// アプリケーションの設定ファイルの保存場所
@@ -174,7 +181,7 @@ namespace PodcasCo
             get
             {
                 // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-                return PocketLadioUtility.GetExecutablePath() + @"\" + settingPath;
+                return PocketLadioUtility.GetExecutablePath() + @"\" + SETTING_PATH;
             }
         }
 
@@ -273,9 +280,49 @@ namespace PodcasCo
                                     }
 
                                     ProxyServer = reader.GetAttribute("server");
-                                    ProxyPort = reader.GetAttribute("port");
+
+                                    try
+                                    {
+                                        string port = reader.GetAttribute("port");
+                                        ProxyPort = int.Parse(port);
+                                    }
+                                    catch (ArgumentException)
+                                    {
+                                        ;
+                                    }
+                                    catch (FormatException)
+                                    {
+                                        ;
+                                    }
+                                    catch (OverflowException)
+                                    {
+                                        ;
+                                    }
                                 }
                             } // End of Proxy
+                            else if (reader.LocalName == "DownloadBuffer")
+                            {
+                                if (reader.MoveToFirstAttribute())
+                                {
+                                    try
+                                    {
+                                        string size = reader.GetAttribute("size");
+                                        DownLoadBufferSize = long.Parse(size);
+                                    }
+                                    catch (ArgumentException)
+                                    {
+                                        ;
+                                    }
+                                    catch (FormatException)
+                                    {
+                                        ;
+                                    }
+                                    catch (OverflowException)
+                                    {
+                                        ;
+                                    }
+                                }
+                            } // End of DownloadBuffer
                         }
                         else if (reader.NodeType == XmlNodeType.EndElement)
                         {
@@ -364,8 +411,12 @@ namespace PodcasCo
                 writer.WriteStartElement("Proxy");
                 writer.WriteAttributeString("use", ProxyUse.ToString());
                 writer.WriteAttributeString("server", ProxyServer);
-                writer.WriteAttributeString("port", ProxyPort);
+                writer.WriteAttributeString("port", ProxyPort.ToString());
                 writer.WriteEndElement(); // End of Porxy
+
+                writer.WriteStartElement("DownloadBuffer");
+                writer.WriteAttributeString("size", ProxyPort.ToString());
+                writer.WriteEndElement(); // End of DownloadBuffer
 
                 writer.WriteEndElement(); // End of Content.
 

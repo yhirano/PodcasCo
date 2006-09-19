@@ -104,7 +104,7 @@ namespace PodcasCo.Stations.RssPodcast
         {
             ArrayList alChannels = new ArrayList(channels);
             alChannels.Remove(channel);
-            
+
             channels = (Channel[])alChannels.ToArray(typeof(Channel));
         }
 
@@ -172,7 +172,6 @@ namespace PodcasCo.Stations.RssPodcast
         public virtual string FetchStationName()
         {
             Stream st = null;
-            FileStream fs = null;
             XmlReader reader = null;
 
             try
@@ -184,16 +183,8 @@ namespace PodcasCo.Stations.RssPodcast
                 // channelタグの中にいるか
                 bool inChannelFlag = false;
 
-                if (setting.RssUrl.IsFile == true)
-                {
-                    fs = new FileStream(setting.RssUrl.LocalPath, FileMode.Open, FileAccess.Read);
-                    reader = new XmlTextReader(fs);
-                }
-                else
-                {
-                    st = PocketLadioUtility.GetHttpStream(setting.RssUrl);
-                    reader = new XmlTextReader(st);
-                }
+                st = PocketLadioUtility.GetHttpStream(setting.RssUrl);
+                reader = new XmlTextReader(st);
 
                 while (reader.Read())
                 {
@@ -270,9 +261,6 @@ namespace PodcasCo.Stations.RssPodcast
                 {
                     st.Close();
                 }
-                if (fs != null) {
-                    fs.Close();
-                }
                 if (reader != null)
                 {
                     reader.Close();
@@ -317,8 +305,8 @@ namespace PodcasCo.Stations.RssPodcast
                 {
                     st = PocketLadioUtility.GetHttpStream(setting.RssUrl);
                     reader = new XmlTextReader(st);
-                } 
-                
+                }
+
                 while (reader.Read())
                 {
                     if (reader.NodeType == XmlNodeType.Element)
