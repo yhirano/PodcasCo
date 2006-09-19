@@ -8,7 +8,6 @@ using System.Text;
 using System.Collections;
 using System.Xml;
 using PodcasCo.Stations;
-using PodcasCo.Utility;
 
 #endregion
 
@@ -183,7 +182,7 @@ namespace PodcasCo.Stations.RssPodcast
                 // channelタグの中にいるか
                 bool inChannelFlag = false;
 
-                st = PocketLadioUtility.GetHttpStream(setting.RssUrl);
+                st = PocketLadioUtility.GetWebStream(setting.RssUrl);
                 reader = new XmlTextReader(st);
 
                 while (reader.Read())
@@ -303,7 +302,7 @@ namespace PodcasCo.Stations.RssPodcast
                 }
                 else
                 {
-                    st = PocketLadioUtility.GetHttpStream(setting.RssUrl);
+                    st = PocketLadioUtility.GetWebStream(setting.RssUrl);
                     reader = new XmlTextReader(st);
                 }
 

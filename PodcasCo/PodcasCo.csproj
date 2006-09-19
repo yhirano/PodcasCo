@@ -50,11 +50,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExtCF\Runtime\InteropServices\MarshalEx.cs" />
-    <Compile Include="ExtCF\Windows\Forms\Clipboard.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="PocketLadioUtility.cs" />
     <Compile Include="PodcasCoSpecificProcess.cs" />
     <Compile Include="PodcasCoInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,10 +80,6 @@
     <Compile Include="Stations\RssPodcast\RssPodcastMimePriority.cs" />
     <Compile Include="Stations\RssPodcast\UserSetting.cs" />
     <Compile Include="UserSetting.cs" />
-    <Compile Include="Utility\ClipboardTextBox.cs" />
-    <Compile Include="Utility\PocketLadioUtility.cs" />
-    <Compile Include="Utility\Process.cs" />
-    <Compile Include="Utility\PodcasCoUtility.cs" />
     <Compile Include="VersionInfoForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,6 +114,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Document\Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MiscPocketCompactLibrary\MiscPocketCompactLibrary\MiscPocketCompactLibrary.csproj">
+      <Project>{23406A68-A2E2-4A8F-8760-DFCA3B2D0236}</Project>
+      <Name>MiscPocketCompactLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Condition="'$(TargetFrameworkVersion)' == 'v1.0'" Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.v1.targets" />
   <Import Condition="'$(TargetFrameworkVersion)' == 'v2.0'" Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />

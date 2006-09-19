@@ -6,7 +6,7 @@ using System.Collections;
 using System.IO;
 using System.Xml;
 using System.Diagnostics;
-using PodcasCo.Utility;
+using MiscPocketCompactLibrary.Reflection;
 
 #endregion
 
@@ -20,7 +20,7 @@ namespace PodcasCo
         /// <summary>
         /// Podcastをクリップするディレクトリ
         /// </summary>
-        private static string podcastClipDirectoryPath = PocketLadioUtility.GetExecutablePath() + @"\" + PodcasCoInfo.ApplicationName + "Clip";
+        private static string podcastClipDirectoryPath = AssemblyUtility.GetExecutablePath() + @"\" + PodcasCoInfo.ApplicationName + "Clip";
 
         /// <summary>
         /// Podcastをクリップするディレクトリ
@@ -181,7 +181,7 @@ namespace PodcasCo
             get
             {
                 // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-                return PocketLadioUtility.GetExecutablePath() + @"\" + SETTING_PATH;
+                return AssemblyUtility.GetExecutablePath() + @"\" + SETTING_PATH;
             }
         }
 

@@ -11,7 +11,7 @@ using System.Net.Sockets;
 using System.Xml;
 using System.Diagnostics;
 using PodcasCo.Stations;
-using PodcasCo.Utility;
+using MiscPocketCompactLibrary.Reflection;
 
 #endregion
 
@@ -742,7 +742,7 @@ namespace PodcasCo
 
                             if (File.Exists(generateFilePath) == false)
                             {
-                                PodcasCoUtility.FetchFile(channel.GetPlayUrl(), generateFilePath);
+                                PocketLadioUtility.FetchFile(channel.GetPlayUrl(), generateFilePath);
                                 
                                 // 番組をローカルヘッドラインに加える
                                 IChannel localChannel = (IChannel)channel.Clone(channel.ParentHeadline.ParentStation.LocalHeadline);

@@ -10,7 +10,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Xml;
 using System.Diagnostics;
-using PodcasCo.Utility;
+using MiscPocketCompactLibrary.Windows.Forms;
 
 #endregion
 
