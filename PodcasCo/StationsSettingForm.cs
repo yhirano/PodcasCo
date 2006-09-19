@@ -319,6 +319,12 @@ namespace PodcasCo
                 // クリップしたディレクトリ・ファイルを削除する
                 deleteStation.LocalHeadline.DeleteClipDirectory();
 
+                // m3uファイルを削除
+                if (File.Exists(UserSetting.M3uFilePath))
+                {
+                    File.Delete(UserSetting.M3uFilePath);
+                }
+
                 alStationList.RemoveAt(stationListBox.SelectedIndex);
                 stationListBox.Items.RemoveAt(stationListBox.SelectedIndex);
             }

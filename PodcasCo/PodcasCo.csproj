@@ -17,6 +17,8 @@
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
     <FormFactorID>
     </FormFactorID>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -114,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Document\Readme.txt" />
+    <Content Include="PodcasCo.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MiscPocketCompactLibrary\MiscPocketCompactLibrary\MiscPocketCompactLibrary.csproj">
