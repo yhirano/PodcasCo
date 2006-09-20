@@ -300,8 +300,8 @@ namespace PodcasCo
         /// </summary>
         private void AddStationFilterComboBoxItem()
         {
-            // 各放送局の切り替えボックスをいったん選択不可にする
-            this.stationFilterComboBox.Enabled = false;
+            // フォームをいったん選択不可にする
+            this.Enabled = false;
             // 各放送局の切り替えボックスをいったんクリアする
             this.stationFilterComboBox.Items.Clear();
             // 切り替えボックスの先頭に"All"を追加
@@ -311,8 +311,8 @@ namespace PodcasCo
             {
                 this.stationFilterComboBox.Items.Add(station.DisplayName);
             }
-            // 切り替えボックスが追加し終わったので、各放送局の切り替えボックスを選択可能にする
-            this.stationFilterComboBox.Enabled = true;
+            // 切り替えボックスが追加し終わったので、フォームを選択可能にする
+            this.Enabled = true;
 
             // 放送局が選択されておらず、かつ放送局がある場合
             if (this.stationFilterComboBox.SelectedIndex == -1 && this.stationFilterComboBox.Items.Count > 0)
@@ -448,12 +448,8 @@ namespace PodcasCo
             {
                 #region UI前処理
 
-                // Updateボタン、Clipボタン、Playボタンをいったん選択不可にする
-                updateButton.Enabled = false;
-                clipButton.Enabled = false;
-                playButton.Enabled = false;
-                // 放送局選択ボックスをいったん選択不可にする
-                stationFilterComboBox.Enabled = false;
+                // フォームをいったん選択不可にする
+                this.Enabled = false;
 
                 #endregion
 
@@ -528,12 +524,8 @@ namespace PodcasCo
             {
                 #region UI後処理
 
-                // Updateボタン、Clipボタン、Playボタンをを選択可能に回復する
-                updateButton.Enabled = true;
-                clipButton.Enabled = true;
-                playButton.Enabled = true;
-                // 放送局選択ボックスを選択可能に回復する
-                stationFilterComboBox.Enabled = true;
+                // フォームを選択可能に回復する
+                this.Enabled = true;
 
                 #endregion
             }
@@ -546,11 +538,8 @@ namespace PodcasCo
         {
             #region UI前処理
 
-            // 放送局フィルターとクリップフィルターをいったん選択不可にする
-            stationFilterComboBox.Enabled = false;
-            allClipRadioButton.Enabled = false;
-            clipedRadioButton.Enabled = false;
-            unclipedRadioButton.Enabled = false;
+            // フォームををいったん選択不可にする
+            this.Enabled = false;
 
             #endregion
 
@@ -603,11 +592,8 @@ namespace PodcasCo
                 + "/" + StationList.GetChannelsOfCurrentStationFromLocalHeadline().Length
                 + "/" + StationList.GetUnclipedChannelsOfCurrentStation().Length;
 
-            // 放送局フィルターとクリップフィルターを選択可能に回復する
-            stationFilterComboBox.Enabled = true;
-            allClipRadioButton.Enabled = true;
-            clipedRadioButton.Enabled = true;
-            unclipedRadioButton.Enabled = true;
+            // フォームを選択可能に回復する
+            this.Enabled = true;
 
             #endregion
         }
@@ -689,19 +675,8 @@ namespace PodcasCo
         {
             #region UI前処理
 
-            // Updateボタン、Clipボタン、Playボタンをいったん選択不可にする
-            updateButton.Enabled = false;
-            clipButton.Enabled = false;
-            playButton.Enabled = false;
-            // 放送局フィルターとクリップフィルターをいったん選択不可にする
-            stationFilterComboBox.Enabled = false;
-            allClipRadioButton.Enabled = false;
-            clipedRadioButton.Enabled = false;
-            unclipedRadioButton.Enabled = false;
-            // 番組リストをいったん選択不可にする
-            channelListView.Enabled = false;
-            // 放送局選択ボックスをいったん選択不可にする
-            stationFilterComboBox.Enabled = false;
+            // フォームをいったん選択不可にする
+            this.Enabled = false;
 
             #endregion
 
@@ -801,19 +776,8 @@ namespace PodcasCo
                 MessageBox.Show("未クリップの番組が選択されていません","情報");
             }
 
-            // 番組リストを選択可能に回復する
-            channelListView.Enabled = true;
-            // 放送局フィルターとクリップフィルターを選択可能に回復する
-            stationFilterComboBox.Enabled = true;
-            allClipRadioButton.Enabled = true;
-            clipedRadioButton.Enabled = true;
-            unclipedRadioButton.Enabled = true;
-            // Updateボタン、Clipボタン、Playボタンをを選択可能に回復する
-            updateButton.Enabled = true;
-            clipButton.Enabled = true;
-            playButton.Enabled = true;
-            // 放送局選択ボックスを選択可能に回復する
-            stationFilterComboBox.Enabled = true;
+            // フォームを選択可能に回復する
+            this.Enabled = true;
 
             #endregion
         }
@@ -826,19 +790,8 @@ namespace PodcasCo
 
             #region UI前処理
 
-            // Updateボタン、Clipボタン、Playボタンをいったん選択不可にする
-            updateButton.Enabled = false;
-            clipButton.Enabled = false;
-            playButton.Enabled = false;
-            // 放送局フィルターとクリップフィルターをいったん選択不可にする
-            stationFilterComboBox.Enabled = false;
-            allClipRadioButton.Enabled = false;
-            clipedRadioButton.Enabled = false;
-            unclipedRadioButton.Enabled = false;
-            // 番組リストをいったん選択不可にする
-            channelListView.Enabled = false;
-            // 放送局選択ボックスをいったん選択不可にする
-            stationFilterComboBox.Enabled = false;
+            // フォームをいったん選択不可にする
+            this.Enabled = false;
 
             #endregion
 
@@ -885,19 +838,8 @@ namespace PodcasCo
 
             #region UI後処理
 
-            // 番組リストを選択可能に回復する
-            channelListView.Enabled = true;
-            // 放送局フィルターとクリップフィルターを選択可能に回復する
-            stationFilterComboBox.Enabled = true;
-            allClipRadioButton.Enabled = true;
-            clipedRadioButton.Enabled = true;
-            unclipedRadioButton.Enabled = true;
-            // Updateボタン、Clipボタン、Playボタンをを選択可能に回復する
-            updateButton.Enabled = true;
-            clipButton.Enabled = true;
-            playButton.Enabled = true;
-            // 放送局選択ボックスを選択可能に回復する
-            stationFilterComboBox.Enabled = true;
+            // フォームを選択可能に回復する
+            this.Enabled = true;
 
             #endregion
         }

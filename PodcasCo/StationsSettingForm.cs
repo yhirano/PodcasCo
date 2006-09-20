@@ -340,19 +340,13 @@ namespace PodcasCo
 
             // 放送局名を得るのに時間がかかる場合があるため、その間操作できないように
             // UIの入力と操作を封じておく
-            addButton.Enabled = false;
-            deleteButton.Enabled = false;
-            podcastUrlTextBox.Enabled = false;
-            stationListBox.Enabled = false;
+            this.Enabled = false;
 
             // 放送局を作成する
             CreateStation();
 
             // UIの入力と操作を使えるようにする
-            addButton.Enabled = true;
-            deleteButton.Enabled = true;
-            podcastUrlTextBox.Enabled = true;
-            stationListBox.Enabled = true;
+            this.Enabled = true;
         }
 
         private void DeleteMenuItem_Click(object sender, EventArgs e)
