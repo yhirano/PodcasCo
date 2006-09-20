@@ -415,7 +415,7 @@ namespace PodcasCo
                 writer.WriteEndElement(); // End of Porxy
 
                 writer.WriteStartElement("DownloadBuffer");
-                writer.WriteAttributeString("size", ProxyPort.ToString());
+                writer.WriteAttributeString("size", DownLoadBufferSize.ToString());
                 writer.WriteEndElement(); // End of DownloadBuffer
 
                 writer.WriteEndElement(); // End of Content.

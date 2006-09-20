@@ -157,6 +157,14 @@ namespace PodcasCo.Stations.RssPodcast
         }
 
         /// <summary>
+        /// 番組を破棄する
+        /// </summary>
+        public virtual void ClearChannels()
+        {
+            channels = new Channel[0];
+        }
+
+        /// <summary>
         /// ヘッドラインの設定を保存する
         /// </summary>
         public virtual void SaveSetting()

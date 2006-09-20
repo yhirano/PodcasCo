@@ -47,6 +47,11 @@ namespace PodcasCo.Stations
         void AddChannel(IChannel channels);
 
         /// <summary>
+        /// 番組を破棄する
+        /// </summary>
+        void ClearChannels();
+
+        /// <summary>
         /// 放送局名をネットから取得して返す
         /// </summary>
         /// <returns>ネットから取得した放送局名</returns>
