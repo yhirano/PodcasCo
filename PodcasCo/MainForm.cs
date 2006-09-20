@@ -472,16 +472,7 @@ namespace PodcasCo
                     Trace.Assert(false, "想定外の動作のため、終了します");
                 }
 
-                // 番組が取得できなかった場合
-                if (StationList.LastCheckTimeOfCurrentStation.Equals(DateTime.MinValue))
-                {
-                    lastCheckInfomationLabel.Text = "No Check";
-                }
-                // 番組が取得できた場合
-                else
-                {
-                    lastCheckInfomationLabel.Text = "Last " + StationList.LastCheckTimeOfCurrentStation.ToString();
-                }
+                lastCheckInfomationLabel.Text = DateTime.Now.ToString();
 
                 #endregion
 

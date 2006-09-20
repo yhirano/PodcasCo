@@ -40,15 +40,6 @@ namespace PodcasCo
         }
 
         /// <summary>
-        /// 取得しているヘッドラインのネットから最終取得時刻を返す。
-        /// 値を返せない場合はDateTime.MinValueを返す。
-        /// </summary>
-        public static DateTime LastCheckTimeOfCurrentStation
-        {
-            get { return (currentStation != null ? currentStation.GlobalHeadline.GetLastCheckTime() : DateTime.MinValue); }
-        }
-
-        /// <summary>
         /// シングルトンのためprivate
         /// </summary>
         private StationList()
