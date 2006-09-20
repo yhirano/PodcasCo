@@ -18,16 +18,18 @@ http://www.microsoft.com/japan/msdn/vstudio/device/netcf/
 
 
 【インストール】
-ZIPファイルを解凍し、PodcasCo.exeを適当なフォルダに置いてください。
+ZIPファイルを解凍し、PodcasCo.exeとMiscPocketCompactLibrary.dllを適当なフォルダ
+に置いてください。
 
 
 【アップデート】
-ZIPファイルを解凍し、PodcasCo.exeを適当なフォルダに置いてください。
+ZIPファイルを解凍し、PodcasCo.exeとMiscPocketCompactLibrary.dllを適当なフォルダ
+に置いてください。
 
 
 【アンインストール】
-PodcasCo.exeと、同じフォルダにあるSetting.xmlおよびSetting.*.xmlを削除してくだ
-さい。
+PodcasCo.exeとMiscPocketCompactLibrary.dll、同じフォルダにあるSetting.xmlおよび
+Setting.*.xmlを削除してください。
 PodcasCoはレジストリを使用しません。
 
 
@@ -70,6 +72,8 @@ PodcastのURLを指定し[追加]ボタンで放送局を追加することができます。
 Version 0.2
 ・「Podcastをクリップするフォルダ」設定を変更した後に、クリップ済みの番組のデー
 　タと保存しているファイルに整合性がとれなくなっていたのを修正。
+・クリップボードの内容がテキスト以外の場合に、ペーストをすると落ちていたのを
+　（多分）修正
 
 Version 0.1
 ・初版

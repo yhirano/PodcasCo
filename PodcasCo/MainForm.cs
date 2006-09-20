@@ -840,6 +840,19 @@ namespace PodcasCo
         {
             try
             {
+                // 起動時のチェック
+                PodcasCoSpecificProcess.StartUpCheck();
+            }
+            catch (DllNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message);
+                Application.Exit();
+
+                return;
+            }
+
+            try
+            {
                 // 起動時の初期化
                 PodcasCoSpecificProcess.StartUpInitialize();
 
