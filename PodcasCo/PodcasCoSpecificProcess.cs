@@ -3,6 +3,7 @@
 using System;
 using System.IO;
 using System.Xml;
+using MiscPocketCompactLibrary.Reflection;
 
 #endregion
 
@@ -26,7 +27,7 @@ namespace PodcasCo
         public static void StartUpCheck()
         {
             // MiscPocketCompactLibrary.dllが見つからない場合は例外を投げる
-            if (File.Exists("MiscPocketCompactLibrary.dll") == false)
+            if (File.Exists(AssemblyUtility.GetExecutablePath() + @"\MiscPocketCompactLibrary.dll") == false)
             {
                 throw new DllNotFoundException("Not found MiscPocketCompactLibrary.dll.");
             }
