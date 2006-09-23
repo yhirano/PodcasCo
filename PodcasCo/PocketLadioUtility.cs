@@ -99,6 +99,7 @@ namespace PodcasCo
             return st;
         }
 
+
         /// <summary>
         /// Web上のストリームをダウンロードする
         /// </summary>
@@ -114,6 +115,31 @@ namespace PodcasCo
             ws.UserAgent = PodcasCoInfo.UserAgent;
             ws.DownLoadBufferSize = PodcasCo.UserSetting.DownLoadBufferSize;
             ws.FetchFile(fileName);
+
+        }
+
+        /// <summary>
+        /// Web上のストリームをダウンロードする
+        /// </summary>
+        /// <param name="url">URL</param>
+        /// <param name="fileName">保存するファイル名</param>
+        /// <param name="doDownloadProgressMinimum">ファイルサイズの最小値（0）をセットするデリゲート</param>
+        /// <param name="doSetDownloadProgressMaximum">ファイルサイズをセットするデリゲート</param>
+        /// <param name="doSetDownloadProgressValue">ダウンロード済みのファイルサイズをセットするデリゲート</param>
+        public static void FetchFile(Uri url, string fileName,
+            WebStream.SetDownloadProgressMinimumInvoker doDownloadProgressMinimum,
+            WebStream.SetDownloadProgressMaximumInvoker doSetDownloadProgressMaximum,
+            WebStream.SetDownloadProgressValueInvoker doSetDownloadProgressValue)
+        {
+            WebStream ws = new WebStream(url);
+            ws.ProxyUse = PodcasCo.UserSetting.ProxyUse;
+            ws.ProxyServer = PodcasCo.UserSetting.ProxyServer;
+            ws.ProxyPort = PodcasCo.UserSetting.ProxyPort;
+            ws.TimeOut = PodcasCoInfo.WebRequestTimeoutMillSec;
+            ws.UserAgent = PodcasCoInfo.UserAgent;
+            ws.DownLoadBufferSize = PodcasCo.UserSetting.DownLoadBufferSize;
+            ws.FetchFile(fileName, doDownloadProgressMinimum, doSetDownloadProgressMaximum, doSetDownloadProgressValue);
+
         }
     }
 }

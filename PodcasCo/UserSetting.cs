@@ -137,7 +137,7 @@ namespace PodcasCo
         /// <summary>
         /// ダウンロード時のバッファサイズ
         /// </summary>
-        private static long downLoadBufferSize = 0x1FFFF; // 128KB
+        private static long downLoadBufferSize = 1024;
 
         /// <summary>
         /// ダウンロード時のバッファサイズ
@@ -146,18 +146,18 @@ namespace PodcasCo
         {
             get
             {
-                if (0xFFFF <= downLoadBufferSize && downLoadBufferSize <= 0x3FFFF)
+                if (512 <= downLoadBufferSize && downLoadBufferSize <= 2048)
                 {
                     return downLoadBufferSize;
                 }
                 else
                 {
-                    return 0x1FFFF;
+                    return 1024;
                 }
             }
             set
             {
-                if (0xFFFF <= value && value <= 0x3FFFF)
+                if (512 <= value && value <= 2048)
                 {
                     downLoadBufferSize = value;
                 }

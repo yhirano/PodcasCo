@@ -9,9 +9,11 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Xml;
+using System.Threading;
 using System.Diagnostics;
 using PodcasCo.Stations;
 using MiscPocketCompactLibrary.Reflection;
+using MiscPocketCompactLibrary.Net;
 
 #endregion
 
@@ -708,8 +710,14 @@ namespace PodcasCo
 
                             if (File.Exists(generateFilePath) == false)
                             {
-                                PocketLadioUtility.FetchFile(channel.GetPlayUrl(), generateFilePath);
-                                
+                                PocketLadioUtility.FetchFile(channel.GetPlayUrl(), generateFilePath
+                                    //,
+                                    //new WebStream.SetDownloadProgressMinimumInvoker(clippingForm.SetClipingProgressMinimum),
+                                    //new WebStream.SetDownloadProgressMaximumInvoker(clippingForm.SetClipingProgressMaximum),
+                                    //new WebStream.SetDownloadProgressValueInvoker(clippingForm.SetClipingProgressValue)
+                                    );
+
+
                                 // 番組をローカルヘッドラインに加える
                                 IChannel localChannel = (IChannel)channel.Clone(channel.ParentHeadline.ParentStation.LocalHeadline);
                                 localChannel.SetPlayUrl(new Uri(generateFilePath));
@@ -732,6 +740,7 @@ namespace PodcasCo
                             ;
                         }
                     }
+
                 }
                 catch (OutOfMemoryException)
                 {
@@ -763,8 +772,9 @@ namespace PodcasCo
             #region UI後処理
 
             // 選択された未クリップの番組が無い場合は警告を出す
-            if (alSelectedGlobalChannels.Count == 0) {
-                MessageBox.Show("未クリップの番組が選択されていません","情報");
+            if (alSelectedGlobalChannels.Count == 0)
+            {
+                MessageBox.Show("未クリップの番組が選択されていません", "情報");
             }
 
             // フォームを選択可能に回復する
