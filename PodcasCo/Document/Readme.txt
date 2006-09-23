@@ -18,24 +18,24 @@ http://www.microsoft.com/japan/msdn/vstudio/device/netcf/
 
 
 【インストール】
-ZIPファイルを解凍し、PodcasCo.exeとMiscPocketCompactLibrary.dllを適当なフォルダ
-に置いてください。
+ZIPファイルを解凍し、PodcasCo.exe・MiscPocketCompactLibrary.dll・
+FileDialog.dll・GetFileInfo.dllを適当なフォルダに置いてください。
 
 
 【アップデート】
-ZIPファイルを解凍し、PodcasCo.exeとMiscPocketCompactLibrary.dllを適当なフォルダ
-に置いてください。
+ZIPファイルを解凍し、PodcasCo.exe・MiscPocketCompactLibrary.dll・
+FileDialog.dll・GetFileInfo.dllを適当なフォルダに置いてください。
 
 
 【アンインストール】
-PodcasCo.exeとMiscPocketCompactLibrary.dll、同じフォルダにあるSetting.xmlおよび
-Setting.*.xmlを削除してください。
+PodcasCo.exe・MiscPocketCompactLibrary.dll・FileDialog.dll・GetFileInfo.dll、同
+じフォルダにあるSetting.xmlおよびSetting.*.xmlを削除してください。
 PodcasCoはレジストリを使用しません。
 
 
 【使い方】
 ・PodcasCoの使い方
-Updateボタンで配信中のヘッドラインを取得します。
+Updateボタンを押し、配信中のヘッドラインを取得します。
 保存したい番組を選択してClipボタンを押すとダウンロードを開始します。
 クリップした番組にはタイトルの頭に [C] が表示されます。
 クリップした番組を選択し、Playボタンで番組を再生します。
@@ -74,6 +74,11 @@ Version 0.2
 　タと保存しているファイルに整合性がとれなくなっていたのを修正。
 ・クリップボードの内容がテキスト以外の場合に、ペーストをすると落ちていたのを
 　（多分）修正
+・放送局の追加と削除画面でエンターキーを押して入力するとビープ音が鳴っていたの
+　を鳴らないように変更
+・メディアプレイヤーとブラウザのパス、Podcastをクリップするフォルダ設定をファ
+　イルダイアログから設定できるようにした
+・クリップボードのキーボードショートカットに対応（テキストボックスのみ）
 
 Version 0.1
 ・初版

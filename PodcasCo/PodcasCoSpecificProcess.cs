@@ -31,6 +31,16 @@ namespace PodcasCo
             {
                 throw new DllNotFoundException("Not found MiscPocketCompactLibrary.dll.");
             }
+            // FileDialog.dllが見つからない場合は例外を投げる
+            if (File.Exists(AssemblyUtility.GetExecutablePath() + @"\FileDialog.dll") == false)
+            {
+                throw new DllNotFoundException("Not found FileDialog.dll.");
+            }
+            // GetFileInfo.dllが見つからない場合は例外を投げる
+            if (File.Exists(AssemblyUtility.GetExecutablePath() + @"\GetFileInfo.dll") == false)
+            {
+                throw new DllNotFoundException("Not found GetFileInfo.dll.");
+            }
         }
 
         /// <summary>

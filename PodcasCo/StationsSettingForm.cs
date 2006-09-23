@@ -136,7 +136,9 @@ namespace PodcasCo
             this.podcastUrlTextBox.ContextMenu = this.podcastUrlContextMenu;
             this.podcastUrlTextBox.Location = new System.Drawing.Point(3, 27);
             this.podcastUrlTextBox.Size = new System.Drawing.Size(234, 21);
-            this.podcastUrlTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.StationNameTextBox_KeyDown);
+            this.podcastUrlTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.PodcastUrlTextBox_KeyUp);
+            this.podcastUrlTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PodcastUrlTextBox_KeyPress);
+            this.podcastUrlTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PodcastUrlTextBox_KeyDown);
             // 
             // podcastUrlContextMenu
             // 
@@ -407,12 +409,40 @@ namespace PodcasCo
             FixWindowSize();
         }
 
-        private void StationNameTextBox_KeyDown(object sender, KeyEventArgs e)
+        private void PodcastUrlTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             // 入力ボタンを押したとき
             if ((e.KeyCode == System.Windows.Forms.Keys.Enter))
             {
                 AddButton_Click(sender, e);
+            }
+            // 切り取りショートカット
+            else if (e.KeyCode == Keys.X && e.Control)
+            {
+                ClipboardTextBox.Cut(podcastUrlTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(podcastUrlTextBox);
+            }
+        }
+
+        private void PodcastUrlTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // 入力ボタンを押したときの音を消すため
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void PodcastUrlTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(podcastUrlTextBox);
             }
         }
     }

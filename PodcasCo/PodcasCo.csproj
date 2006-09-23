@@ -43,6 +43,14 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FileDialog, Version=1.0.2.36120, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dll\FileDialog.dll</HintPath>
+    </Reference>
+    <Reference Include="GetFileInfo, Version=1.0.2355.36119, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dll\GetFileInfo.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />

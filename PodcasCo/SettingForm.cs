@@ -53,6 +53,9 @@ namespace PodcasCo
         private MenuItem cutPodcastClipDirectoryPathMenuItem;
         private MenuItem copyPodcastClipDirectoryPathMenuItem;
         private MenuItem pastePodcastClipDirectoryPathMenuItem;
+        private Button browserPathReferenceButton;
+        private Button mediaPlayerPathReferenceButton;
+        private Button podcastClipDirectoryPathReferenceButton;
         private TabControl settingTabControl;
 
         public SettingForm()
@@ -89,7 +92,14 @@ namespace PodcasCo
             this.copyMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
             this.pasteMediaPlayeraPathMenuItem = new System.Windows.Forms.MenuItem();
             this.podcasCoTabPage = new System.Windows.Forms.TabPage();
+            this.podcastClipDirectoryPathReferenceButton = new System.Windows.Forms.Button();
+            this.browserPathReferenceButton = new System.Windows.Forms.Button();
+            this.mediaPlayerPathReferenceButton = new System.Windows.Forms.Button();
             this.podcastClipDirectoryPathTextBox = new System.Windows.Forms.TextBox();
+            this.podcastClipDirectoryPathContextMenu = new System.Windows.Forms.ContextMenu();
+            this.cutPodcastClipDirectoryPathMenuItem = new System.Windows.Forms.MenuItem();
+            this.copyPodcastClipDirectoryPathMenuItem = new System.Windows.Forms.MenuItem();
+            this.pastePodcastClipDirectoryPathMenuItem = new System.Windows.Forms.MenuItem();
             this.browserPathTextBox = new System.Windows.Forms.TextBox();
             this.mediaPlayerPathTextBox = new System.Windows.Forms.TextBox();
             this.browserPathLabel = new System.Windows.Forms.Label();
@@ -110,10 +120,6 @@ namespace PodcasCo
             this.pasteProxyServerMenuItem = new System.Windows.Forms.MenuItem();
             this.proxyPortLabel = new System.Windows.Forms.Label();
             this.proxyServerLabel = new System.Windows.Forms.Label();
-            this.podcastClipDirectoryPathContextMenu = new System.Windows.Forms.ContextMenu();
-            this.cutPodcastClipDirectoryPathMenuItem = new System.Windows.Forms.MenuItem();
-            this.copyPodcastClipDirectoryPathMenuItem = new System.Windows.Forms.MenuItem();
-            this.pastePodcastClipDirectoryPathMenuItem = new System.Windows.Forms.MenuItem();
             // 
             // mainMenu
             // 
@@ -168,6 +174,9 @@ namespace PodcasCo
             // 
             // podcasCoTabPage
             // 
+            this.podcasCoTabPage.Controls.Add(this.podcastClipDirectoryPathReferenceButton);
+            this.podcasCoTabPage.Controls.Add(this.browserPathReferenceButton);
+            this.podcasCoTabPage.Controls.Add(this.mediaPlayerPathReferenceButton);
             this.podcasCoTabPage.Controls.Add(this.podcastClipDirectoryPathTextBox);
             this.podcasCoTabPage.Controls.Add(this.browserPathTextBox);
             this.podcasCoTabPage.Controls.Add(this.mediaPlayerPathTextBox);
@@ -178,23 +187,71 @@ namespace PodcasCo
             this.podcasCoTabPage.Size = new System.Drawing.Size(240, 245);
             this.podcasCoTabPage.Text = "PodcasCo設定";
             // 
+            // podcastClipDirectoryPathReferenceButton
+            // 
+            this.podcastClipDirectoryPathReferenceButton.Location = new System.Drawing.Point(189, 27);
+            this.podcastClipDirectoryPathReferenceButton.Size = new System.Drawing.Size(48, 20);
+            this.podcastClipDirectoryPathReferenceButton.Text = "参照";
+            this.podcastClipDirectoryPathReferenceButton.Click += new System.EventHandler(this.PodcastClipDirectoryPathReferenceButton_Click);
+            // 
+            // browserPathReferenceButton
+            // 
+            this.browserPathReferenceButton.Location = new System.Drawing.Point(189, 126);
+            this.browserPathReferenceButton.Size = new System.Drawing.Size(48, 20);
+            this.browserPathReferenceButton.Text = "参照";
+            this.browserPathReferenceButton.Click += new System.EventHandler(this.BrowserPathReferenceButton_Click_1);
+            // 
+            // mediaPlayerPathReferenceButton
+            // 
+            this.mediaPlayerPathReferenceButton.Location = new System.Drawing.Point(189, 83);
+            this.mediaPlayerPathReferenceButton.Size = new System.Drawing.Size(48, 20);
+            this.mediaPlayerPathReferenceButton.Text = "参照";
+            this.mediaPlayerPathReferenceButton.Click += new System.EventHandler(this.MediaPlayerPathReferenceButton_Click_1);
+            // 
             // podcastClipDirectoryPathTextBox
             // 
             this.podcastClipDirectoryPathTextBox.ContextMenu = this.podcastClipDirectoryPathContextMenu;
             this.podcastClipDirectoryPathTextBox.Location = new System.Drawing.Point(3, 27);
-            this.podcastClipDirectoryPathTextBox.Size = new System.Drawing.Size(234, 21);
+            this.podcastClipDirectoryPathTextBox.Size = new System.Drawing.Size(180, 21);
+            this.podcastClipDirectoryPathTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.podcastClipDirectoryPathTextBox_KeyUp);
+            this.podcastClipDirectoryPathTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.podcastClipDirectoryPathTextBox_KeyDown);
+            // 
+            // podcastClipDirectoryPathContextMenu
+            // 
+            this.podcastClipDirectoryPathContextMenu.MenuItems.Add(this.cutPodcastClipDirectoryPathMenuItem);
+            this.podcastClipDirectoryPathContextMenu.MenuItems.Add(this.copyPodcastClipDirectoryPathMenuItem);
+            this.podcastClipDirectoryPathContextMenu.MenuItems.Add(this.pastePodcastClipDirectoryPathMenuItem);
+            // 
+            // cutPodcastClipDirectoryPathMenuItem
+            // 
+            this.cutPodcastClipDirectoryPathMenuItem.Text = "切り取り(&T)";
+            this.cutPodcastClipDirectoryPathMenuItem.Click += new System.EventHandler(this.CutPodcastClipDirectoryPathMenuItem_Click);
+            // 
+            // copyPodcastClipDirectoryPathMenuItem
+            // 
+            this.copyPodcastClipDirectoryPathMenuItem.Text = "コピー(&C)";
+            this.copyPodcastClipDirectoryPathMenuItem.Click += new System.EventHandler(this.CopyPodcastClipDirectoryPathMenuItem_Click);
+            // 
+            // pastePodcastClipDirectoryPathMenuItem
+            // 
+            this.pastePodcastClipDirectoryPathMenuItem.Text = "貼り付け(&P)";
+            this.pastePodcastClipDirectoryPathMenuItem.Click += new System.EventHandler(this.PastePodcastClipDirectoryPathMenuItem_Click);
             // 
             // browserPathTextBox
             // 
             this.browserPathTextBox.ContextMenu = this.browserPathContextMenu;
             this.browserPathTextBox.Location = new System.Drawing.Point(3, 126);
-            this.browserPathTextBox.Size = new System.Drawing.Size(234, 21);
+            this.browserPathTextBox.Size = new System.Drawing.Size(180, 21);
+            this.browserPathTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.BrowserPathTextBox_KeyUp);
+            this.browserPathTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.BrowserPathTextBox_KeyDown);
             // 
             // mediaPlayerPathTextBox
             // 
             this.mediaPlayerPathTextBox.ContextMenu = this.mediaPlayeraPathContextMenu;
             this.mediaPlayerPathTextBox.Location = new System.Drawing.Point(3, 83);
-            this.mediaPlayerPathTextBox.Size = new System.Drawing.Size(234, 21);
+            this.mediaPlayerPathTextBox.Size = new System.Drawing.Size(180, 21);
+            this.mediaPlayerPathTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MediaPlayerPathTextBox_KeyUp);
+            this.mediaPlayerPathTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MediaPlayerPathTextBox_KeyDown);
             // 
             // browserPathLabel
             // 
@@ -230,7 +287,7 @@ namespace PodcasCo
             this.networkTabPage.Controls.Add(this.proxyPortLabel);
             this.networkTabPage.Controls.Add(this.proxyServerLabel);
             this.networkTabPage.Location = new System.Drawing.Point(0, 0);
-            this.networkTabPage.Size = new System.Drawing.Size(232, 242);
+            this.networkTabPage.Size = new System.Drawing.Size(240, 245);
             this.networkTabPage.Text = "ネットワーク設定";
             // 
             // proxyUseCheckBox
@@ -244,6 +301,8 @@ namespace PodcasCo
             this.proxyPortTextBox.ContextMenu = this.proxyPortContextMenu;
             this.proxyPortTextBox.Location = new System.Drawing.Point(3, 88);
             this.proxyPortTextBox.Size = new System.Drawing.Size(74, 21);
+            this.proxyPortTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ProxyPortTextBox_KeyUp);
+            this.proxyPortTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ProxyPortTextBox_KeyDown);
             // 
             // proxyPortContextMenu
             // 
@@ -271,6 +330,8 @@ namespace PodcasCo
             this.proxyServerTextBox.ContextMenu = this.proxyServerContextMenu;
             this.proxyServerTextBox.Location = new System.Drawing.Point(3, 45);
             this.proxyServerTextBox.Size = new System.Drawing.Size(234, 21);
+            this.proxyServerTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ProxyServerTextBox_KeyUp);
+            this.proxyServerTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ProxyServerTextBox_KeyDown);
             // 
             // proxyServerContextMenu
             // 
@@ -304,27 +365,6 @@ namespace PodcasCo
             this.proxyServerLabel.Location = new System.Drawing.Point(3, 26);
             this.proxyServerLabel.Size = new System.Drawing.Size(230, 16);
             this.proxyServerLabel.Text = "プロキシサーバ （例：proxy.example.com）";
-            // 
-            // podcastClipDirectoryPathContextMenu
-            // 
-            this.podcastClipDirectoryPathContextMenu.MenuItems.Add(this.cutPodcastClipDirectoryPathMenuItem);
-            this.podcastClipDirectoryPathContextMenu.MenuItems.Add(this.copyPodcastClipDirectoryPathMenuItem);
-            this.podcastClipDirectoryPathContextMenu.MenuItems.Add(this.pastePodcastClipDirectoryPathMenuItem);
-            // 
-            // cutPodcastClipDirectoryPathMenuItem
-            // 
-            this.cutPodcastClipDirectoryPathMenuItem.Text = "切り取り(&T)";
-            this.cutPodcastClipDirectoryPathMenuItem.Click += new System.EventHandler(this.CutPodcastClipDirectoryPathMenuItem_Click);
-            // 
-            // copyPodcastClipDirectoryPathMenuItem
-            // 
-            this.copyPodcastClipDirectoryPathMenuItem.Text = "コピー(&C)";
-            this.copyPodcastClipDirectoryPathMenuItem.Click += new System.EventHandler(this.CopyPodcastClipDirectoryPathMenuItem_Click);
-            // 
-            // pastePodcastClipDirectoryPathMenuItem
-            // 
-            this.pastePodcastClipDirectoryPathMenuItem.Text = "貼り付け(&P)";
-            this.pastePodcastClipDirectoryPathMenuItem.Click += new System.EventHandler(this.PastePodcastClipDirectoryPathMenuItem_Click);
             // 
             // SettingForm
             // 
@@ -372,7 +412,7 @@ namespace PodcasCo
             // 「Podcastをクリップするフォルダ」にローカルヘッドラインが格納されるために、
             // 「Podcastをクリップするフォルダ」の場所が変わったので、ローカルヘッドラインの
             // URLを作り直す
-            foreach (Station station in StationList.GetStationList()) 
+            foreach (Station station in StationList.GetStationList())
             {
                 // ローカルヘッドラインのURLの作り直し
                 station.LocalHeadline.SetUrl(new Uri(UserSetting.PodcastClipDirectoryPath + @"\" + station.LocalHeadline.GetId() + @"\rss.xml"));
@@ -485,6 +525,173 @@ namespace PodcasCo
         private void PastePodcastClipDirectoryPathMenuItem_Click(object sender, EventArgs e)
         {
             ClipboardTextBox.Paste(podcastClipDirectoryPathTextBox);
+        }
+
+        private void MediaPlayerPathReferenceButton_Click_1(object sender, EventArgs e)
+        {
+            SmartPDA.Windows.Forms.OpenFileDialog fd = SmartPDA.Windows.Forms.FileDialogFactory.MakeOpenFileDialog();
+
+            if (Directory.Exists(Path.GetDirectoryName(mediaPlayerPathTextBox.Text.Trim())))
+            {
+                fd.InitialDirectory = Path.GetDirectoryName(mediaPlayerPathTextBox.Text.Trim());
+            }
+            fd.Filter = "*.exe|*.exe|*.*|*.*";
+            fd.IconVisible = true;
+            fd.Activation = ItemActivation.OneClick;
+
+            if (fd.ShowDialog() == DialogResult.OK)
+            {
+                mediaPlayerPathTextBox.Text = fd.FileName;
+            }
+        }
+
+        private void BrowserPathReferenceButton_Click_1(object sender, EventArgs e)
+        {
+            SmartPDA.Windows.Forms.OpenFileDialog fd = SmartPDA.Windows.Forms.FileDialogFactory.MakeOpenFileDialog();
+
+            if (Directory.Exists(Path.GetDirectoryName(browserPathTextBox.Text.Trim())))
+            {
+                fd.InitialDirectory = Path.GetDirectoryName(browserPathTextBox.Text.Trim());
+            }
+            fd.Filter = "*.exe|*.exe|*.*|*.*";
+            fd.IconVisible = true;
+            fd.Activation = ItemActivation.OneClick;
+
+            if (fd.ShowDialog() == DialogResult.OK)
+            {
+                browserPathTextBox.Text = fd.FileName;
+            }
+        }
+
+        private void PodcastClipDirectoryPathReferenceButton_Click(object sender, EventArgs e)
+        {
+            SmartPDA.Windows.Forms.FolderBrowserDialog fd = SmartPDA.Windows.Forms.FolderBrowserDialogFactory.MakeFolderBrowserDialog();
+
+            if (Directory.Exists(podcastClipDirectoryPathTextBox.Text.Trim()))
+            {
+                fd.SelectedPath = podcastClipDirectoryPathTextBox.Text.Trim();
+            }
+            fd.IconVisible = true;
+            if (fd.ShowDialog() == DialogResult.OK)
+            {
+                podcastClipDirectoryPathTextBox.Text = fd.SelectedPath;
+            }
+
+        }
+
+        private void podcastClipDirectoryPathTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 切り取りショートカット
+            if (e.KeyCode == Keys.X && e.Control)
+            {
+                ClipboardTextBox.Cut(podcastClipDirectoryPathTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(podcastClipDirectoryPathTextBox);
+            }
+        }
+
+        private void podcastClipDirectoryPathTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(podcastClipDirectoryPathTextBox);
+            }
+        }
+
+        private void MediaPlayerPathTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 切り取りショートカット
+            if (e.KeyCode == Keys.X && e.Control)
+            {
+                ClipboardTextBox.Cut(mediaPlayerPathTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(mediaPlayerPathTextBox);
+            }
+        }
+
+        private void MediaPlayerPathTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(mediaPlayerPathTextBox);
+            }
+        }
+
+        private void BrowserPathTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 切り取りショートカット
+            if (e.KeyCode == Keys.X && e.Control)
+            {
+                ClipboardTextBox.Cut(browserPathTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(browserPathTextBox);
+            }
+        }
+
+        private void BrowserPathTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(browserPathTextBox);
+            }
+        }
+
+        private void ProxyServerTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 切り取りショートカット
+            if (e.KeyCode == Keys.X && e.Control)
+            {
+                ClipboardTextBox.Cut(proxyServerTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(proxyServerTextBox);
+            }
+        }
+
+        private void ProxyServerTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(proxyServerTextBox);
+            }
+        }
+
+        private void ProxyPortTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            // 切り取りショートカット
+            if (e.KeyCode == Keys.X && e.Control)
+            {
+                ClipboardTextBox.Cut(proxyPortTextBox);
+            }
+            // 貼り付けショートカット
+            else if (e.KeyCode == Keys.V && e.Control)
+            {
+                ClipboardTextBox.Paste(proxyPortTextBox);
+            }
+        }
+
+        private void ProxyPortTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            // コピーショートカット
+            if (e.KeyCode == Keys.C && e.Control)
+            {
+                ClipboardTextBox.Copy(proxyPortTextBox);
+            }
         }
     }
 }
