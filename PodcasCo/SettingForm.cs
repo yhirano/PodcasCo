@@ -415,7 +415,7 @@ namespace PodcasCo
             foreach (Station station in StationList.GetStationList())
             {
                 // ローカルヘッドラインのURLの作り直し
-                station.LocalHeadline.SetUrl(new Uri(UserSetting.PodcastClipDirectoryPath + @"\" + station.LocalHeadline.GetId() + @"\rss.xml"));
+                station.LocalHeadline.SetUrl(new Uri(UserSetting.PodcastClipDirectoryPath + @"\" + station.LocalHeadline.GetId() + @"\" + PodcasCoInfo.LocalRssFile));
                 // ローカルヘッドラインの番組を破棄する
                 station.LocalHeadline.ClearChannels();
                 // ローカルヘッドラインの内容が書き換わったので設定を保存する

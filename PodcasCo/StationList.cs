@@ -216,7 +216,7 @@ namespace PodcasCo
         }
 
         /// <summary>
-        /// ローカルにある全放送局のヘッドラインを取得する
+        /// 全放送局のローカルにあるヘッドラインを取得する
         /// </summary>
         public static void FetchLocalHeadlineOfCurrentStations()
         {
@@ -225,6 +225,20 @@ namespace PodcasCo
                 station.LocalHeadline.FetchHeadline();
             }
         }
+
+        /// <summary>
+        /// 全放送局のローカルにあるヘッドラインの情報からRSSを作成する
+        /// </summary>
+        public static void GenerateRssLocalHeadlines()
+        {
+            foreach (Station station in GetStationList())
+            {
+                string rssFileName = UserSetting.PodcastClipDirectoryPath + @"\"
+                    + station.LocalHeadline.GetId() + @"\" + PodcasCoInfo.LocalRssFile;
+                station.LocalHeadline.GenerateRss(rssFileName);
+            }
+        }
+
         
         /// <summary>
         /// 番組の詳細フォームを表示する

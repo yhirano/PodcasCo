@@ -393,11 +393,11 @@ namespace PodcasCo
             this.clipFilterPanel.Size = new System.Drawing.Size(234, 20);
             this.unclipedRadioButton.Location = new System.Drawing.Point(157, 0);
             this.unclipedRadioButton.Size = new System.Drawing.Size(71, 20);
-            this.lastCheckInfomationLabel.Location = new System.Drawing.Point(245, 168);
-            this.lastCheckInfomationLabel.Size = new System.Drawing.Size(72, 20);
+            this.lastCheckInfomationLabel.Location = new System.Drawing.Point(245, 125);
+            this.lastCheckInfomationLabel.Size = new System.Drawing.Size(72, 60);
             this.channelListView.Location = new System.Drawing.Point(3, 57);
             this.channelListView.Size = new System.Drawing.Size(234, 128);
-            this.clipInfomationLabel.Location = new System.Drawing.Point(245, 148);
+            this.clipInfomationLabel.Location = new System.Drawing.Point(245, 105);
             this.clipInfomationLabel.Size = new System.Drawing.Size(72, 20);
             this.clipInfomationLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
         }
@@ -474,9 +474,9 @@ namespace PodcasCo
                     Trace.Assert(false, "想定外の動作のため、終了します");
                 }
 
-                lastCheckInfomationLabel.Text = DateTime.Now.ToString();
-
                 #endregion
+
+                lastCheckInfomationLabel.Text = "Last " + DateTime.Now.ToString();
 
                 // 番組リストを更新する
                 UpdateChannelList();
@@ -759,12 +759,8 @@ namespace PodcasCo
                     MessageBox.Show("ファイルがダウンロードできませんでした", "警告"); ;
                 }
 
-                foreach (Station station in StationList.GetStationList())
-                {
-                    string rssFileName = UserSetting.PodcastClipDirectoryPath + @"\"
-                        + station.LocalHeadline.GetId() + @"\rss.xml";
-                    station.LocalHeadline.GenerateRss(rssFileName);
-                }
+                // RSSを作成
+                StationList.GenerateRssLocalHeadlines();
             }
 
             #endregion
@@ -827,13 +823,8 @@ namespace PodcasCo
                 }
             }
 
-            foreach (Station station in StationList.GetStationList())
-            {
-                string rssFileName = UserSetting.PodcastClipDirectoryPath + @"\"
-                    + station.LocalHeadline.GetId() + @"\rss.xml";
-
-                station.LocalHeadline.GenerateRss(rssFileName);
-            }
+            // RSSを作成
+            StationList.GenerateRssLocalHeadlines();
 
             #endregion
 

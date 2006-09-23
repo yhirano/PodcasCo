@@ -17,8 +17,7 @@
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
     <FormFactorID>
     </FormFactorID>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>PodcasCo.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

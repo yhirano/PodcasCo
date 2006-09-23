@@ -169,11 +169,6 @@ namespace PodcasCo
         }
 
         /// <summary>
-        /// アプリケーションの設定ファイル
-        /// </summary>
-        private const string SETTING_PATH = "Setting.xml";
-
-        /// <summary>
         /// アプリケーションの設定ファイルの保存場所
         /// </summary>
         private static string SettingPath
@@ -181,7 +176,7 @@ namespace PodcasCo
             get
             {
                 // アプリケーションの実行ディレクトリ + アプリケーションの設定ファイル
-                return AssemblyUtility.GetExecutablePath() + @"\" + SETTING_PATH;
+                return AssemblyUtility.GetExecutablePath() + @"\" + PodcasCoInfo.SettingFile;
             }
         }
 

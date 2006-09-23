@@ -142,7 +142,7 @@ namespace PodcasCo
                     globalHeadline = new PodcasCo.Stations.RssPodcast.Headline(id + "-global", this);
                     globalHeadline.SetUrl(url);
                     localHeadline = new PodcasCo.Stations.RssPodcast.Headline(id + "-local", this);
-                    localHeadline.SetUrl(new Uri(UserSetting.PodcastClipDirectoryPath + @"\" + localHeadline.GetId() + @"\rss.xml"));
+                    localHeadline.SetUrl(new Uri(UserSetting.PodcastClipDirectoryPath + @"\" + localHeadline.GetId() + @"\" + PodcasCoInfo.LocalRssFile));
                     localHeadline.FetchHeadline();
 
                     /*

@@ -24,12 +24,6 @@ namespace PodcasCo.Stations.RssPodcast
             CaseInsensitiveComparer.DefaultInvariant);
 
         /// <summary>
-        /// PodcastのMIMEタイプの優先度ファイル
-        /// </summary>
-        private const string RSS_PODCAST_MIME_PRIORITY_FILE
-            = "PodcasCo.Resource.RssPodcastMimePriority.txt";
-
-        /// <summary>
         /// シングルトンのためプライベート
         /// </summary>
         private RssPodcastMimePriority()
@@ -51,7 +45,7 @@ namespace PodcasCo.Stations.RssPodcast
                     = System.Reflection.Assembly.GetExecutingAssembly();
                 // 指定されたマニフェストリソースを読み込む
                 sr =
-                    new StreamReader(thisAssembly.GetManifestResourceStream(RSS_PODCAST_MIME_PRIORITY_FILE),
+                    new StreamReader(thisAssembly.GetManifestResourceStream(PodcasCoInfo.RssPodcastMimePriorityFile),
                     Encoding.GetEncoding("shift-jis"));
                 // 内容を読み込む
                 string mimeString = sr.ReadToEnd();
