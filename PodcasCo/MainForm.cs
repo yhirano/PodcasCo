@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Collections;
 using System.Windows.Forms;
 using System.Data;
+using System.Text;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -641,7 +642,7 @@ namespace PodcasCo
                     Directory.CreateDirectory(UserSetting.PodcastClipDirectoryPath);
                 }
 
-                using (StreamWriter sw = new StreamWriter(UserSetting.M3uFilePath))
+                using (StreamWriter sw = new StreamWriter(UserSetting.M3uFilePath, false, Encoding.Default))
                 {
                     foreach (IChannel channel in (IChannel[])alSelectedLocalChannels.ToArray(typeof(IChannel)))
                     {
