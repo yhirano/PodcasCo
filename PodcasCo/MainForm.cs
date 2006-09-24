@@ -667,15 +667,6 @@ namespace PodcasCo
         /// </summary>
         private void ClipPodcast()
         {
-            #region UI前処理
-
-            // フォームをいったん選択不可にする
-            this.Enabled = false;
-
-            #endregion
-
-            #region ダウンロード処理
-
             // 選択された番組のリスト
             ArrayList alSelectedGlobalChannels = new ArrayList();
 
@@ -691,93 +682,16 @@ namespace PodcasCo
             // 選択された未クリップの番組がある場合のみ
             if (alSelectedGlobalChannels.Count != 0)
             {
-                try
-                {
-                    foreach (IChannel channel in (IChannel[])alSelectedGlobalChannels.ToArray(typeof(IChannel)))
-                    {
-                        try
-                        {
-                            string directoryName = UserSetting.PodcastClipDirectoryPath + @"\" + channel.ParentHeadline.ParentStation.LocalHeadline.GetId();
+                ClippingForm clippingForm = new ClippingForm();
+                clippingForm.ShowDialog();
+                clippingForm.Dispose();
 
-                            if (Directory.Exists(directoryName) == false)
-                            {
-                                Directory.CreateDirectory(directoryName);
-                            }
-
-                            string generateFilePath = directoryName + @"\"
-                                + Path.GetFileNameWithoutExtension(channel.GetPlayUrl().LocalPath)
-                                + "-" + channel.GetHash().ToString("x")
-                                + Path.GetExtension(channel.GetPlayUrl().LocalPath);
-
-                            if (File.Exists(generateFilePath) == false)
-                            {
-                                PocketLadioUtility.FetchFile(channel.GetPlayUrl(), generateFilePath
-                                    //,
-                                    //new WebStream.SetDownloadProgressMinimumInvoker(clippingForm.SetClipingProgressMinimum),
-                                    //new WebStream.SetDownloadProgressMaximumInvoker(clippingForm.SetClipingProgressMaximum),
-                                    //new WebStream.SetDownloadProgressValueInvoker(clippingForm.SetClipingProgressValue)
-                                    );
-
-
-                                // 番組をローカルヘッドラインに加える
-                                IChannel localChannel = (IChannel)channel.Clone(channel.ParentHeadline.ParentStation.LocalHeadline);
-                                localChannel.SetPlayUrl(new Uri(generateFilePath));
-                                localChannel.ParentHeadline.ParentStation.LocalHeadline.AddChannel(localChannel);
-
-                                // ダウンロードした番組の元のグローバル番組からはチェックを外す
-                                channel.Check = false;
-                            }
-                        }
-                        catch (WebException)
-                        {
-                            ;
-                        }
-                        catch (UriFormatException)
-                        {
-                            ;
-                        }
-                        catch (SocketException)
-                        {
-                            ;
-                        }
-                    }
-
-                }
-                catch (OutOfMemoryException)
-                {
-                    MessageBox.Show("ファイルがダウンロードできませんでした", "警告"); ;
-                }
-                catch (IOException)
-                {
-                    MessageBox.Show("ファイルがダウンロードできませんでした", "警告"); ;
-                }
-                catch (ArgumentException)
-                {
-                    MessageBox.Show("ファイルがダウンロードできませんでした", "警告"); ;
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    MessageBox.Show("ファイルがダウンロードできませんでした", "警告"); ;
-                }
-
-                // RSSを作成
-                StationList.GenerateRssLocalHeadlines();
             }
-
-            #endregion
-
-            #region UI後処理
-
             // 選択された未クリップの番組が無い場合は警告を出す
-            if (alSelectedGlobalChannels.Count == 0)
+            else
             {
                 MessageBox.Show("未クリップの番組が選択されていません", "情報");
             }
-
-            // フォームを選択可能に回復する
-            this.Enabled = true;
-
-            #endregion
         }
 
         /// <summary>

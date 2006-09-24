@@ -287,7 +287,7 @@ namespace PodcasCo
             this.networkTabPage.Controls.Add(this.proxyPortLabel);
             this.networkTabPage.Controls.Add(this.proxyServerLabel);
             this.networkTabPage.Location = new System.Drawing.Point(0, 0);
-            this.networkTabPage.Size = new System.Drawing.Size(240, 245);
+            this.networkTabPage.Size = new System.Drawing.Size(232, 242);
             this.networkTabPage.Text = "ネットワーク設定";
             // 
             // proxyUseCheckBox

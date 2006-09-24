@@ -2,7 +2,11 @@
 
 using System;
 using System.Collections;
+using System.IO;
+using System.Net;
+using System.Net.Sockets;
 using PodcasCo.Stations;
+using MiscPocketCompactLibrary.Net;
 
 #endregion
 
@@ -154,7 +158,8 @@ namespace PodcasCo
                 {
                     foreach (IChannel localChannel in GetChannelsOfCurrentStationFromLocalHeadline())
                     {
-                        if (globalChannel.GetHash() == localChannel.GetHash()) {
+                        if (globalChannel.GetHash() == localChannel.GetHash())
+                        {
                             alGlobalHeadlineChannels.Remove(globalChannel);
                         }
                     }
@@ -239,7 +244,151 @@ namespace PodcasCo
             }
         }
 
-        
+
+        /// <summary>
+        /// ダウンロード進捗（ファイル数）の最小値（0）をセットするデリゲート
+        /// </summary>
+        /// <param name="minimum">ダウンロード進捗の最小値</param>
+        public delegate void SetDownloadProgressMinimumInvoker(int minimum);
+
+        /// <summary>
+        /// ダウンロード進捗（ファイル数）の最大値（ファイル数）をセットするデリゲート
+        /// </summary>
+        /// <param name="maximum">ダウンロードの進捗の最大値</param>
+        public delegate void SetDownloadProgressMaximumInvoker(int maximum);
+
+        /// <summary>
+        /// ダウンロード進捗（ファイル数）の状況（すでにダウンロードしたファイル数）をセットするデリゲート
+        /// </summary>
+        /// <param name="value">ダウンロード進捗の状況</param>
+        public delegate void SetDownloadProgressValueInvoker(int value);
+
+        /// <summary>
+        /// 番組をクリップする
+        /// </summary>
+        private void ClippingPodcast()
+        {
+            ClippingPodcast(null, null, null, null, null, null);
+        }
+
+        /// <summary>
+        /// 番組をクリップする
+        /// </summary>
+        /// <param name="doFileProgressMinimum">ファイル数の最小値（0）をセットするデリゲート</param>
+        /// <param name="doSetFileProgressMaximum">ファイル数をセットするデリゲート</param>
+        /// <param name="doSetFileProgressValue">ダウンロード済みのファイル数をセットするデリゲート</param>
+        /// <param name="doDownloadProgressMinimum">ファイルサイズの最小値（0）をセットするデリゲート</param>
+        /// <param name="doSetDownloadProgressMaximum">ファイルサイズをセットするデリゲート</param>
+        /// <param name="doSetDownloadProgressValue">ダウンロード済みのファイルサイズをセットするデリゲート</param>
+        public static void ClippingPodcast(
+            SetDownloadProgressMinimumInvoker doFileProgressMinimum,
+            SetDownloadProgressMaximumInvoker doSetFileProgressMaximum,
+            SetDownloadProgressValueInvoker doSetFileProgressValue,
+            WebStream.SetDownloadProgressMinimumInvoker doDownloadProgressMinimum,
+            WebStream.SetDownloadProgressMaximumInvoker doSetDownloadProgressMaximum,
+            WebStream.SetDownloadProgressValueInvoker doSetDownloadProgressValue)
+        {
+            // すでにクリップした番組
+            int alreadyClippingFiles = 0;
+
+            // 選択された番組のリスト
+            ArrayList alSelectedGlobalChannels = new ArrayList();
+
+            // 選択された番組で未クリップの番組のリストを作る
+            foreach (IChannel channel in GetUnclipedChannelsOfCurrentStation())
+            {
+                if (channel.Check == true)
+                {
+                    alSelectedGlobalChannels.Add(channel);
+                }
+            }
+
+            if (doFileProgressMinimum != null)
+            {
+                doFileProgressMinimum(0);
+            }
+
+            if (doSetFileProgressMaximum != null)
+            {
+                doSetFileProgressMaximum(alSelectedGlobalChannels.Count);
+            }
+
+            try
+            {
+                foreach (IChannel channel in (IChannel[])alSelectedGlobalChannels.ToArray(typeof(IChannel)))
+                {
+                    try
+                    {
+                        string directoryName = UserSetting.PodcastClipDirectoryPath
+                            + @"\" + channel.ParentHeadline.ParentStation.LocalHeadline.GetId();
+
+                        if (Directory.Exists(directoryName) == false)
+                        {
+                            Directory.CreateDirectory(directoryName);
+                        }
+
+                        string generateFilePath = directoryName + @"\"
+                            + Path.GetFileNameWithoutExtension(channel.GetPlayUrl().LocalPath)
+                            + "-" + channel.GetHash().ToString("x")
+                            + Path.GetExtension(channel.GetPlayUrl().LocalPath);
+
+                        if (File.Exists(generateFilePath) == false)
+                        {
+                            PocketLadioUtility.FetchFile(channel.GetPlayUrl(), generateFilePath,
+                                doDownloadProgressMinimum,
+                                doSetDownloadProgressMaximum,
+                                doSetDownloadProgressValue);
+
+                            // 番組をローカルヘッドラインに加える
+                            IChannel localChannel = (IChannel)channel.Clone(channel.ParentHeadline.ParentStation.LocalHeadline);
+                            localChannel.SetPlayUrl(new Uri(generateFilePath));
+                            localChannel.ParentHeadline.ParentStation.LocalHeadline.AddChannel(localChannel);
+
+                            // ダウンロードした番組の元のグローバル番組からはチェックを外す
+                            channel.Check = false;
+                        }
+                    }
+                    catch (WebException)
+                    {
+                        ;
+                    }
+                    catch (UriFormatException)
+                    {
+                        ;
+                    }
+                    catch (SocketException)
+                    {
+                        ;
+                    }
+
+                    if (doSetFileProgressValue != null)
+                    {
+                        doSetFileProgressValue(++alreadyClippingFiles);
+                    }
+                }
+
+            }
+            catch (OutOfMemoryException)
+            {
+                throw;
+            }
+            catch (IOException)
+            {
+                throw;
+            }
+            catch (ArgumentException)
+            {
+                throw;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                throw;
+            }
+
+            // RSSを作成
+            StationList.GenerateRssLocalHeadlines();
+        }
+
         /// <summary>
         /// 番組の詳細フォームを表示する
         /// </summary>
