@@ -72,7 +72,7 @@ namespace PodcasCo
         /// <summary>
         /// ダウンロード時に1サイクルに読み出すバイトサイズ
         /// </summary>
-        private const int READ_BYTE_ONE_CYCLE_DOWNLOAD = 0x4ffff;
+        private const int READ_BYTE_ONE_CYCLE_DOWNLOAD = 0x8000;   // 32KB
 
         /// <summary>
         /// ダウンロード時に1サイクルに読み出すバイトサイズ

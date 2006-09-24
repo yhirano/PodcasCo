@@ -409,17 +409,21 @@ namespace PodcasCo
                 MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
             }
 
-            // 「Podcastをクリップするフォルダ」にローカルヘッドラインが格納されるために、
-            // 「Podcastをクリップするフォルダ」の場所が変わったので、ローカルヘッドラインの
-            // URLを作り直す
-            foreach (Station station in StationList.GetStationList())
-            {
-                // ローカルヘッドラインのURLの作り直し
-                station.LocalHeadline.SetUrl(new Uri(UserSetting.PodcastClipDirectoryPath + @"\" + station.LocalHeadline.GetId() + @"\" + PodcasCoInfo.LocalRssFile));
-                // ローカルヘッドラインの番組を破棄する
-                station.LocalHeadline.ClearChannels();
-                // ローカルヘッドラインの内容が書き換わったので設定を保存する
-                station.LocalHeadline.SaveSetting();
+            if(podcastClipDirectoryPathTextBox.Modified == true){
+                // 「Podcastをクリップするフォルダ」にローカルヘッドラインが格納されるために、
+                // 「Podcastをクリップするフォルダ」の場所が変わったので、ローカルヘッドラインの
+                // URLを作り直す
+                foreach (Station station in StationList.GetStationList())
+                {
+                    // ローカルヘッドラインのURLの作り直し
+                    station.LocalHeadline.SetUrl(
+                        new Uri(UserSetting.PodcastClipDirectoryPath + @"\" 
+                        + station.LocalHeadline.GetId() + @"\" + PodcasCoInfo.LocalRssFile));
+                    // ローカルヘッドラインの番組を破棄する
+                    station.LocalHeadline.ClearChannels();
+                    // ローカルヘッドラインの内容が書き換わったので設定を保存する
+                    station.LocalHeadline.SaveSetting();
+                }
             }
         }
 
