@@ -17,7 +17,7 @@ namespace PodcasCo
     {
         private MenuItem okMenuItem;
         private Label applicationNameLabel;
-        private Label versionNumberlabel;
+        private Label versionNumberLabel;
         private Label copyrightLabel;
         /// <summary>
         /// フォームのメイン メニューです。
@@ -48,7 +48,7 @@ namespace PodcasCo
             this.mainMenu = new System.Windows.Forms.MainMenu();
             this.okMenuItem = new System.Windows.Forms.MenuItem();
             this.applicationNameLabel = new System.Windows.Forms.Label();
-            this.versionNumberlabel = new System.Windows.Forms.Label();
+            this.versionNumberLabel = new System.Windows.Forms.Label();
             this.copyrightLabel = new System.Windows.Forms.Label();
             // 
             // mainMenu
@@ -66,11 +66,11 @@ namespace PodcasCo
             this.applicationNameLabel.Size = new System.Drawing.Size(234, 20);
             this.applicationNameLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // versionNumberlabel
+            // versionNumberLabel
             // 
-            this.versionNumberlabel.Location = new System.Drawing.Point(3, 29);
-            this.versionNumberlabel.Size = new System.Drawing.Size(234, 20);
-            this.versionNumberlabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.versionNumberLabel.Location = new System.Drawing.Point(3, 29);
+            this.versionNumberLabel.Size = new System.Drawing.Size(234, 20);
+            this.versionNumberLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // copyrightLabel
             // 
@@ -82,7 +82,7 @@ namespace PodcasCo
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
             this.Controls.Add(this.copyrightLabel);
-            this.Controls.Add(this.versionNumberlabel);
+            this.Controls.Add(this.versionNumberLabel);
             this.Controls.Add(this.applicationNameLabel);
             this.MaximizeBox = false;
             this.Menu = this.mainMenu;
@@ -96,7 +96,7 @@ namespace PodcasCo
         private void VersionInfoForm_Load(object sender, EventArgs e)
         {
             applicationNameLabel.Text = PodcasCoInfo.ApplicationName;
-            versionNumberlabel.Text = "Version " + PodcasCoInfo.VersionNumber;
+            versionNumberLabel.Text = "Version " + PodcasCoInfo.VersionNumber;
             copyrightLabel.Text = PodcasCoInfo.Copyright;
         }
 

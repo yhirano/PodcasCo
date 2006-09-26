@@ -108,7 +108,6 @@ namespace PodcasCo
             this.Menu = this.mainMenu;
             this.Text = "Clipping Now";
             this.Load += new System.EventHandler(this.ClippingForm_Load);
-
         }
 
         #endregion
@@ -190,6 +189,9 @@ namespace PodcasCo
             catch (UnauthorizedAccessException)
             {
                 MessageBox.Show("ファイルがダウンロードできませんでした", "警告"); ;
+            }
+            catch (ClippingException ex) {
+                MessageBox.Show("クリップできなかったPodcastがあります\n" + ex.Message, "警告");
             }
 
             this.Close();

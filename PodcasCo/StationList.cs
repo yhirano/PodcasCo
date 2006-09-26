@@ -291,6 +291,12 @@ namespace PodcasCo
             // すでにクリップした番組
             int alreadyClippingFiles = 0;
 
+            // クリップできない番組があったか
+            bool cannotCliped = false;
+
+            // クリップできなかった番組の情報
+            string cannotClipedString = "";
+
             // 選択された番組のリスト
             ArrayList alSelectedGlobalChannels = new ArrayList();
 
@@ -350,15 +356,18 @@ namespace PodcasCo
                     }
                     catch (WebException)
                     {
-                        ;
+                        cannotCliped =true;
+                        cannotClipedString += channel.GetTitle() + "\n";
                     }
                     catch (UriFormatException)
                     {
-                        ;
+                        cannotCliped = true;
+                        cannotClipedString += channel.GetTitle() + "\n";
                     }
                     catch (SocketException)
                     {
-                        ;
+                        cannotCliped = true;
+                        cannotClipedString += channel.GetTitle() + "\n";
                     }
 
                     if (doSetFileProgressValue != null)
@@ -387,6 +396,10 @@ namespace PodcasCo
 
             // RSSを作成
             StationList.GenerateRssLocalHeadlines();
+
+            if (cannotCliped == true) {
+                throw new ClippingException(cannotClipedString);
+            }
         }
 
         /// <summary>
