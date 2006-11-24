@@ -89,7 +89,18 @@ namespace PodcasCo
         public static Stream GetWebStream(Uri url)
         {
             WebStream ws = new WebStream(url);
-            ws.ProxyUse = PodcasCo.UserSetting.ProxyUse;
+            if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
+            {
+                ws.ProxyUse = WebStream.ProxyConnect.Unuse;
+            }
+            else if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.OsSetting)
+            {
+                ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
+            }
+            else if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.OriginalSetting)
+            {
+                ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
+            }
             ws.ProxyServer = PodcasCo.UserSetting.ProxyServer;
             ws.ProxyPort = PodcasCo.UserSetting.ProxyPort;
             ws.TimeOut = PodcasCoInfo.WebRequestTimeoutMillSec;
@@ -108,7 +119,18 @@ namespace PodcasCo
         public static void FetchFile(Uri url, string fileName)
         {
             WebStream ws = new WebStream(url);
-            ws.ProxyUse = PodcasCo.UserSetting.ProxyUse;
+            if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
+            {
+                ws.ProxyUse = WebStream.ProxyConnect.Unuse;
+            }
+            else if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.OsSetting)
+            {
+                ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
+            }
+            else if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.OriginalSetting)
+            {
+                ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
+            }
             ws.ProxyServer = PodcasCo.UserSetting.ProxyServer;
             ws.ProxyPort = PodcasCo.UserSetting.ProxyPort;
             ws.TimeOut = PodcasCoInfo.WebRequestTimeoutMillSec;
@@ -132,7 +154,18 @@ namespace PodcasCo
             WebStream.SetDownloadProgressValueInvoker doSetDownloadProgressValue)
         {
             WebStream ws = new WebStream(url);
-            ws.ProxyUse = PodcasCo.UserSetting.ProxyUse;
+            if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
+            {
+                ws.ProxyUse = WebStream.ProxyConnect.Unuse;
+            }
+            else if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.OsSetting)
+            {
+                ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
+            }
+            else if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.OriginalSetting)
+            {
+                ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
+            }
             ws.ProxyServer = PodcasCo.UserSetting.ProxyServer;
             ws.ProxyPort = PodcasCo.UserSetting.ProxyPort;
             ws.TimeOut = PodcasCoInfo.WebRequestTimeoutMillSec;

@@ -73,14 +73,22 @@ namespace PodcasCo
         }
 
         /// <summary>
-        /// プロキシを使用するか
+        /// プロキシの接続方法列挙
         /// </summary>
-        private static bool proxyUse;
+        public enum ProxyConnect
+        {
+            Unuse, OsSetting, OriginalSetting
+        }
 
         /// <summary>
-        /// プロキシを使用するか
+        /// プロキシを接続方法
         /// </summary>
-        public static bool ProxyUse
+        private static ProxyConnect proxyUse = ProxyConnect.OsSetting;
+
+        /// <summary>
+        /// プロキシを接続方法
+        /// </summary>
+        public static ProxyConnect ProxyUse
         {
             get { return UserSetting.proxyUse; }
             set { UserSetting.proxyUse = value; }
@@ -266,13 +274,17 @@ namespace PodcasCo
                                 if (reader.MoveToFirstAttribute())
                                 {
                                     string use = reader.GetAttribute("use");
-                                    if (use == bool.TrueString)
+                                    if (use == ProxyConnect.Unuse.ToString())
                                     {
-                                        ProxyUse = true;
+                                        ProxyUse = ProxyConnect.Unuse;
                                     }
-                                    else if (use == bool.FalseString)
+                                    else if (use == ProxyConnect.OsSetting.ToString())
                                     {
-                                        ProxyUse = false;
+                                        ProxyUse = ProxyConnect.OsSetting;
+                                    }
+                                    else if (use == ProxyConnect.OriginalSetting.ToString())
+                                    {
+                                        ProxyUse = ProxyConnect.OriginalSetting;
                                     }
 
                                     ProxyServer = reader.GetAttribute("server");

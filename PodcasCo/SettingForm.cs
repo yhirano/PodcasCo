@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Text;
 using System.IO;
 using System.Windows.Forms;
+using System.Diagnostics;
 using MiscPocketCompactLibrary.Windows.Forms;
 
 #endregion
@@ -35,10 +36,6 @@ namespace PodcasCo
         private Label mediaPlayerPathLabel;
         private Label podcastClipDirectoryPathLabel;
         private TabPage networkTabPage;
-        private TextBox proxyPortTextBox;
-        private TextBox proxyServerTextBox;
-        private Label proxyPortLabel;
-        private Label proxyServerLabel;
         private ContextMenu proxyServerContextMenu;
         private MenuItem cutProxyServerMenuItem;
         private MenuItem copyProxyServerMenuItem;
@@ -47,7 +44,6 @@ namespace PodcasCo
         private MenuItem cutProxyPortMenuItem;
         private MenuItem copyProxyPortMenuItem;
         private MenuItem pasteProxyPortMenuItem;
-        private CheckBox proxyUseCheckBox;
         private TextBox podcastClipDirectoryPathTextBox;
         private ContextMenu podcastClipDirectoryPathContextMenu;
         private MenuItem cutPodcastClipDirectoryPathMenuItem;
@@ -56,6 +52,14 @@ namespace PodcasCo
         private Button browserPathReferenceButton;
         private Button mediaPlayerPathReferenceButton;
         private Button podcastClipDirectoryPathReferenceButton;
+        private Panel panel1;
+        private RadioButton proxyUseOriginalSettingRadioButton;
+        private TextBox proxyPortTextBox;
+        private RadioButton proxyUseOsSettingRadioButton;
+        private TextBox proxyServerTextBox;
+        private RadioButton proxyUnuseRadioButton;
+        private Label proxyPortLabel;
+        private Label proxyServerLabel;
         private TabControl settingTabControl;
 
         public SettingForm()
@@ -107,17 +111,20 @@ namespace PodcasCo
             this.podcastClipDirectoryPathLabel = new System.Windows.Forms.Label();
             this.settingTabControl = new System.Windows.Forms.TabControl();
             this.networkTabPage = new System.Windows.Forms.TabPage();
-            this.proxyUseCheckBox = new System.Windows.Forms.CheckBox();
-            this.proxyPortTextBox = new System.Windows.Forms.TextBox();
             this.proxyPortContextMenu = new System.Windows.Forms.ContextMenu();
             this.cutProxyPortMenuItem = new System.Windows.Forms.MenuItem();
             this.copyProxyPortMenuItem = new System.Windows.Forms.MenuItem();
             this.pasteProxyPortMenuItem = new System.Windows.Forms.MenuItem();
-            this.proxyServerTextBox = new System.Windows.Forms.TextBox();
             this.proxyServerContextMenu = new System.Windows.Forms.ContextMenu();
             this.cutProxyServerMenuItem = new System.Windows.Forms.MenuItem();
             this.copyProxyServerMenuItem = new System.Windows.Forms.MenuItem();
             this.pasteProxyServerMenuItem = new System.Windows.Forms.MenuItem();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.proxyUseOriginalSettingRadioButton = new System.Windows.Forms.RadioButton();
+            this.proxyPortTextBox = new System.Windows.Forms.TextBox();
+            this.proxyUseOsSettingRadioButton = new System.Windows.Forms.RadioButton();
+            this.proxyServerTextBox = new System.Windows.Forms.TextBox();
+            this.proxyUnuseRadioButton = new System.Windows.Forms.RadioButton();
             this.proxyPortLabel = new System.Windows.Forms.Label();
             this.proxyServerLabel = new System.Windows.Forms.Label();
             // 
@@ -281,28 +288,10 @@ namespace PodcasCo
             // 
             // networkTabPage
             // 
-            this.networkTabPage.Controls.Add(this.proxyUseCheckBox);
-            this.networkTabPage.Controls.Add(this.proxyPortTextBox);
-            this.networkTabPage.Controls.Add(this.proxyServerTextBox);
-            this.networkTabPage.Controls.Add(this.proxyPortLabel);
-            this.networkTabPage.Controls.Add(this.proxyServerLabel);
+            this.networkTabPage.Controls.Add(this.panel1);
             this.networkTabPage.Location = new System.Drawing.Point(0, 0);
-            this.networkTabPage.Size = new System.Drawing.Size(232, 242);
+            this.networkTabPage.Size = new System.Drawing.Size(240, 245);
             this.networkTabPage.Text = "ネットワーク設定";
-            // 
-            // proxyUseCheckBox
-            // 
-            this.proxyUseCheckBox.Location = new System.Drawing.Point(3, 3);
-            this.proxyUseCheckBox.Size = new System.Drawing.Size(135, 20);
-            this.proxyUseCheckBox.Text = "プロキシを使用する";
-            // 
-            // proxyPortTextBox
-            // 
-            this.proxyPortTextBox.ContextMenu = this.proxyPortContextMenu;
-            this.proxyPortTextBox.Location = new System.Drawing.Point(3, 88);
-            this.proxyPortTextBox.Size = new System.Drawing.Size(74, 21);
-            this.proxyPortTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ProxyPortTextBox_KeyUp);
-            this.proxyPortTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ProxyPortTextBox_KeyDown);
             // 
             // proxyPortContextMenu
             // 
@@ -325,14 +314,6 @@ namespace PodcasCo
             this.pasteProxyPortMenuItem.Text = "貼り付け(&P)";
             this.pasteProxyPortMenuItem.Click += new System.EventHandler(this.PasteProxyPortMenuItem_Click);
             // 
-            // proxyServerTextBox
-            // 
-            this.proxyServerTextBox.ContextMenu = this.proxyServerContextMenu;
-            this.proxyServerTextBox.Location = new System.Drawing.Point(3, 45);
-            this.proxyServerTextBox.Size = new System.Drawing.Size(234, 21);
-            this.proxyServerTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.ProxyServerTextBox_KeyUp);
-            this.proxyServerTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ProxyServerTextBox_KeyDown);
-            // 
             // proxyServerContextMenu
             // 
             this.proxyServerContextMenu.MenuItems.Add(this.cutProxyServerMenuItem);
@@ -354,16 +335,59 @@ namespace PodcasCo
             this.pasteProxyServerMenuItem.Text = "貼り付け(&P)";
             this.pasteProxyServerMenuItem.Click += new System.EventHandler(this.PasteProxyServerMenuItem_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.proxyUseOriginalSettingRadioButton);
+            this.panel1.Controls.Add(this.proxyPortTextBox);
+            this.panel1.Controls.Add(this.proxyUseOsSettingRadioButton);
+            this.panel1.Controls.Add(this.proxyServerTextBox);
+            this.panel1.Controls.Add(this.proxyUnuseRadioButton);
+            this.panel1.Controls.Add(this.proxyPortLabel);
+            this.panel1.Controls.Add(this.proxyServerLabel);
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Size = new System.Drawing.Size(240, 169);
+            // 
+            // proxyUseOriginalSettingRadioButton
+            // 
+            this.proxyUseOriginalSettingRadioButton.Location = new System.Drawing.Point(3, 55);
+            this.proxyUseOriginalSettingRadioButton.Size = new System.Drawing.Size(234, 20);
+            this.proxyUseOriginalSettingRadioButton.Text = "プロキシを設定する";
+            // 
+            // proxyPortTextBox
+            // 
+            this.proxyPortTextBox.ContextMenu = this.proxyPortContextMenu;
+            this.proxyPortTextBox.Location = new System.Drawing.Point(3, 140);
+            this.proxyPortTextBox.Size = new System.Drawing.Size(74, 21);
+            // 
+            // proxyUseOsSettingRadioButton
+            // 
+            this.proxyUseOsSettingRadioButton.Checked = true;
+            this.proxyUseOsSettingRadioButton.Location = new System.Drawing.Point(3, 29);
+            this.proxyUseOsSettingRadioButton.Size = new System.Drawing.Size(234, 20);
+            this.proxyUseOsSettingRadioButton.Text = "OSで設定したプロキシを使用する";
+            // 
+            // proxyServerTextBox
+            // 
+            this.proxyServerTextBox.ContextMenu = this.proxyServerContextMenu;
+            this.proxyServerTextBox.Location = new System.Drawing.Point(3, 97);
+            this.proxyServerTextBox.Size = new System.Drawing.Size(234, 21);
+            // 
+            // proxyUnuseRadioButton
+            // 
+            this.proxyUnuseRadioButton.Location = new System.Drawing.Point(3, 3);
+            this.proxyUnuseRadioButton.Size = new System.Drawing.Size(234, 20);
+            this.proxyUnuseRadioButton.Text = "プロキシに接続しない";
+            // 
             // proxyPortLabel
             // 
-            this.proxyPortLabel.Location = new System.Drawing.Point(3, 69);
-            this.proxyPortLabel.Size = new System.Drawing.Size(192, 16);
+            this.proxyPortLabel.Location = new System.Drawing.Point(3, 121);
+            this.proxyPortLabel.Size = new System.Drawing.Size(234, 16);
             this.proxyPortLabel.Text = "プロキシのポート番号 （例： 8080）";
             // 
             // proxyServerLabel
             // 
-            this.proxyServerLabel.Location = new System.Drawing.Point(3, 26);
-            this.proxyServerLabel.Size = new System.Drawing.Size(230, 16);
+            this.proxyServerLabel.Location = new System.Drawing.Point(3, 78);
+            this.proxyServerLabel.Size = new System.Drawing.Size(234, 16);
             this.proxyServerLabel.Text = "プロキシサーバ （例：proxy.example.com）";
             // 
             // SettingForm
@@ -385,7 +409,29 @@ namespace PodcasCo
             podcastClipDirectoryPathTextBox.Text = UserSetting.PodcastClipDirectoryPath;
             mediaPlayerPathTextBox.Text = UserSetting.MediaPlayerPath;
             browserPathTextBox.Text = UserSetting.BrowserPath;
-            proxyUseCheckBox.Checked = UserSetting.ProxyUse;
+            if (UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
+            {
+                proxyUnuseRadioButton.Checked = true;
+                proxyUseOsSettingRadioButton.Checked = false;
+                proxyUseOriginalSettingRadioButton.Checked = false;
+            }
+            else if (UserSetting.ProxyUse == UserSetting.ProxyConnect.OsSetting)
+            {
+                proxyUnuseRadioButton.Checked = false;
+                proxyUseOsSettingRadioButton.Checked = true;
+                proxyUseOriginalSettingRadioButton.Checked = false;
+            }
+            else if (UserSetting.ProxyUse == UserSetting.ProxyConnect.OriginalSetting)
+            {
+                proxyUnuseRadioButton.Checked = false;
+                proxyUseOsSettingRadioButton.Checked = false;
+                proxyUseOriginalSettingRadioButton.Checked = true;
+            }
+            else
+            {
+                // ここに到達することはあり得ない
+                Trace.Assert(false, "想定外の動作のため、終了します");
+            }
             proxyServerTextBox.Text = UserSetting.ProxyServer;
             proxyPortTextBox.Text = UserSetting.ProxyPort.ToString();
         }
@@ -396,7 +442,23 @@ namespace PodcasCo
             UserSetting.PodcastClipDirectoryPath = podcastClipDirectoryPathTextBox.Text.Trim();
             UserSetting.MediaPlayerPath = mediaPlayerPathTextBox.Text.Trim();
             UserSetting.BrowserPath = browserPathTextBox.Text.Trim();
-            UserSetting.ProxyUse = proxyUseCheckBox.Checked;
+            if (proxyUnuseRadioButton.Checked == true)
+            {
+                UserSetting.ProxyUse = UserSetting.ProxyConnect.Unuse;
+            }
+            else if (proxyUseOsSettingRadioButton.Checked == true)
+            {
+                UserSetting.ProxyUse = UserSetting.ProxyConnect.OsSetting;
+            }
+            else if (proxyUseOriginalSettingRadioButton.Checked == true)
+            {
+                UserSetting.ProxyUse = UserSetting.ProxyConnect.OriginalSetting;
+            }
+            else
+            {
+                // ここに到達することはあり得ない
+                Trace.Assert(false, "想定外の動作のため、終了します");
+            }
             UserSetting.ProxyServer = proxyServerTextBox.Text.Trim();
             UserSetting.ProxyPort = int.Parse(proxyPortTextBox.Text.Trim());
 
