@@ -80,7 +80,7 @@ namespace PodcasCo
         public static int ReadByteOneCycleDownload
         {
             get { return READ_BYTE_ONE_CYCLE_DOWNLOAD; }
-        } 
+        }
 
         /// <summary>
         /// ネットアクセス時のUserAgent設定
@@ -133,8 +133,20 @@ namespace PodcasCo
         public static string LocalRssFile
         {
             get { return LOCAL_RSS_FILE; }
-        } 
+        }
 
+        /// <summary>
+        /// 例外に出力するログファイル
+        /// </summary>
+        private const string EXCEPTION_LOG_FILE = "PodcasCoExceptionLog.log";
+
+        /// <summary>
+        /// 例外に出力するログファイル
+        /// </summary>
+        public static string ExceptionLogFile
+        {
+            get { return EXCEPTION_LOG_FILE; }
+        }
 
         #endregion
 

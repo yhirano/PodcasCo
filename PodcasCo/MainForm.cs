@@ -15,6 +15,7 @@ using System.Diagnostics;
 using PodcasCo.Stations;
 using MiscPocketCompactLibrary.Reflection;
 using MiscPocketCompactLibrary.Net;
+using MiscPocketCompactLibrary.Diagnostics;
 
 #endregion
 
@@ -295,7 +296,19 @@ namespace PodcasCo
         /// </summary>
         static void Main()
         {
-            Application.Run(new MainForm());
+            try
+            {
+                Application.Run(new MainForm());
+            }
+            catch (Exception ex)
+            {
+                // ログに例外情報を書き込む
+                Log exceptionLog = new Log(AssemblyUtility.GetExecutablePath() + @"\" + PodcasCoInfo.ExceptionLogFile);
+                exceptionLog.LogThis(ex.Message, Log.LogPrefix.date);
+                exceptionLog.LogThis(ex.ToString(), Log.LogPrefix.date);
+
+                Trace.Assert(false, "予期しないエラーが発生したため、終了します");
+            }
         }
 
         /// <summary>
