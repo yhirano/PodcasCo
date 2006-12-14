@@ -32,16 +32,11 @@ namespace PodcasCo
         }
 
         /// <summary>
-        /// 再生時に作成するm3uファイル名
-        /// </summary>
-        private const string GENERATE_M3U_FILE_NAME = "PodcasCo_podcast_list.m3u";
-
-        /// <summary>
         /// 再生時に作成するm3uファイルのパス
         /// </summary>
         public static string M3uFilePath
         {
-            get { return podcastClipDirectoryPath + @"\" + GENERATE_M3U_FILE_NAME; }
+            get { return podcastClipDirectoryPath + @"\" + PodcasCoInfo.GenerateM3uFileName; }
         }
 
         /// <summary>

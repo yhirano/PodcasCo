@@ -29,7 +29,7 @@ namespace PodcasCo
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        private const string VERSION_NUMBER = "0.4";
+        private const string VERSION_NUMBER = "0.5";
 
         /// <summary>
         /// アプリケーションのバージョン
@@ -133,6 +133,19 @@ namespace PodcasCo
         public static string LocalRssFile
         {
             get { return LOCAL_RSS_FILE; }
+        }
+
+        /// <summary>
+        /// 再生時に作成するm3uファイル名
+        /// </summary>
+        private const string GENERATE_M3U_FILE_NAME = "PodcasCo_podcast_list.m3u";
+
+        /// <summary>
+        /// 再生時に作成するm3uファイル名
+        /// </summary>
+        public static string GenerateM3uFileName
+        {
+            get { return GENERATE_M3U_FILE_NAME; }
         }
 
         /// <summary>
