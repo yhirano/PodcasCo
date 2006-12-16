@@ -38,7 +38,7 @@ namespace PodcasCo
                 return;
             }
 
-            ProcessUtility.CreateProcess(UserSetting.MediaPlayerPath, filePath);
+            ProcessUtility.CreateProcess(UserSetting.MediaPlayerPath, "\"" + filePath + "\"");
         }
 
         /// <summary>
