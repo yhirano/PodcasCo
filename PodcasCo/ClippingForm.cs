@@ -176,19 +176,19 @@ namespace PodcasCo
             }
             catch (OutOfMemoryException)
             {
-                MessageBox.Show("ファイルがダウンロードできませんでした", "警告"); ;
+                MessageBox.Show("ファイルがダウンロードできませんでした", "警告");
             }
             catch (IOException)
             {
-                MessageBox.Show("ファイルがダウンロードできませんでした", "警告"); ;
+                MessageBox.Show("ファイルがダウンロードできませんでした", "警告");
             }
             catch (ArgumentException)
             {
-                MessageBox.Show("ファイルがダウンロードできませんでした", "警告"); ;
+                MessageBox.Show("ファイルがダウンロードできませんでした", "警告");
             }
             catch (UnauthorizedAccessException)
             {
-                MessageBox.Show("ファイルがダウンロードできませんでした", "警告"); ;
+                MessageBox.Show("ファイルがダウンロードできませんでした", "警告");
             }
             catch (ClippingException ex) {
                 MessageBox.Show("クリップできなかったPodcastがあります\n" + ex.Message, "警告");

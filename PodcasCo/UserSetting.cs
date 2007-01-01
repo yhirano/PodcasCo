@@ -42,7 +42,7 @@ namespace PodcasCo
         /// <summary>
         /// 音声再生用のメディアプレーヤーのファイルパス
         /// </summary>
-        private static string mediaPlayerPath = @"\Program Files\TCPMP\player.exe";
+        private static string mediaPlayerPath = PodcasCoInfo.DefaultMediaPlayerPath;
 
         /// <summary>
         /// 音声再生用のメディアプレーヤーのファイルパス
@@ -56,7 +56,7 @@ namespace PodcasCo
         /// <summary>
         /// Webブラウザのファイルパス
         /// </summary>
-        private static string browserPath = @"\Windows\iexplore.exe";
+        private static string browserPath = PodcasCoInfo.DefaultBrowserPath;
 
         /// <summary>
         /// Webブラウザのファイルパス

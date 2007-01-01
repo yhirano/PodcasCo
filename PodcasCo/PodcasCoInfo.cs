@@ -57,6 +57,32 @@ namespace PodcasCo
         #region アプリケーションの設定
 
         /// <summary>
+        /// メディアプレーヤーのパスのデフォルト設定
+        /// </summary>
+        private const string DEFAULT_MEDIA_PLAYER_PATH = @"\Program Files\TCPMP\player.exe";
+
+        /// <summary>
+        /// メディアプレーヤーのパスのデフォルト設定
+        /// </summary>
+        public static string DefaultMediaPlayerPath
+        {
+            get { return DEFAULT_MEDIA_PLAYER_PATH; }
+        }
+
+        /// <summary>
+        /// ブラウザのパスのデフォルト設定
+        /// </summary>
+        private const string DEFAULT_BROWSER_PATH = @"\Windows\iexplore.exe";
+
+        /// <summary>
+        /// ブラウザのパスのデフォルト設定
+        /// </summary>
+        public static string DefaultBrowserPath
+        {
+            get { return DEFAULT_BROWSER_PATH; }
+        }
+
+        /// <summary>
         /// Web接続時のタイムアウト時間
         /// </summary>
         private const int WEB_REQUESR_TIMEOUT_MILL_SEC = 20000;

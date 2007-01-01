@@ -356,7 +356,7 @@ namespace PodcasCo
                     }
                     catch (WebException)
                     {
-                        cannotCliped =true;
+                        cannotCliped = true;
                         cannotClipedString += channel.GetTitle() + "\n";
                     }
                     catch (UriFormatException)
@@ -397,7 +397,8 @@ namespace PodcasCo
             // RSSを作成
             StationList.GenerateRssLocalHeadlines();
 
-            if (cannotCliped == true) {
+            if (cannotCliped == true)
+            {
                 throw new ClippingException(cannotClipedString);
             }
         }
