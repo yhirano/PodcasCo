@@ -6,6 +6,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.IO;
+using MiscPocketCompactLibrary.Windows.Forms;
 
 #endregion
 
@@ -207,23 +208,22 @@ namespace PodcasCo.Stations.RssPodcast
         /// </summary>
         private void FixWindowSize()
         {
-            // 水平モードの場合
-            if (this.Size.Width > this.Size.Height)
+            // 横長QVGA
+            if (ScreenUtitlity.GetScreenSize() == ScreenUtitlity.ScreenSize.QvgaLandscape)
             {
-                // 横長のウィンドウ
-                FixWindowSizeHorizon();
+                FixWindowSizeQvgaLandscape();
             }
+            // 縦長QVGA
             else
             {
-                // 縦長のウィンドウ
-                FixWindowSizeVertical();
+                FixWindowSizeQvgaPortrait();
             }
         }
 
         /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（垂直）
+        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（縦長QVGA）
         /// </summary>
-        private void FixWindowSizeVertical()
+        private void FixWindowSizeQvgaPortrait()
         {
             this.titleCaptionLabel.Location = new System.Drawing.Point(3, 3);
             this.titleCaptionLabel.Size = new System.Drawing.Size(48, 16);
@@ -258,9 +258,9 @@ namespace PodcasCo.Stations.RssPodcast
         }
 
         /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（水平）
+        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（横長QVGA）
         /// </summary>
-        private void FixWindowSizeHorizon()
+        private void FixWindowSizeQvgaLandscape()
         {
             this.titleCaptionLabel.Location = new System.Drawing.Point(3, 3);
             this.titleCaptionLabel.Size = new System.Drawing.Size(48, 16);
