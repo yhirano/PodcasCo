@@ -13,7 +13,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("PodcasCo")]
-[assembly: AssemblyCopyright("Copyright (C) 2005-2006 Uraroji")]
+[assembly: AssemblyCopyright("Copyright (C) 2006-2007 Uraroji")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: Guid("d86d2391-571d-440d-ac76-2debf31bf1bc")]

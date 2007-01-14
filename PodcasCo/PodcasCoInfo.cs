@@ -42,7 +42,7 @@ namespace PodcasCo
         /// <summary>
         /// ’˜ìŒ î•ñ
         /// </summary>
-        private const string COPYRIGHT = "Copyright (C) 2006 Uraroji";
+        private const string COPYRIGHT = "Copyright (C) 2006-2007 Uraroji";
 
         /// <summary>
         /// ’˜ìŒ î•ñ
