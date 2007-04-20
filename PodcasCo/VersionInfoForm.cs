@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Collections;
 using System.Windows.Forms;
 using System.Data;
+using MiscPocketCompactLibrary.Windows.Forms;
 
 #endregion
 
@@ -19,8 +20,14 @@ namespace PodcasCo
         private Label applicationNameLabel;
         private Label versionNumberLabel;
         private Label copyrightLabel;
+
         /// <summary>
-        /// フォームのメイン メニューです。
+        /// アンカーコントロールのリスト
+        /// </summary>
+        private ArrayList anchorControlList = new ArrayList();
+
+        /// <summary>
+        /// フォームのメイン メニュー
         /// </summary>
         private System.Windows.Forms.MainMenu mainMenu;
 
@@ -78,7 +85,7 @@ namespace PodcasCo
             this.copyrightLabel.Size = new System.Drawing.Size(234, 20);
             this.copyrightLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
-            // versionInfoForm
+            // VersionInfoForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
             this.Controls.Add(this.copyrightLabel);
@@ -87,14 +94,39 @@ namespace PodcasCo
             this.MaximizeBox = false;
             this.Menu = this.mainMenu;
             this.Text = "バージョン情報";
+            this.Resize += new System.EventHandler(this.VersionInfoForm_Resize);
             this.Load += new System.EventHandler(this.VersionInfoForm_Load);
 
         }
 
         #endregion
 
+        /// <summary>
+        /// コントロールにアンカーをセットする
+        /// </summary>
+        private void SetAnchorControl()
+        {
+            anchorControlList.Add(new AnchorLayout(applicationNameLabel, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(versionNumberLabel, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(copyrightLabel, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+        }
+
+        /// <summary>
+        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する
+        /// </summary>
+        private void FixWindowSize()
+        {
+            foreach (AnchorLayout anchorLayout in anchorControlList)
+            {
+                anchorLayout.LayoutControl();
+            }
+        }
+
         private void VersionInfoForm_Load(object sender, EventArgs e)
         {
+            SetAnchorControl();
+            FixWindowSize();
+
             applicationNameLabel.Text = PodcasCoInfo.ApplicationName;
             versionNumberLabel.Text = "Version " + PodcasCoInfo.VersionNumber;
             copyrightLabel.Text = PodcasCoInfo.Copyright;
@@ -103,6 +135,11 @@ namespace PodcasCo
         private void OkMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void VersionInfoForm_Resize(object sender, EventArgs e)
+        {
+            FixWindowSize();
         }
     }
 }

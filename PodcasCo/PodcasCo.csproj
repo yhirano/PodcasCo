@@ -131,9 +131,6 @@
     <EmbeddedResource Include="Resource\RssPodcastMimePriority.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Document\Readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\MiscPocketCompactLibrary\MiscPocketCompactLibrary\MiscPocketCompactLibrary.csproj">
       <Project>{23406A68-A2E2-4A8F-8760-DFCA3B2D0236}</Project>
       <Name>MiscPocketCompactLibrary</Name>

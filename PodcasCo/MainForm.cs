@@ -47,7 +47,7 @@ namespace PodcasCo
         private MenuItem podcasCoSettingMenuItem;
         private MenuItem stationsSettingMenuItem;
         /// <summary>
-        /// フォームのメイン メニューです。
+        /// フォームのメイン メニュー
         /// </summary>
         private System.Windows.Forms.MainMenu mainMenu;
         private ContextMenu stationListContextMenu;
@@ -61,6 +61,11 @@ namespace PodcasCo
         /// 現在表示されている番組リスト
         /// </summary>
         private IChannel[] currentChannels;
+
+        /// <summary>
+        /// アンカーコントロールのリスト
+        /// </summary>
+        private ArrayList anchorControlList = new ArrayList();
 
         public MainForm()
         {
@@ -340,184 +345,48 @@ namespace PodcasCo
         }
 
         /// <summary>
+        /// コントロールにアンカーをセットする
+        /// </summary>
+        private void SetAnchorControl()
+        {
+            anchorControlList.Add(new AnchorLayout(updateButton, AnchorStyles.Top | AnchorStyles.Left, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(clipButton, AnchorStyles.Top | AnchorStyles.Left, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(playButton, AnchorStyles.Top | AnchorStyles.Right, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(stationFilterComboBox, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            AnchorLayout clipFilterPanelLayout = new AnchorLayout(clipFilterPanel, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight);
+            anchorControlList.Add(clipFilterPanelLayout);
+            clipFilterPanelLayout.LayoutControl();
+            anchorControlList.Add(new AnchorLayout(allClipRadioButton, AnchorStyles.Top | AnchorStyles.Left));
+            anchorControlList.Add(new AnchorLayout(clipedRadioButton, AnchorStyles.Top | AnchorStyles.Left));
+            anchorControlList.Add(new AnchorLayout(unclipedRadioButton, AnchorStyles.Top | AnchorStyles.Left));
+            anchorControlList.Add(new AnchorLayout(channelListView, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(clipInfomationLabel, AnchorStyles.Left | AnchorStyles.Bottom, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(lastCheckInfomationLabel, AnchorStyles.Right | AnchorStyles.Bottom, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+        }
+
+        /// <summary>
         /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する
         /// </summary>
         private void FixWindowSize()
         {
-            // 横長VGA
-            if (ScreenUtitlity.GetScreenSize() == ScreenUtitlity.ScreenSize.VgaLandscape)
+            foreach (AnchorLayout anchorLayout in anchorControlList)
             {
-                FixWindowSizeVgaLandscape();
-            }
-            // 縦長VGA
-            else if (ScreenUtitlity.GetScreenSize() == ScreenUtitlity.ScreenSize.VgaPortrait)
-            {
-                FixWindowSizeVgaPortrait();
-            }
-            // 四角QVGA
-            else if (ScreenUtitlity.GetScreenSize() == ScreenUtitlity.ScreenSize.SquareQvga)
-            {
-                FixWindowSizeSquareQvga();
-            }
-            // 横長QVGA
-            else if (ScreenUtitlity.GetScreenSize() == ScreenUtitlity.ScreenSize.QvgaLandscape)
-            {
-                FixWindowSizeQvgaLandscape();
-            }
-            // 縦長QVGA
-            else
-            {
-                FixWindowSizeQvgaPortrait();
+                anchorLayout.LayoutControl();
             }
         }
 
         /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（縦長QVGA）
+        /// ListViewのコラムサイズを自動で調整する
         /// </summary>
-        private void FixWindowSizeQvgaPortrait()
+        /// <param name="listView">ListView</param>
+        private void AutoResizeColumnListView(ListView listView)
         {
-            this.updateButton.Location = new System.Drawing.Point(3, 3);
-            this.updateButton.Size = new System.Drawing.Size(72, 20);
-            this.clipButton.Location = new System.Drawing.Point(81, 3);
-            this.clipButton.Size = new System.Drawing.Size(72, 20);
-            this.playButton.Location = new System.Drawing.Point(165, 3);
-            this.playButton.Size = new System.Drawing.Size(72, 20);
-            this.stationFilterComboBox.Location = new System.Drawing.Point(3, 29);
-            this.stationFilterComboBox.Size = new System.Drawing.Size(234, 22);
-            this.allClipRadioButton.Location = new System.Drawing.Point(3, 0);
-            this.allClipRadioButton.Size = new System.Drawing.Size(71, 20);
-            this.clipedRadioButton.Location = new System.Drawing.Point(80, 0);
-            this.clipedRadioButton.Size = new System.Drawing.Size(71, 20);
-            this.clipFilterPanel.Location = new System.Drawing.Point(3, 52);
-            this.clipFilterPanel.Size = new System.Drawing.Size(234, 20);
-            this.unclipedRadioButton.Location = new System.Drawing.Point(157, 0);
-            this.unclipedRadioButton.Size = new System.Drawing.Size(71, 20);
-            this.lastCheckInfomationLabel.Location = new System.Drawing.Point(83, 248);
-            this.lastCheckInfomationLabel.Size = new System.Drawing.Size(154, 20);
-            this.channelListView.Location = new System.Drawing.Point(3, 78);
-            this.channelListView.Size = new System.Drawing.Size(234, 167);
-            this.clipInfomationLabel.Location = new System.Drawing.Point(3, 248);
-            this.clipInfomationLabel.Size = new System.Drawing.Size(74, 20);
-            this.clipInfomationLabel.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            foreach (ColumnHeader ch in listView.Columns)
+            {
+                ch.Width = -2;
+            }
         }
 
-        /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（横長QVGA）
-        /// </summary>
-        private void FixWindowSizeQvgaLandscape()
-        {
-            this.updateButton.Location = new System.Drawing.Point(245, 3);
-            this.updateButton.Size = new System.Drawing.Size(72, 20);
-            this.clipButton.Location = new System.Drawing.Point(245, 31);
-            this.clipButton.Size = new System.Drawing.Size(72, 20);
-            this.playButton.Location = new System.Drawing.Point(245, 57);
-            this.playButton.Size = new System.Drawing.Size(72, 20);
-            this.stationFilterComboBox.Location = new System.Drawing.Point(3, 3);
-            this.stationFilterComboBox.Size = new System.Drawing.Size(234, 22);
-            this.allClipRadioButton.Location = new System.Drawing.Point(3, 0);
-            this.allClipRadioButton.Size = new System.Drawing.Size(71, 20);
-            this.clipedRadioButton.Location = new System.Drawing.Point(80, 0);
-            this.clipedRadioButton.Size = new System.Drawing.Size(71, 20);
-            this.clipFilterPanel.Location = new System.Drawing.Point(3, 31);
-            this.clipFilterPanel.Size = new System.Drawing.Size(234, 20);
-            this.unclipedRadioButton.Location = new System.Drawing.Point(157, 0);
-            this.unclipedRadioButton.Size = new System.Drawing.Size(71, 20);
-            this.lastCheckInfomationLabel.Location = new System.Drawing.Point(245, 125);
-            this.lastCheckInfomationLabel.Size = new System.Drawing.Size(72, 60);
-            this.channelListView.Location = new System.Drawing.Point(3, 57);
-            this.channelListView.Size = new System.Drawing.Size(234, 128);
-            this.clipInfomationLabel.Location = new System.Drawing.Point(245, 105);
-            this.clipInfomationLabel.Size = new System.Drawing.Size(72, 20);
-            this.clipInfomationLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
-        }
-
-        /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（縦長VGA）
-        /// </summary>
-        private void FixWindowSizeVgaPortrait()
-        {
-            this.updateButton.Location = new System.Drawing.Point(3, 3);
-            this.updateButton.Size = new System.Drawing.Size(144, 20);
-            this.clipButton.Location = new System.Drawing.Point(167, 3);
-            this.clipButton.Size = new System.Drawing.Size(144, 20);
-            this.playButton.Location = new System.Drawing.Point(333, 3);
-            this.playButton.Size = new System.Drawing.Size(144, 20);
-            this.stationFilterComboBox.Location = new System.Drawing.Point(3, 29);
-            this.stationFilterComboBox.Size = new System.Drawing.Size(474, 22);
-            this.allClipRadioButton.Location = new System.Drawing.Point(3, 0);
-            this.allClipRadioButton.Size = new System.Drawing.Size(71, 20);
-            this.clipedRadioButton.Location = new System.Drawing.Point(80, 0);
-            this.clipedRadioButton.Size = new System.Drawing.Size(71, 20);
-            this.clipFilterPanel.Location = new System.Drawing.Point(3, 52);
-            this.clipFilterPanel.Size = new System.Drawing.Size(234, 20);
-            this.unclipedRadioButton.Location = new System.Drawing.Point(157, 0);
-            this.unclipedRadioButton.Size = new System.Drawing.Size(71, 20);
-            this.lastCheckInfomationLabel.Location = new System.Drawing.Point(323, 516);
-            this.lastCheckInfomationLabel.Size = new System.Drawing.Size(154, 20);
-            this.channelListView.Location = new System.Drawing.Point(3, 78);
-            this.channelListView.Size = new System.Drawing.Size(474, 435);
-            this.clipInfomationLabel.Location = new System.Drawing.Point(3, 516);
-            this.clipInfomationLabel.Size = new System.Drawing.Size(74, 20);
-        }
-
-        /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（横長VGA）
-        /// </summary>
-        private void FixWindowSizeVgaLandscape()
-        {
-            this.updateButton.Location = new System.Drawing.Point(568, 3);
-            this.updateButton.Size = new System.Drawing.Size(72, 20);
-            this.clipButton.Location = new System.Drawing.Point(568, 29);
-            this.clipButton.Size = new System.Drawing.Size(72, 20);
-            this.playButton.Location = new System.Drawing.Point(568, 55);
-            this.playButton.Size = new System.Drawing.Size(72, 20);
-            this.stationFilterComboBox.Location = new System.Drawing.Point(3, 3);
-            this.stationFilterComboBox.Size = new System.Drawing.Size(559, 22);
-            this.allClipRadioButton.Location = new System.Drawing.Point(3, 0);
-            this.allClipRadioButton.Size = new System.Drawing.Size(71, 20);
-            this.clipedRadioButton.Location = new System.Drawing.Point(80, 0);
-            this.clipedRadioButton.Size = new System.Drawing.Size(71, 20);
-            this.clipFilterPanel.Location = new System.Drawing.Point(3, 31);
-            this.clipFilterPanel.Size = new System.Drawing.Size(234, 20);
-            this.unclipedRadioButton.Location = new System.Drawing.Point(157, 0);
-            this.unclipedRadioButton.Size = new System.Drawing.Size(71, 20);
-            this.lastCheckInfomationLabel.Location = new System.Drawing.Point(83, 356);
-            this.lastCheckInfomationLabel.Size = new System.Drawing.Size(557, 20);
-            this.channelListView.Location = new System.Drawing.Point(3, 81);
-            this.channelListView.Size = new System.Drawing.Size(637, 272);
-            this.clipInfomationLabel.Location = new System.Drawing.Point(3, 356);
-            this.clipInfomationLabel.Size = new System.Drawing.Size(74, 20);
-        }
-
-        /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（四角QVGA）
-        /// </summary>
-        private void FixWindowSizeSquareQvga()
-        {
-            this.updateButton.Location = new System.Drawing.Point(3, 3);
-            this.updateButton.Size = new System.Drawing.Size(72, 20);
-            this.clipButton.Location = new System.Drawing.Point(81, 3);
-            this.clipButton.Size = new System.Drawing.Size(72, 20);
-            this.playButton.Location = new System.Drawing.Point(165, 3);
-            this.playButton.Size = new System.Drawing.Size(72, 20);
-            this.stationFilterComboBox.Location = new System.Drawing.Point(3, 29);
-            this.stationFilterComboBox.Size = new System.Drawing.Size(234, 22);
-            this.allClipRadioButton.Location = new System.Drawing.Point(3, 0);
-            this.allClipRadioButton.Size = new System.Drawing.Size(71, 20);
-            this.clipedRadioButton.Location = new System.Drawing.Point(80, 0);
-            this.clipedRadioButton.Size = new System.Drawing.Size(71, 20);
-            this.clipFilterPanel.Location = new System.Drawing.Point(3, 52);
-            this.clipFilterPanel.Size = new System.Drawing.Size(234, 20);
-            this.unclipedRadioButton.Location = new System.Drawing.Point(157, 0);
-            this.unclipedRadioButton.Size = new System.Drawing.Size(71, 20);
-            this.lastCheckInfomationLabel.Location = new System.Drawing.Point(83, 170);
-            this.lastCheckInfomationLabel.Size = new System.Drawing.Size(154, 20);
-            this.channelListView.Location = new System.Drawing.Point(3, 78);
-            this.channelListView.Size = new System.Drawing.Size(234, 89);
-            this.clipInfomationLabel.Location = new System.Drawing.Point(3, 170);
-            this.clipInfomationLabel.Size = new System.Drawing.Size(74, 20);
-        }
-        
         /// <summary>
         /// 番組リストを描画する
         /// </summary>
@@ -696,6 +565,8 @@ namespace PodcasCo
             #endregion
 
             #region UI後処理
+
+            AutoResizeColumnListView(channelListView);
 
             clipInfomationLabel.Text = StationList.GetChannelsOfCurrentStationFromAllHeadline().Length
                 + "/" + StationList.GetChannelsOfCurrentStationFromLocalHeadline().Length
@@ -914,6 +785,7 @@ namespace PodcasCo
                 MessageBox.Show("設定ファイルが読み込めませんでした", "設定ファイルの読み込みエラー");
             }
 
+            SetAnchorControl();
             FixWindowSize();
         }
 

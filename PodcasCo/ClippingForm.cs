@@ -9,6 +9,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using MiscPocketCompactLibrary.Net;
+using MiscPocketCompactLibrary.Windows.Forms;
 
 #endregion
 
@@ -23,8 +24,9 @@ namespace PodcasCo
         private ProgressBar progress2ProgressBar;
         private Label progress1Label;
         private Label progress2Label;
+
         /// <summary>
-        /// フォームのメイン メニューです。
+        /// フォームのメイン メニュー
         /// </summary>
         private System.Windows.Forms.MainMenu mainMenu;
 
@@ -38,6 +40,11 @@ namespace PodcasCo
         /// プログレスバー2の最大値
         /// </summary>
         private int progress2Maximum;
+
+        /// <summary>
+        /// アンカーコントロールのリスト
+        /// </summary>
+        private ArrayList anchorControlList = new ArrayList();
 
         public ClippingForm()
         {
@@ -107,10 +114,35 @@ namespace PodcasCo
             this.Controls.Add(this.progress1ProgressBar);
             this.Menu = this.mainMenu;
             this.Text = "Clipping Now";
+            this.Resize += new System.EventHandler(this.ClippingForm_Resize);
             this.Load += new System.EventHandler(this.ClippingForm_Load);
+
         }
 
         #endregion
+
+        /// <summary>
+        /// コントロールにアンカーをセットする
+        /// </summary>
+        private void SetAnchorControl()
+        {
+            anchorControlList.Add(new AnchorLayout(clippingNowLabel, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(progress1Label, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(progress1ProgressBar, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(progress2Label, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(progress2ProgressBar, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+        }
+
+        /// <summary>
+        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する
+        /// </summary>
+        private void FixWindowSize()
+        {
+            foreach (AnchorLayout anchorLayout in anchorControlList)
+            {
+                anchorLayout.LayoutControl();
+            }
+        }
 
         private void SetFileProgressMinimum(int minimum)
         {
@@ -161,6 +193,9 @@ namespace PodcasCo
 
         private void ClippingForm_Load(object sender, EventArgs e)
         {
+            SetAnchorControl();
+            FixWindowSize();
+
             // フォームを強制的に再描画
             this.Update();
 
@@ -190,11 +225,17 @@ namespace PodcasCo
             {
                 MessageBox.Show("ファイルがダウンロードできませんでした", "警告");
             }
-            catch (ClippingException ex) {
+            catch (ClippingException ex)
+            {
                 MessageBox.Show("クリップできなかったPodcastがあります\n" + ex.Message, "警告");
             }
 
             this.Close();
+        }
+
+        private void ClippingForm_Resize(object sender, EventArgs e)
+        {
+            FixWindowSize();
         }
     }
 }

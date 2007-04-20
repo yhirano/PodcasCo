@@ -41,7 +41,12 @@ namespace PodcasCo
         private ArrayList alStationList = new ArrayList();
 
         /// <summary>
-        /// フォームのメイン メニューです。
+        /// アンカーコントロールのリスト
+        /// </summary>
+        private ArrayList anchorControlList = new ArrayList();
+
+        /// <summary>
+        /// フォームのメイン メニュー
         /// </summary>
         private System.Windows.Forms.MainMenu mainMenu;
 
@@ -182,59 +187,27 @@ namespace PodcasCo
         #endregion
 
         /// <summary>
+        /// コントロールにアンカーをセットする
+        /// </summary>
+        private void SetAnchorControl()
+        {
+            anchorControlList.Add(new AnchorLayout(addPodcastUrlLabel, AnchorStyles.Top | AnchorStyles.Left, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(podcastUrlTextBox, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(addButton, AnchorStyles.Top | AnchorStyles.Right, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(stationListLabel, AnchorStyles.Top | AnchorStyles.Left, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(stationListBox, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(deleteButton, AnchorStyles.Right | AnchorStyles.Bottom, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+        }
+
+        /// <summary>
         /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する
         /// </summary>
         private void FixWindowSize()
         {
-            // 横長QVGA
-            if (ScreenUtitlity.GetScreenSize() == ScreenUtitlity.ScreenSize.QvgaLandscape)
+            foreach (AnchorLayout anchorLayout in anchorControlList)
             {
-                FixWindowSizeQvgaLandscape();
+                anchorLayout.LayoutControl();
             }
-            // 縦長QVGA
-            else
-            {
-                FixWindowSizeQvgaPortrait();
-            }
-        }
-
-        /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（縦長QVGA）
-        /// </summary>
-        private void FixWindowSizeQvgaPortrait()
-        {
-            this.stationListLabel.Location = new System.Drawing.Point(3, 77);
-            this.stationListLabel.Size = new System.Drawing.Size(84, 20);
-            this.addPodcastUrlLabel.Location = new System.Drawing.Point(3, 4);
-            this.addPodcastUrlLabel.Size = new System.Drawing.Size(110, 20);
-            this.stationListBox.ContextMenu = this.stationListBoxContextMenu;
-            this.stationListBox.Location = new System.Drawing.Point(3, 99);
-            this.stationListBox.Size = new System.Drawing.Size(234, 142);
-            this.deleteButton.Location = new System.Drawing.Point(165, 245);
-            this.deleteButton.Size = new System.Drawing.Size(72, 20);
-            this.addButton.Location = new System.Drawing.Point(165, 54);
-            this.addButton.Size = new System.Drawing.Size(72, 20);
-            this.podcastUrlTextBox.Location = new System.Drawing.Point(3, 27);
-            this.podcastUrlTextBox.Size = new System.Drawing.Size(234, 21);
-        }
-
-        /// <summary>
-        /// フォームのサイズ変更時にフォーム内の中身のサイズを適正に変更する（横長QVGA）
-        /// </summary>
-        private void FixWindowSizeQvgaLandscape()
-        {
-            this.stationListLabel.Location = new System.Drawing.Point(3, 77);
-            this.stationListLabel.Size = new System.Drawing.Size(84, 20);
-            this.addPodcastUrlLabel.Location = new System.Drawing.Point(3, 4);
-            this.addPodcastUrlLabel.Size = new System.Drawing.Size(110, 20);
-            this.stationListBox.Location = new System.Drawing.Point(3, 99);
-            this.stationListBox.Size = new System.Drawing.Size(314, 58);
-            this.deleteButton.Location = new System.Drawing.Point(245, 165);
-            this.deleteButton.Size = new System.Drawing.Size(72, 20);
-            this.addButton.Location = new System.Drawing.Point(245, 55);
-            this.addButton.Size = new System.Drawing.Size(72, 20);
-            this.podcastUrlTextBox.Location = new System.Drawing.Point(3, 27);
-            this.podcastUrlTextBox.Size = new System.Drawing.Size(314, 21);
         }
 
         /// <summary>
@@ -280,7 +253,7 @@ namespace PodcasCo
 
         private void StationsSettingForm_Load(object sender, EventArgs e)
         {
-            // フォーム内の中身のサイズを適正に変更する
+            SetAnchorControl();
             FixWindowSize();
 
             // 放送局情報の読み込み
