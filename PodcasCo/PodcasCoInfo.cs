@@ -29,7 +29,7 @@ namespace PodcasCo
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        private const string VERSION_NUMBER = "0.5";
+        private const string VERSION_NUMBER = "0.6";
 
         /// <summary>
         /// アプリケーションのバージョン
@@ -136,6 +136,36 @@ namespace PodcasCo
         }
 
         /// <summary>
+        /// メインフォームの幅。
+        /// フォームデザインはこの幅をベースにControlを置いている。
+        /// </summary>
+        private const int FORM_BASE_WIDRH = 240;
+
+        /// <summary>
+        /// メインフォームの幅。
+        /// フォームデザインはこの幅をベースにControlを置いている。
+        /// </summary>
+        public static int FormBaseWidth
+        {
+            get { return FORM_BASE_WIDRH; }
+        }
+
+        /// <summary>
+        /// メインフォームの高さ。
+        /// フォームデザインはこの高さをベースにControlを置いている。
+        /// </summary>
+        private const int FORM_BASE_HIGHT = 268;
+
+        /// <summary>
+        /// メインフォームの高さ。
+        /// フォームデザインはこの高さをベースにControlを置いている。
+        /// </summary>
+        public static int FormBaseHight
+        {
+            get { return FORM_BASE_HIGHT; }
+        }
+
+        /// <summary>
         /// アプリケーションの設定ファイル
         /// </summary>
         private const string SETTING_FILE = "Setting.xml";
@@ -172,36 +202,6 @@ namespace PodcasCo
         public static string GenerateM3uFileName
         {
             get { return GENERATE_M3U_FILE_NAME; }
-        }
-
-        /// <summary>
-        /// メインフォームの幅。
-        /// フォームデザインはこの幅をベースにControlを置いている。
-        /// </summary>
-        private const int FORM_BASE_WIDRH = 240;
-
-        /// <summary>
-        /// メインフォームの幅。
-        /// フォームデザインはこの幅をベースにControlを置いている。
-        /// </summary>
-        public static int FormBaseWidth
-        {
-            get { return FORM_BASE_WIDRH; }
-        }
-
-        /// <summary>
-        /// メインフォームの高さ。
-        /// フォームデザインはこの高さをベースにControlを置いている。
-        /// </summary>
-        private const int FORM_BASE_HIGHT = 268;
-
-        /// <summary>
-        /// メインフォームの高さ。
-        /// フォームデザインはこの高さをベースにControlを置いている。
-        /// </summary>
-        public static int FormBaseHight
-        {
-            get { return FORM_BASE_HIGHT; }
         }
 
         /// <summary>
