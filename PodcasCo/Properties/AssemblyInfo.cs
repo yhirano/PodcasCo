@@ -9,7 +9,7 @@ using System.Resources;
 // これらの属性値を変更してください。
 //
 [assembly: AssemblyTitle("PodcasCo")]
-[assembly: AssemblyDescription("Simple Podcast clipper for Windows Mobile")]
+[assembly: AssemblyDescription("Simple Podcast clipper for Windows Mobile.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("PodcasCo")]
