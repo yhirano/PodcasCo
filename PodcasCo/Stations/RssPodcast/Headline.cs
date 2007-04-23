@@ -8,6 +8,7 @@ using System.Text;
 using System.Collections;
 using System.Xml;
 using PodcasCo.Stations;
+using MiscPocketCompactLibrary.Net;
 
 #endregion
 
@@ -178,7 +179,7 @@ namespace PodcasCo.Stations.RssPodcast
         /// <returns>ネットから取得した放送局名</returns>
         public virtual string FetchStationName()
         {
-            Stream st = null;
+            WebStream st = null;
             XmlReader reader = null;
 
             try
@@ -289,7 +290,7 @@ namespace PodcasCo.Stations.RssPodcast
             // 時刻をセットする
             lastCheckTime = DateTime.Now;
 
-            Stream st = null;
+            WebStream st = null;
             FileStream fs = null;
             XmlTextReader reader = null;
 

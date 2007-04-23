@@ -86,7 +86,7 @@ namespace PodcasCo
         /// </summary>
         /// <param name="url">URL</param>
         /// <returns>Web上のストリーム</returns>
-        public static Stream GetWebStream(Uri url)
+        public static WebStream GetWebStream(Uri url)
         {
             WebStream ws = new WebStream(url);
             if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
@@ -105,9 +105,9 @@ namespace PodcasCo
             ws.ProxyPort = PodcasCo.UserSetting.ProxyPort;
             ws.TimeOut = PodcasCoInfo.WebRequestTimeoutMillSec;
             ws.UserAgent = PodcasCoInfo.UserAgent;
-            Stream st = ws.GetWebStream();
+            ws.CreateWebStream();
 
-            return st;
+            return ws;
         }
 
 
@@ -137,7 +137,7 @@ namespace PodcasCo
             ws.UserAgent = PodcasCoInfo.UserAgent;
             ws.DownLoadBufferSize = PodcasCo.UserSetting.DownLoadBufferSize;
             ws.FetchFile(fileName);
-
+            ws.Close();
         }
 
         /// <summary>
@@ -172,7 +172,7 @@ namespace PodcasCo
             ws.UserAgent = PodcasCoInfo.UserAgent;
             ws.DownLoadBufferSize = PodcasCo.UserSetting.DownLoadBufferSize;
             ws.FetchFile(fileName, doDownloadProgressMinimum, doSetDownloadProgressMaximum, doSetDownloadProgressValue);
-
+            ws.Close();
         }
     }
 }
