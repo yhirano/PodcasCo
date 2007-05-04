@@ -175,7 +175,7 @@ namespace PodcasCo.Stations.RssPodcast
             {
                 if (channel.GetWebsiteUrl() != null)
                 {
-                    PocketLadioUtility.AccessWebsite(channel.GetWebsiteUrl());
+                    PodcasCoUtility.AccessWebsite(channel.GetWebsiteUrl());
                 }
             }
             catch (FileNotFoundException)

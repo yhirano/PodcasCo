@@ -640,7 +640,7 @@ namespace PodcasCo
 
             try
             {
-                PocketLadioUtility.PlayStreaming(UserSetting.M3uFilePath);
+                PodcasCoUtility.PlayStreaming(UserSetting.M3uFilePath);
             }
             catch (FileNotFoundException)
             {

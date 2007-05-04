@@ -67,9 +67,9 @@
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PocketLadioUtility.cs" />
     <Compile Include="PodcasCoSpecificProcess.cs" />
     <Compile Include="PodcasCoInfo.cs" />
+    <Compile Include="PodcasCoUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

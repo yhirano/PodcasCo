@@ -12,12 +12,12 @@ namespace PodcasCo
     /// <summary>
     /// PocketLadioのユーティリティ
     /// </summary>
-    public sealed class PocketLadioUtility
+    public sealed class PodcasCoUtility
     {
         /// <summary>
         /// シングルトンのためプライベート
         /// </summary>
-        private PocketLadioUtility()
+        private PodcasCoUtility()
         {
         }
 
@@ -118,26 +118,7 @@ namespace PodcasCo
         /// <param name="fileName">保存するファイル名</param>
         public static void FetchFile(Uri url, string fileName)
         {
-            WebStream ws = new WebStream(url);
-            if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
-            {
-                ws.ProxyUse = WebStream.ProxyConnect.Unuse;
-            }
-            else if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.OsSetting)
-            {
-                ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
-            }
-            else if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.OriginalSetting)
-            {
-                ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
-            }
-            ws.ProxyServer = PodcasCo.UserSetting.ProxyServer;
-            ws.ProxyPort = PodcasCo.UserSetting.ProxyPort;
-            ws.TimeOut = PodcasCoInfo.WebRequestTimeoutMillSec;
-            ws.UserAgent = PodcasCoInfo.UserAgent;
-            ws.DownLoadBufferSize = PodcasCo.UserSetting.DownLoadBufferSize;
-            ws.FetchFile(fileName);
-            ws.Close();
+            FetchFile(url, fileName, null, null, null);
         }
 
         /// <summary>
@@ -153,26 +134,39 @@ namespace PodcasCo
             WebStream.SetDownloadProgressMaximumInvoker doSetDownloadProgressMaximum,
             WebStream.SetDownloadProgressValueInvoker doSetDownloadProgressValue)
         {
-            WebStream ws = new WebStream(url);
-            if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
+
+            WebStream ws = null;
+            try
             {
-                ws.ProxyUse = WebStream.ProxyConnect.Unuse;
+                ws = new WebStream(url);
+                if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
+                {
+                    ws.ProxyUse = WebStream.ProxyConnect.Unuse;
+                }
+                else if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.OsSetting)
+                {
+                    ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
+                }
+                else if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.OriginalSetting)
+                {
+                    ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
+                }
+                ws.ProxyServer = PodcasCo.UserSetting.ProxyServer;
+                ws.ProxyPort = PodcasCo.UserSetting.ProxyPort;
+                ws.TimeOut = PodcasCoInfo.WebRequestTimeoutMillSec;
+                ws.UserAgent = PodcasCoInfo.UserAgent;
+                ws.DownLoadBufferSize = PodcasCo.UserSetting.DownLoadBufferSize;
+                ws.SetResume(fileName);
+                ws.CreateWebStream();
+                ws.FetchFile(fileName, doDownloadProgressMinimum, doSetDownloadProgressMaximum, doSetDownloadProgressValue);
             }
-            else if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.OsSetting)
+            finally
             {
-                ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
+                if (ws != null)
+                {
+                    ws.Close();
+                }
             }
-            else if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.OriginalSetting)
-            {
-                ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
-            }
-            ws.ProxyServer = PodcasCo.UserSetting.ProxyServer;
-            ws.ProxyPort = PodcasCo.UserSetting.ProxyPort;
-            ws.TimeOut = PodcasCoInfo.WebRequestTimeoutMillSec;
-            ws.UserAgent = PodcasCoInfo.UserAgent;
-            ws.DownLoadBufferSize = PodcasCo.UserSetting.DownLoadBufferSize;
-            ws.FetchFile(fileName, doDownloadProgressMinimum, doSetDownloadProgressMaximum, doSetDownloadProgressValue);
-            ws.Close();
         }
     }
 }

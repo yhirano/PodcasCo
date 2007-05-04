@@ -338,21 +338,26 @@ namespace PodcasCo
                             + "-" + channel.GetHash().ToString("x")
                             + Path.GetExtension(channel.GetPlayUrl().LocalPath);
 
-                        if (File.Exists(generateFilePath) == false)
+                        try
                         {
-                            PocketLadioUtility.FetchFile(channel.GetPlayUrl(), generateFilePath,
+                            PodcasCoUtility.FetchFile(channel.GetPlayUrl(), generateFilePath,
                                 doDownloadProgressMinimum,
                                 doSetDownloadProgressMaximum,
                                 doSetDownloadProgressValue);
-
-                            // 番組をローカルヘッドラインに加える
-                            IChannel localChannel = (IChannel)channel.Clone(channel.ParentHeadline.ParentStation.LocalHeadline);
-                            localChannel.SetPlayUrl(new Uri(generateFilePath));
-                            localChannel.ParentHeadline.ParentStation.LocalHeadline.AddChannel(localChannel);
-
-                            // ダウンロードした番組の元のグローバル番組からはチェックを外す
-                            channel.Check = false;
                         }
+                        catch (AlreadyFetchFileException)
+                        {
+                            // ファイルがすでに存在する場合は何もしない
+                            ;
+                        }
+
+                        // 番組をローカルヘッドラインに加える
+                        IChannel localChannel = (IChannel)channel.Clone(channel.ParentHeadline.ParentStation.LocalHeadline);
+                        localChannel.SetPlayUrl(new Uri(generateFilePath));
+                        localChannel.ParentHeadline.ParentStation.LocalHeadline.AddChannel(localChannel);
+
+                        // ダウンロードした番組の元のグローバル番組からはチェックを外す
+                        channel.Check = false;
                     }
                     catch (WebException)
                     {

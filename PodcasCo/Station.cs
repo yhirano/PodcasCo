@@ -97,8 +97,8 @@ namespace PodcasCo
         {
             get { return kind; }
         }
-        /// <summary>
 
+        /// <summary>
         /// 放送局のコンストラクタ
         /// </summary>
         /// <param name="id">放送局のID</param>
@@ -123,6 +123,7 @@ namespace PodcasCo
             }
         }
 
+        /// <summary>
         /// 放送局のコンストラクタ
         /// </summary>
         /// <param name="id">放送局のID</param>

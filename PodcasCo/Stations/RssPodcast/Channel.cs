@@ -39,7 +39,7 @@ namespace PodcasCo.Stations.RssPodcast
         /// <summary>
         /// 番組の詳細
         /// </summary>
-        private string description = "";
+        private string description = string.Empty;
 
         /// <summary>
         /// 番組の詳細
@@ -66,7 +66,7 @@ namespace PodcasCo.Stations.RssPodcast
         /// <summary>
         /// 番組のカテゴリ
         /// </summary>
-        private string category = "";
+        private string category = string.Empty;
 
         /// <summary>
         /// 番組のカテゴリ
@@ -80,7 +80,7 @@ namespace PodcasCo.Stations.RssPodcast
         /// <summary>
         /// 番組の著者
         /// </summary>
-        private string author = "";
+        private string author = string.Empty;
 
         /// <summary>
         /// 番組の著者
@@ -107,7 +107,7 @@ namespace PodcasCo.Stations.RssPodcast
         /// <summary>
         /// 番組の長さ
         /// </summary>
-        private string length = "";
+        private string length = string.Empty;
 
         /// <summary>
         /// 番組の長さ

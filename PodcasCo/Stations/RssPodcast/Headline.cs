@@ -191,7 +191,7 @@ namespace PodcasCo.Stations.RssPodcast
                 // channelタグの中にいるか
                 bool inChannelFlag = false;
 
-                st = PocketLadioUtility.GetWebStream(setting.RssUrl);
+                st = PodcasCoUtility.GetWebStream(setting.RssUrl);
                 reader = new XmlTextReader(st);
 
                 while (reader.Read())
@@ -206,6 +206,7 @@ namespace PodcasCo.Stations.RssPodcast
                         if (reader.LocalName == "title" && inChannelFlag == true && inItemFlag == false)
                         {
                             title = reader.ReadString();
+                            return title;
                         } // End of title
                         else if (reader.LocalName == "item")
                         {
@@ -311,7 +312,7 @@ namespace PodcasCo.Stations.RssPodcast
                 }
                 else
                 {
-                    st = PocketLadioUtility.GetWebStream(setting.RssUrl);
+                    st = PodcasCoUtility.GetWebStream(setting.RssUrl);
                     reader = new XmlTextReader(st);
                 }
 
@@ -382,6 +383,15 @@ namespace PodcasCo.Stations.RssPodcast
                                         enclosureUrl = new Uri(reader.GetAttribute("url"));
                                         enclosureLength = reader.GetAttribute("length");
                                         enclosureType = reader.GetAttribute("type");
+                                    }
+
+                                    if (enclosureLength == null)
+                                    {
+                                        enclosureLength = string.Empty;
+                                    }
+                                    if (enclosureType == null)
+                                    {
+                                        enclosureType = string.Empty;
                                     }
 
                                     // エンクロージャー要素追加
