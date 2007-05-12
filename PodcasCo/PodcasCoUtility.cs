@@ -157,7 +157,18 @@ namespace PodcasCo
                 ws.UserAgent = PodcasCoInfo.UserAgent;
                 ws.DownLoadBufferSize = PodcasCo.UserSetting.DownLoadBufferSize;
                 ws.SetResume(fileName);
-                ws.CreateWebStream();
+                try
+                {
+                    ws.CreateWebStream();
+                }
+                catch (MismatchFetchFileException)
+                {
+                    // ダウンロードすべきよりも、すでにダウンロードしているファイルの方が大きい場合は
+                    // 一端ファイルを削除し、リジュームを無効にする
+                    File.Delete(fileName);
+                    ws.RemoveResume();
+                    ws.CreateWebStream();
+                }
                 ws.FetchFile(fileName, doDownloadProgressMinimum, doSetDownloadProgressMaximum, doSetDownloadProgressValue);
             }
             finally
