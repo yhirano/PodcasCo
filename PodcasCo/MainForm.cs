@@ -290,7 +290,6 @@ namespace PodcasCo
             this.Text = "PodcasCo";
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.Activated += new System.EventHandler(this.MainForm_Activated);
-            this.Closing += new System.ComponentModel.CancelEventHandler(this.MainForm_Closing);
             this.Load += new System.EventHandler(this.MainForm_Load);
 
         }
@@ -305,6 +304,16 @@ namespace PodcasCo
             try
             {
                 Application.Run(new MainForm());
+
+                // 終了時処理
+                try
+                {
+                    PodcasCoSpecificProcess.ExitDisable();
+                }
+                catch (IOException)
+                {
+                    MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
+                }
             }
             catch (Exception ex)
             {
@@ -789,19 +798,6 @@ namespace PodcasCo
             FixWindowSize();
         }
 
-        private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            try
-            {
-                // 終了時処理
-                PodcasCoSpecificProcess.ExitDisable();
-            }
-            catch (IOException)
-            {
-                MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
-            }
-        }
-
         private void VersionInfoMenuItem_Click(object sender, EventArgs e)
         {
             VersionInfoForm versionInfoForm = new VersionInfoForm();
@@ -818,6 +814,7 @@ namespace PodcasCo
 
         private void ExitMenuItem_Click(object sender, EventArgs e)
         {
+            Close();
             Application.Exit();
         }
 
