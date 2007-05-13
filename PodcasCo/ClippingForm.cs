@@ -164,31 +164,41 @@ namespace PodcasCo
         {
             progress1Label.Text = value.ToString() + " / "
                 + progress1Maximum.ToString() + " File";
-            progress1ProgressBar.Value = value;
+            if (progress1ProgressBar.Maximum >= value)
+            {
+                progress1ProgressBar.Value = value;
+            }
 
             // 強制的に再描画
-            this.Update();
+            progress1Label.Update();
+            progress1ProgressBar.Update();
         }
 
         private void SetClipingProgressMinimum(int minimum)
         {
-            progress2ProgressBar.Minimum = minimum;
+            progress2ProgressBar.Minimum = minimum / 1024;
         }
 
         private void SetClipingProgressMaximum(int maximum)
         {
-            progress2ProgressBar.Maximum = maximum;
-            progress2Maximum = maximum;
+            int kbMaximum = maximum / 1024; // キロバイト単位に変換
+            progress2ProgressBar.Maximum = kbMaximum;
+            progress2Maximum = kbMaximum;
         }
 
         private void SetClipingProgressValue(int value)
         {
-            progress2Label.Text = (value / 1024).ToString() + " KB / "
-                + (progress2Maximum / 1024).ToString() + " KB";
-            progress2ProgressBar.Value = value;
+            int kbValue = value / 1024; // キロバイト単位に変換
+            progress2Label.Text = kbValue.ToString() + " KB / "
+                + progress2Maximum.ToString() + " KB";
+            if (progress2ProgressBar.Maximum >= kbValue)
+            {
+                progress2ProgressBar.Value = kbValue;
+            }
 
             // 強制的に再描画
-            this.Update();
+            progress2Label.Update();
+            progress2ProgressBar.Update();
         }
 
         private void ClippingForm_Load(object sender, EventArgs e)

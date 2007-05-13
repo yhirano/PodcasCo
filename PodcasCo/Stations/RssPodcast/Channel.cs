@@ -154,7 +154,7 @@ namespace PodcasCo.Stations.RssPodcast
         public IHeadline ParentHeadline
         {
             get { return parentHeadline; }
-        } 
+        }
 
 
         /// <summary>
@@ -214,10 +214,11 @@ namespace PodcasCo.Stations.RssPodcast
         /// 番組の放送URLをセットする
         /// </summary>        
         /// <param name="uri">番組の放送URL</param>
-        public virtual void SetPlayUrl(Uri url) {
+        public virtual void SetPlayUrl(Uri url)
+        {
             this.url = url;
         }
-        
+
         /// <summary>
         /// エンクロージャー要素をセットする。
         /// エンクロージャー要素の追加が複数回あった場合には、MIME Typeの優先度設定に従い、
@@ -299,16 +300,25 @@ namespace PodcasCo.Stations.RssPodcast
                 return;
             }
 
-            parentHeadline.RemoveChannel(this);
-            
+
             if (File.Exists(url.LocalPath))
             {
-                File.Delete(url.LocalPath);
+                try
+                {
+                    File.Delete(url.LocalPath);
+                }
+                catch (IOException)
+                {
+                    throw;
+                }
+                parentHeadline.RemoveChannel(this);
             }
             else
             {
+                parentHeadline.RemoveChannel(this);
                 throw new FileNotFoundException();
             }
+
         }
 
         /// <summary>
@@ -316,7 +326,8 @@ namespace PodcasCo.Stations.RssPodcast
         /// </summary>
         /// <param name="parentHeadline">親ヘッドライン</param>
         /// <returns>番組のクローン</returns>
-        public virtual IChannel Clone(IHeadline parentHeadline) {
+        public virtual IChannel Clone(IHeadline parentHeadline)
+        {
             Channel channel = new Channel((Headline)parentHeadline);
             channel.Title = (string)(Title.Clone());
             channel.Link = new Uri(GetWebsiteUrl().ToString());

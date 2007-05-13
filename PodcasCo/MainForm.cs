@@ -730,6 +730,10 @@ namespace PodcasCo
                     {
                         ;
                     }
+                    catch (IOException)
+                    {
+                        MessageBox.Show("ファイルが削除できませんでした。他のプログラムでファイルが使用されている可能性があります。", "ファイルエラー");
+                    }
                 }
             }
 

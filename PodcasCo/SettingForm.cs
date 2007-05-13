@@ -460,7 +460,22 @@ namespace PodcasCo
                 Trace.Assert(false, "想定外の動作のため、終了します");
             }
             UserSetting.ProxyServer = proxyServerTextBox.Text.Trim();
-            UserSetting.ProxyPort = int.Parse(proxyPortTextBox.Text.Trim());
+            try
+            {
+                UserSetting.ProxyPort = int.Parse(proxyPortTextBox.Text.Trim());
+            }
+            catch (ArgumentException)
+            {
+                ;
+            }
+            catch (FormatException)
+            {
+                ;
+            }
+            catch (OverflowException)
+            {
+                ;
+            }
 
             try
             {
