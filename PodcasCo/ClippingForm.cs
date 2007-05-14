@@ -15,9 +15,6 @@ using MiscPocketCompactLibrary.Windows.Forms;
 
 namespace PodcasCo
 {
-    /// <summary>
-    /// ClipingForm の概要の説明です。
-    /// </summary>
     public class ClippingForm : System.Windows.Forms.Form
     {
         private ProgressBar progress1ProgressBar;
@@ -46,9 +43,58 @@ namespace PodcasCo
         /// </summary>
         private ArrayList anchorControlList = new ArrayList();
 
+        /// <summary>
+        /// ファイル取得前イベントのハンドラ
+        /// </summary>
+        /// <param name="sender">イベントを発信したオブジェクト</param>
+        /// <param name="e">イベント</param>
+        public delegate void FileEventHandler(object sender, FileEventArgs e);
+
+        /// <summary>
+        /// ファイル取得前イベント
+        /// </summary>
+        public event FileEventHandler File;
+
+        /// <summary>
+        /// ファイル取得前のイベントの実行
+        /// </summary>
+        /// <param name="e">イベント</param>
+        public void OnFile(FileEventArgs e)
+        {
+            if (File != null)
+            {
+                File(this, e);
+            }
+        }
+
+        /// <summary>
+        /// ファイル取得中イベントのハンドラ
+        /// </summary>
+        /// <param name="sender">イベントを発信したオブジェクト</param>
+        /// <param name="e">イベント</param>
+        public delegate void FilingEventHandler(object sender, FileEventArgs e);
+
+        /// <summary>
+        /// ファイル取得中イベント
+        /// </summary>
+        public event FilingEventHandler Filing;
+
+        /// <summary>
+        /// ファイル取得中のイベントの実行
+        /// </summary>
+        public void OnFiling(FileEventArgs e)
+        {
+            if (Filing != null)
+            {
+                Filing(this, e);
+            }
+        }
+
         public ClippingForm()
         {
             InitializeComponent();
+            this.Filing += new FilingEventHandler(FilingReceiver);
+            this.File += new FileEventHandler(FileReceiver);
         }
 
         /// <summary>
@@ -174,21 +220,32 @@ namespace PodcasCo
             progress1ProgressBar.Update();
         }
 
+        private void FileReceiver(object sender, FileEventArgs e)
+        {
+            SetFileProgressMinimum(0);
+            SetFileProgressMaximum((int)e.FileCount);
+        }
+
+        private void FilingReceiver(object sender, FileEventArgs e)
+        {
+            SetFileProgressValue((int)e.FiledCount);
+        }
+
         private void SetClipingProgressMinimum(int minimum)
         {
-            progress2ProgressBar.Minimum = minimum / 1024;
+            progress2ProgressBar.Minimum = (minimum >> 10); // キロバイト単位に変換
         }
 
         private void SetClipingProgressMaximum(int maximum)
         {
-            int kbMaximum = maximum / 1024; // キロバイト単位に変換
+            int kbMaximum = (maximum >> 10); // キロバイト単位に変換
             progress2ProgressBar.Maximum = kbMaximum;
             progress2Maximum = kbMaximum;
         }
 
         private void SetClipingProgressValue(int value)
         {
-            int kbValue = value / 1024; // キロバイト単位に変換
+            int kbValue = (value >> 10); // キロバイト単位に変換
             progress2Label.Text = kbValue.ToString() + " KB / "
                 + progress2Maximum.ToString() + " KB";
             if (progress2ProgressBar.Maximum >= kbValue)
@@ -201,6 +258,17 @@ namespace PodcasCo
             progress2ProgressBar.Update();
         }
 
+        public void ClipReceiver(object sender, FetchEventArgs e)
+        {
+            SetClipingProgressMinimum(0);
+            SetClipingProgressMaximum((int)e.ContentSize);
+        }
+
+        public void ClippingReceiver(object sender, FetchEventArgs e)
+        {
+            SetClipingProgressValue((int)e.FetchedSize);
+        }
+
         private void ClippingForm_Load(object sender, EventArgs e)
         {
             SetAnchorControl();
@@ -211,13 +279,7 @@ namespace PodcasCo
 
             try
             {
-                StationList.ClippingPodcast(
-                    new StationList.SetDownloadProgressMinimumInvoker(this.SetFileProgressMinimum),
-                    new StationList.SetDownloadProgressMaximumInvoker(this.SetFileProgressMaximum),
-                    new StationList.SetDownloadProgressValueInvoker(this.SetFileProgressValue),
-                    new WebStream.SetDownloadProgressMinimumInvoker(this.SetClipingProgressMinimum),
-                    new WebStream.SetDownloadProgressMaximumInvoker(this.SetClipingProgressMaximum),
-                    new WebStream.SetDownloadProgressValueInvoker(this.SetClipingProgressValue));
+                StationList.ClippingPodcast(this);
             }
             catch (OutOfMemoryException)
             {

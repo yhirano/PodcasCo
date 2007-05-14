@@ -130,15 +130,31 @@ namespace PodcasCo
         /// <param name="doSetDownloadProgressMaximum">ファイルサイズをセットするデリゲート</param>
         /// <param name="doSetDownloadProgressValue">ダウンロード済みのファイルサイズをセットするデリゲート</param>
         public static void FetchFile(Uri url, string fileName,
-            WebStream.SetDownloadProgressMinimumInvoker doDownloadProgressMinimum,
-            WebStream.SetDownloadProgressMaximumInvoker doSetDownloadProgressMaximum,
-            WebStream.SetDownloadProgressValueInvoker doSetDownloadProgressValue)
+            WebStream.FetchEventHandler fetchEventHandler,
+            WebStream.FetchingEventHandler fetchingEventHandler,
+            WebStream.FetchedEventHandler fetchedEventHandler)
         {
 
             WebStream ws = null;
             try
             {
                 ws = new WebStream(url);
+
+                if (fetchEventHandler != null)
+                {
+                    ws.Fetch += fetchEventHandler;
+                }
+                if (fetchingEventHandler != null)
+                {
+                    ws.Fetching += fetchingEventHandler;
+
+                }
+                if (fetchedEventHandler != null)
+                {
+                    ws.Fetched += fetchedEventHandler;
+
+                }
+
                 if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
                 {
                     ws.ProxyUse = WebStream.ProxyConnect.Unuse;
@@ -169,7 +185,12 @@ namespace PodcasCo
                     ws.RemoveResume();
                     ws.CreateWebStream();
                 }
-                ws.FetchFile(fileName, doDownloadProgressMinimum, doSetDownloadProgressMaximum, doSetDownloadProgressValue);
+                catch (AlreadyFetchFileException)
+                {
+                    // ファイルがすでに存在する場合は何もしない
+                    ;
+                }
+                ws.FetchFile(fileName);
             }
             finally
             {

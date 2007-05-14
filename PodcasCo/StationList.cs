@@ -268,25 +268,14 @@ namespace PodcasCo
         /// </summary>
         private void ClippingPodcast()
         {
-            ClippingPodcast(null, null, null, null, null, null);
+            ClippingPodcast(null);
         }
 
         /// <summary>
         /// 番組をクリップする
         /// </summary>
-        /// <param name="doFileProgressMinimum">ファイル数の最小値（0）をセットするデリゲート</param>
-        /// <param name="doSetFileProgressMaximum">ファイル数をセットするデリゲート</param>
-        /// <param name="doSetFileProgressValue">ダウンロード済みのファイル数をセットするデリゲート</param>
-        /// <param name="doDownloadProgressMinimum">ファイルサイズの最小値（0）をセットするデリゲート</param>
-        /// <param name="doSetDownloadProgressMaximum">ファイルサイズをセットするデリゲート</param>
-        /// <param name="doSetDownloadProgressValue">ダウンロード済みのファイルサイズをセットするデリゲート</param>
-        public static void ClippingPodcast(
-            SetDownloadProgressMinimumInvoker doFileProgressMinimum,
-            SetDownloadProgressMaximumInvoker doSetFileProgressMaximum,
-            SetDownloadProgressValueInvoker doSetFileProgressValue,
-            WebStream.SetDownloadProgressMinimumInvoker doDownloadProgressMinimum,
-            WebStream.SetDownloadProgressMaximumInvoker doSetDownloadProgressMaximum,
-            WebStream.SetDownloadProgressValueInvoker doSetDownloadProgressValue)
+        /// <param name="clippingForm">ClippingForm</param>
+        public static void ClippingPodcast(ClippingForm clippingForm)
         {
             // すでにクリップした番組
             int alreadyClippingFiles = 0;
@@ -309,14 +298,9 @@ namespace PodcasCo
                 }
             }
 
-            if (doFileProgressMinimum != null)
+            if (clippingForm != null)
             {
-                doFileProgressMinimum(0);
-            }
-
-            if (doSetFileProgressMaximum != null)
-            {
-                doSetFileProgressMaximum(alSelectedGlobalChannels.Count);
+                clippingForm.OnFile(new FileEventArgs(0, alSelectedGlobalChannels.Count));
             }
 
             try
@@ -338,18 +322,10 @@ namespace PodcasCo
                             + "-" + channel.GetHash().ToString("x")
                             + Path.GetExtension(channel.GetPlayUrl().LocalPath);
 
-                        try
-                        {
-                            PodcasCoUtility.FetchFile(channel.GetPlayUrl(), generateFilePath,
-                                doDownloadProgressMinimum,
-                                doSetDownloadProgressMaximum,
-                                doSetDownloadProgressValue);
-                        }
-                        catch (AlreadyFetchFileException)
-                        {
-                            // ファイルがすでに存在する場合は何もしない
-                            ;
-                        }
+                        PodcasCoUtility.FetchFile(channel.GetPlayUrl(), generateFilePath,
+                            new WebStream.FetchEventHandler(clippingForm.ClipReceiver), 
+                            new WebStream.FetchingEventHandler(clippingForm.ClippingReceiver),
+                            null);
 
                         // 番組をローカルヘッドラインに加える
                         IChannel localChannel = (IChannel)channel.Clone(channel.ParentHeadline.ParentStation.LocalHeadline);
@@ -362,22 +338,22 @@ namespace PodcasCo
                     catch (WebException)
                     {
                         cannotCliped = true;
-                        cannotClipedString += channel.GetTitle() + "\n";
+                        cannotClipedString += channel.ParentHeadline.ParentStation.Name + " - " +  channel.GetTitle() + "\n";
                     }
                     catch (UriFormatException)
                     {
                         cannotCliped = true;
-                        cannotClipedString += channel.GetTitle() + "\n";
+                        cannotClipedString += channel.ParentHeadline.ParentStation.Name + " - " + channel.GetTitle() + "\n";
                     }
                     catch (SocketException)
                     {
                         cannotCliped = true;
-                        cannotClipedString += channel.GetTitle() + "\n";
+                        cannotClipedString += channel.ParentHeadline.ParentStation.Name + " - " + channel.GetTitle() + "\n";
                     }
 
-                    if (doSetFileProgressValue != null)
+                    if (clippingForm != null)
                     {
-                        doSetFileProgressValue(++alreadyClippingFiles);
+                        clippingForm.OnFiling(new FileEventArgs(++alreadyClippingFiles, alSelectedGlobalChannels.Count));
                     }
                 }
 
