@@ -301,9 +301,12 @@ namespace PodcasCo.Stations.RssPodcast
                 ArrayList alChannels = new ArrayList();
 
                 // チャンネル
-                Channel channel = new Channel(this);
+                Channel channel = null;
                 // itemタグの中にいるか
                 bool inItemFlag = false;
+
+                // Enclosureの一時リスト
+                ArrayList alTempEnclosure = new ArrayList();
 
                 if (setting.RssUrl.IsFile == true)
                 {
@@ -394,8 +397,12 @@ namespace PodcasCo.Stations.RssPodcast
                                         enclosureType = string.Empty;
                                     }
 
-                                    // エンクロージャー要素追加
-                                    channel.SetEnclosure(enclosureUrl, enclosureLength, enclosureType);
+                                    // Enclosureタグの数だけ、 Enclosure一時リストにEnclosureの内容を追加していく
+                                    Enclosure enclosure = new Enclosure(enclosureUrl, enclosureLength, enclosureType);
+                                    if (enclosure.IsPodcast() == true)
+                                    {
+                                        alTempEnclosure.Add(enclosure);
+                                    }
                                 }
                                 catch (UriFormatException)
                                 {
@@ -409,7 +416,22 @@ namespace PodcasCo.Stations.RssPodcast
                         if (reader.LocalName == "item")
                         {
                             inItemFlag = false;
-                            alChannels.Add(channel);
+
+                            // Enclosureの要素の数だけ、Channelの複製を作る
+                            if (alTempEnclosure.Count != 0)
+                            {
+                                foreach (Enclosure enclosure in alTempEnclosure)
+                                {
+                                    Channel clonedChannel = (Channel)channel.Clone(this);
+                                    clonedChannel.Url = enclosure.Url;
+                                    clonedChannel.Length = enclosure.Length;
+                                    clonedChannel.Type = enclosure.Type;
+                                    alChannels.Add(clonedChannel);
+                                }
+                            }
+
+                            // Enclosure一時リストをクリア
+                            alTempEnclosure.Clear();
                         }
                     }
                 }
@@ -576,6 +598,54 @@ namespace PodcasCo.Stations.RssPodcast
         public virtual void DeleteUserSettingFile()
         {
             setting.DeleteUserSettingFile();
+        }
+
+        /// <summary>
+        /// RSSのEnclosure要素
+        /// </summary>
+        private class Enclosure
+        {
+            Uri url;
+
+            public Uri Url
+            {
+                get { return url; }
+            }
+
+            string length;
+
+            public string Length
+            {
+                get { return length; }
+            }
+
+            string type;
+
+            public string Type
+            {
+                get { return type; }
+            }
+
+            public Enclosure(Uri url, string length, string type)
+            {
+                this.url = url;
+                this.length = length;
+                this.type = type;
+            }
+
+            /// <summary>
+            /// このEnclosure要素は再生可能なPodcastかを判断する
+            /// </summary>
+            /// <returns>このEnclosure要素は再生可能なPodcastが再生可能な場合はtrue。</returns>
+            public bool IsPodcast()
+            {
+                if (type == null || type == string.Empty)
+                {
+                    return false;
+                }
+
+                return ((RssPodcastMimePriority.GetRssPodcastMimePriority(type) != 0) ? true : false);
+            }
         }
     }
 }

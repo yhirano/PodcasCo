@@ -220,42 +220,16 @@ namespace PodcasCo.Stations.RssPodcast
         }
 
         /// <summary>
-        /// エンクロージャー要素をセットする。
-        /// エンクロージャー要素の追加が複数回あった場合には、MIME Typeの優先度設定に従い、
-        /// 優先度の高いエンクロージャー要素の内容をセットする。
-        /// </summary>
-        /// <param name="podcastUrl">エンクロージャーのURL</param>
-        /// <param name="length">エンクロージャーのLENGTH</param>
-        /// <param name="type">エンクロージャーのTYPE</param>
-        public void SetEnclosure(Uri podcastUrl, string length, string type)
-        {
-            // Urlがまだセットされていない場合はとりあえずUrl、Length、Typeを設定して終了
-            if (GetPlayUrl() == null)
-            {
-                this.Url = podcastUrl;
-                this.Length = length;
-                this.Type = type;
-
-                return;
-            }
-
-            // 現在セットされているエンクロージャー要素より、新たに指定されたエンクロージャー
-            // 要素の方が優先度の高い場合は、新しい方のエンクロージャー要素をセットする。
-            if (RssPodcastMimePriority.GetRssPodcastMimePriority(this.Type)
-                < RssPodcastMimePriority.GetRssPodcastMimePriority(type))
-            {
-                this.Url = podcastUrl;
-                this.Length = length;
-                this.Type = type;
-            }
-        }
-
-        /// <summary>
         /// 番組がローカルファイルにあるかを返す
         /// </summary>
         /// <returns>番組がローカルファイルにあるか</returns>
         public virtual bool IsLocal()
         {
+            if (url == null)
+            {
+                return false;
+            }
+
             return url.IsFile;
         }
 
@@ -330,14 +304,28 @@ namespace PodcasCo.Stations.RssPodcast
         {
             Channel channel = new Channel((Headline)parentHeadline);
             channel.Title = (string)(Title.Clone());
-            channel.Link = new Uri(GetWebsiteUrl().ToString());
+            if (GetWebsiteUrl() != null)
+            {
+                channel.Link = new Uri(GetWebsiteUrl().ToString());
+            }
+            else
+            {
+                channel.Link = null;
+            }
             channel.Description = (string)(channel.Description.Clone());
             channel.SetDate(
                 Date.ToString("ddd, d MMM yyyy HH':'mm':'ss zzz",
                 System.Globalization.DateTimeFormatInfo.InvariantInfo));
             channel.Category = (string)(Category.Clone());
             channel.Author = (string)(Author.Clone());
-            channel.Url = new Uri(GetPlayUrl().ToString());
+            if (GetPlayUrl() != null)
+            {
+                channel.Url = new Uri(GetPlayUrl().ToString());
+            }
+            else
+            {
+                channel.Url = null;
+            }
             channel.Length = (string)(Length.Clone());
             channel.Type = (string)(Type.Clone());
             channel.check = false;

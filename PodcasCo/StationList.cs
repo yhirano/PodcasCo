@@ -309,6 +309,12 @@ namespace PodcasCo
                 {
                     try
                     {
+                        // URLがnullの場合に対処
+                        if (channel.GetPlayUrl() == null)
+                        {
+                            throw new WebException();
+                        }
+
                         string directoryName = UserSetting.PodcastClipDirectoryPath
                             + @"\" + channel.ParentHeadline.ParentStation.LocalHeadline.GetId();
 

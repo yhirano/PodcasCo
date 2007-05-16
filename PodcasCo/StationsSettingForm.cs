@@ -98,14 +98,14 @@ namespace PodcasCo
             // stationListLabel
             // 
             this.stationListLabel.Location = new System.Drawing.Point(3, 77);
-            this.stationListLabel.Size = new System.Drawing.Size(84, 20);
+            this.stationListLabel.Size = new System.Drawing.Size(234, 20);
             this.stationListLabel.Text = "Podcast一覧";
             // 
             // addPodcastUrlLabel
             // 
             this.addPodcastUrlLabel.Location = new System.Drawing.Point(3, 4);
-            this.addPodcastUrlLabel.Size = new System.Drawing.Size(110, 20);
-            this.addPodcastUrlLabel.Text = "PodcastのRSS URL";
+            this.addPodcastUrlLabel.Size = new System.Drawing.Size(234, 20);
+            this.addPodcastUrlLabel.Text = "PodcastのRSS URL (RSS 2.0のみ)";
             // 
             // stationListBox
             // 
