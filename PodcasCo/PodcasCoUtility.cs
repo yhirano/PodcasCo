@@ -176,6 +176,7 @@ namespace PodcasCo
                 try
                 {
                     ws.CreateWebStream();
+                    ws.FetchFile(fileName);
                 }
                 catch (MismatchFetchFileException)
                 {
@@ -184,13 +185,13 @@ namespace PodcasCo
                     File.Delete(fileName);
                     ws.RemoveResume();
                     ws.CreateWebStream();
+                    ws.FetchFile(fileName);
                 }
                 catch (AlreadyFetchFileException)
                 {
                     // ファイルがすでに存在する場合は何もしない
                     ;
                 }
-                ws.FetchFile(fileName);
             }
             finally
             {

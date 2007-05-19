@@ -246,11 +246,14 @@ namespace PodcasCo
         private void SetClipingProgressValue(int value)
         {
             int kbValue = (value >> 10); // キロバイト単位に変換
-            progress2Label.Text = kbValue.ToString() + " KB / "
-                + progress2Maximum.ToString() + " KB";
-            if (progress2ProgressBar.Maximum >= kbValue)
+            progress2Label.Text = kbValue.ToString() + " KB";
+            if (progress2ProgressBar.Maximum > 0)
             {
-                progress2ProgressBar.Value = kbValue;
+                progress2Label.Text += " / " + progress2Maximum.ToString() + " KB";
+                if (progress2ProgressBar.Maximum >= kbValue)
+                {
+                    progress2ProgressBar.Value = kbValue;
+                }
             }
 
             // 強制的に再描画

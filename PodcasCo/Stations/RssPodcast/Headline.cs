@@ -460,6 +460,11 @@ namespace PodcasCo.Stations.RssPodcast
             }
             catch (XmlException)
             {
+                // ローカルヘッドラインの解析に失敗した場合は、そのファイルを削除する
+                if (setting.RssUrl.IsFile == true)
+                {
+                    File.Delete(setting.RssUrl.LocalPath);
+                }
                 throw;
             }
             catch (ArgumentException)
@@ -527,9 +532,12 @@ namespace PodcasCo.Stations.RssPodcast
                     writer.WriteString(channel.Title);
                     writer.WriteEndElement(); // End of title.
 
-                    writer.WriteStartElement("link");
-                    writer.WriteString(channel.GetWebsiteUrl().ToString());
-                    writer.WriteEndElement(); // End of link.
+                    if (channel.GetWebsiteUrl() != null)
+                    {
+                        writer.WriteStartElement("link");
+                        writer.WriteString(channel.GetWebsiteUrl().ToString());
+                        writer.WriteEndElement(); // End of link.
+                    }
 
                     writer.WriteStartElement("description");
                     writer.WriteString(channel.Description);

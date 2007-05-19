@@ -211,7 +211,7 @@ namespace PodcasCo
         /// <summary>
         /// 全放送局のヘッドラインを取得する
         /// </summary>
-        public static void FetchHeadlineOfCurrentStations()
+        public static void FetchHeadlineOnStations()
         {
             foreach (Station station in GetStationList())
             {
@@ -221,13 +221,55 @@ namespace PodcasCo
         }
 
         /// <summary>
+        /// 全放送局のグローバルにあるヘッドラインを取得する
+        /// </summary>
+        public static void FetchGlobalHeadlineOnStations()
+        {
+            foreach (Station station in GetStationList())
+            {
+                station.GlobalHeadline.FetchHeadline();
+            }
+        }
+
+        /// <summary>
         /// 全放送局のローカルにあるヘッドラインを取得する
         /// </summary>
-        public static void FetchLocalHeadlineOfCurrentStations()
+        public static void FetchLocalHeadlineOnStations()
         {
             foreach (Station station in GetStationList())
             {
                 station.LocalHeadline.FetchHeadline();
+            }
+        }
+
+        /// <summary>
+        /// 選択している放送局のヘッドラインを取得する
+        /// </summary>
+        public static void FetchHeadlineOfCurrentStation()
+        {
+            if (currentStation != null)
+            {
+                currentStation.LocalHeadline.FetchHeadline();
+                currentStation.GlobalHeadline.FetchHeadline();
+            }
+            else
+            {
+                FetchHeadlineOnStations();
+            }
+        }
+
+        /// <summary>
+        /// 選択している放送局のグローバルにあるヘッドラインを取得する
+        /// </summary>
+        public static void FetchGlobalHeadlineOfCurrentStation()
+        {
+            if (currentStation != null)
+            {
+                currentStation.GlobalHeadline.FetchHeadline();
+            }
+            else
+            {
+                FetchGlobalHeadlineOnStations();
             }
         }
 

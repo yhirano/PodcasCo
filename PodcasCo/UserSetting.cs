@@ -244,7 +244,19 @@ namespace PodcasCo
                                             Trace.Assert(false, "想定外の動作のため、終了します");
                                         }
 
-                                        alStation.Add(new Station(id, name, stationKind));
+                                        try
+                                        {
+                                            alStation.Add(new Station(id, name, stationKind));
+                                        }
+                                        // ローカルヘッドラインの解析が失敗した場合は、そのヘッドラインを無視する
+                                        catch (XmlException)
+                                        {
+                                            ;
+                                        }
+                                        catch (IOException)
+                                        {
+                                            ;
+                                        }
                                     }
                                 } // End of Station
                             } // End of StationListタグの中にいる場合

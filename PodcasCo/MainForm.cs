@@ -431,7 +431,7 @@ namespace PodcasCo
         /// </summary>
         private enum CheckHeadlinesOption
         {
-            All, LocalOnly
+            GlobalAndLocal, LocalOnly
         }
 
         /// <summary>
@@ -451,16 +451,16 @@ namespace PodcasCo
 
                 #region 番組取得処理
 
-                if (option == CheckHeadlinesOption.All)
+                if (option == CheckHeadlinesOption.GlobalAndLocal)
                 {
                     // 番組を取得する（グローバル・ローカル）
-                    StationList.FetchHeadlineOfCurrentStations();
-
+                    StationList.FetchGlobalHeadlineOfCurrentStation();
+                    StationList.FetchLocalHeadlineOnStations();
                 }
                 else if (option == CheckHeadlinesOption.LocalOnly)
                 {
                     // 番組を取得する（ローカル）
-                    StationList.FetchLocalHeadlineOfCurrentStations();
+                    StationList.FetchLocalHeadlineOnStations();
                 }
                 else
                 {
@@ -853,7 +853,7 @@ namespace PodcasCo
 
         private void UpdateButton_Click(object sender, EventArgs e)
         {
-            CheckHeadlines(CheckHeadlinesOption.All);
+            CheckHeadlines(CheckHeadlinesOption.GlobalAndLocal);
         }
 
         private void StationListView_ItemCheck(object sender, ItemCheckEventArgs e)

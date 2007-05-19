@@ -178,6 +178,11 @@ namespace PodcasCo.Stations.RssPodcast
         /// <param name="pubDate">番組の配信日時の文字列</param>
         public void SetDate(string pubDate)
         {
+            if (pubDate == null)
+            {
+                date = DateTime.Now;
+            }
+
             try
             {
                 date = DateTime.ParseExact(pubDate, "ddd, d MMM yyyy HH':'mm':'ss zzz",
@@ -186,7 +191,16 @@ namespace PodcasCo.Stations.RssPodcast
             }
             catch (FormatException)
             {
-                date = DateTime.Now;
+                try
+                {
+                    date = DateTime.Parse(pubDate,
+                        System.Globalization.DateTimeFormatInfo.InvariantInfo,
+                        System.Globalization.DateTimeStyles.None);
+                }
+                catch (FormatException)
+                {
+                    date = DateTime.Now;
+                }
             }
         }
 
