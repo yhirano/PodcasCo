@@ -85,6 +85,9 @@
     <Compile Include="StationsSettingForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="StationStartupSettingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Stations\IChannel.cs" />
     <Compile Include="Stations\IHeadline.cs" />
     <Compile Include="Stations\RssPodcast\Channel.cs" />
@@ -130,6 +133,10 @@
       <DependentUpon>ClippingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resource\RssPodcastMimePriority.txt" />
+    <EmbeddedResource Include="StationStartupSettingForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>StationStartupSettingForm.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MiscPocketCompactLibrary\MiscPocketCompactLibrary\MiscPocketCompactLibrary.csproj">

@@ -52,6 +52,34 @@ namespace PodcasCo
 
         /// <summary>
         /// 現在の放送局を変更する。
+        /// 指定した放送局が無い場合は、現在の放送局は変更されない。
+        /// nullを指定すると、全放送局が対象となる。
+        /// </summary>
+        /// <param name="station">現在の放送局にする放送局</param>
+        public static void ChangeCurrentStation(Station station)
+        {
+            if (station != null)
+            {
+                // 指定された放送局が放送局リストの中に存在する場合は、
+                // 指定された放送局を現在の放送局にする
+                foreach (Station st in stations)
+                {
+                    if (st == station)
+                    {
+                        currentStation = station;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                // 全放送局にする
+                currentStation = null;
+            }
+        }
+
+        /// <summary>
+        /// 現在の放送局を変更する。
         /// -1を指定すると全放送局が対象となる。
         /// </summary>
         /// <param name="number">何番目の放送局か（0から始まる）。-1を指定すると全放送局が対象となる。</param>
@@ -133,7 +161,6 @@ namespace PodcasCo
             else
             {
                 IChannel[] channels = new IChannel[0];
-                Station[] stations = GetStationList();
                 foreach (Station station in GetStationList())
                 {
                     channels = ChannelMarge(channels, station.LocalHeadline.GetChannels());

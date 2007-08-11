@@ -1,6 +1,7 @@
 ﻿#region ディレクティブを使用する
 
 using System;
+using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -96,6 +97,62 @@ namespace PodcasCo
         public StationKind Kind
         {
             get { return kind; }
+        }
+
+        /// <summary>
+        /// 起動時にヘッドラインをダウンロードするか
+        /// </summary>
+        private bool startupDownload = false;
+
+        /// <summary>
+        /// 起動時にヘッドラインをダウンロードするか
+        /// </summary>
+        public bool StartupDownload
+        {
+            get { return startupDownload; }
+            set { startupDownload = value; }
+        }
+
+        /// <summary>
+        /// 起動時にこの放送局がダウンロードするヘッドラインの数
+        /// </summary>
+        private int startupDownloadNum = 0;
+
+        /// <summary>
+        /// 起動時にこの放送局がダウンロードするヘッドラインの数
+        /// </summary>
+        public int StartupDownloadNum
+        {
+            get { return startupDownloadNum; }
+            set { startupDownloadNum = value; }
+        }
+
+        /// <summary>
+        /// 起動時にヘッドラインを削除するか
+        /// </summary>
+        private bool startupDelete = false;
+
+        /// <summary>
+        /// 起動時にヘッドラインを削除するか
+        /// </summary>
+        public bool StartupDelete
+        {
+            get { return startupDelete; }
+            set { startupDelete = value; }
+        }
+
+        /// <summary>
+        /// 起動時にこの放送局がこれよりも古いヘッドラインを削除する日数
+        /// </summary>
+        private int startupDeleteDay = 0;
+
+        /// <summary>
+        /// 起動時にこの放送局がこれよりも古いヘッドラインを削除する日数
+        /// </summary>
+        public int StartupDeleteDay
+        {
+            get { return startupDeleteDay; }
+            set { startupDeleteDay = value; }
         }
 
         /// <summary>
@@ -232,6 +289,24 @@ namespace PodcasCo
             {
                 throw;
             }
+        }
+
+        /// <summary>
+        /// channelがローカルヘッドラインに含まれるかを返す。
+        /// </summary>
+        /// <param name="channel">channel</param>
+        /// <returns>channelがローカルヘッドラインに含まれる場合はtrue、そうでない場合はfalse。</returns>
+        public bool ContainLocalHeadline(IChannel channel)
+        {
+            foreach (IChannel ch in LocalHeadline.GetChannels())
+            {
+                if (ch == channel)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

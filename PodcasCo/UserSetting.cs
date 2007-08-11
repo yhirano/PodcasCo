@@ -228,11 +228,16 @@ namespace PodcasCo
                                     string id = "";
                                     string name = "";
                                     Station.StationKind stationKind = Station.StationKind.RssPodcast;
+                                    bool startupDownload = false;
+                                    int startupDownloadNum = 0;
+                                    bool startupDelete = false;
+                                    int startupDeleteDay = 0;
 
                                     if (reader.MoveToFirstAttribute())
                                     {
                                         id = reader.GetAttribute("id");
                                         name = reader.GetAttribute("name");
+
                                         string kind = reader.GetAttribute("kind");
                                         if (kind == Station.StationKind.RssPodcast.ToString())
                                         {
@@ -244,9 +249,78 @@ namespace PodcasCo
                                             Trace.Assert(false, "想定外の動作のため、終了します");
                                         }
 
+                                        string startupDownloadString = reader.GetAttribute("startupDownload");
+                                        if (startupDownloadString == true.ToString())
+                                        {
+                                            startupDownload = true;
+                                        }
+                                        else
+                                        {
+                                            startupDownload = false;
+                                        }
+
+                                        string startupDownloadNumString = reader.GetAttribute("startupDownloadNum");
                                         try
                                         {
-                                            alStation.Add(new Station(id, name, stationKind));
+                                            startupDownloadNum = int.Parse(startupDownloadNumString);
+                                        }
+                                        catch (ArgumentException)
+                                        {
+                                            ;
+                                        }
+                                        catch (FormatException)
+                                        {
+                                            ;
+                                        }
+                                        catch (OverflowException)
+                                        {
+                                            ;
+                                        }
+                                        if (startupDownloadNum<0)
+                                        {
+                                            startupDownloadNum = 0;
+                                        }
+
+                                        string startupDeleteString = reader.GetAttribute("startupDelete");
+                                        if (startupDeleteString == true.ToString())
+                                        {
+                                            startupDelete = true;
+                                        }
+                                        else
+                                        {
+                                            startupDelete = false;
+                                        }
+
+                                        string startupDeleteDayString = reader.GetAttribute("startupDeleteDay");
+                                        try
+                                        {
+                                            startupDeleteDay = int.Parse(startupDeleteDayString);
+                                        }
+                                        catch (ArgumentException)
+                                        {
+                                            ;
+                                        }
+                                        catch (FormatException)
+                                        {
+                                            ;
+                                        }
+                                        catch (OverflowException)
+                                        {
+                                            ;
+                                        }
+                                        if (startupDeleteDay < 0)
+                                        {
+                                            startupDeleteDay = 0;
+                                        }
+
+                                        try
+                                        {
+                                            Station station = new Station(id, name, stationKind);
+                                            station.StartupDownload = startupDownload;
+                                            station.StartupDownloadNum = startupDownloadNum;
+                                            station.StartupDelete = startupDelete;
+                                            station.StartupDeleteDay = startupDeleteDay;
+                                            alStation.Add(station);
                                         }
                                         // ローカルヘッドラインの解析が失敗した場合は、そのヘッドラインを無視する
                                         catch (XmlException)
@@ -407,6 +481,10 @@ namespace PodcasCo
                     writer.WriteAttributeString("id", station.Id);
                     writer.WriteAttributeString("name", station.Name);
                     writer.WriteAttributeString("kind", station.Kind.ToString());
+                    writer.WriteAttributeString("startupDownload", station.StartupDownload.ToString());
+                    writer.WriteAttributeString("startupDownloadNum", station.StartupDownloadNum.ToString());
+                    writer.WriteAttributeString("startupDelete", station.StartupDelete.ToString());
+                    writer.WriteAttributeString("startupDeleteDay", station.StartupDeleteDay.ToString());
                     writer.WriteEndElement(); // End of Station
                 }
                 writer.WriteEndElement(); // End of StationList

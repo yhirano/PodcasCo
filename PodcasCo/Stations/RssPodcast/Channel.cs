@@ -266,6 +266,15 @@ namespace PodcasCo.Stations.RssPodcast
         }
 
         /// <summary>
+        /// 番組の日付を返す
+        /// </summary>
+        /// <returns>番組の日付</returns>
+        public virtual DateTime GetDate()
+        {
+            return Date;
+        }
+
+        /// <summary>
         /// 番組の詳細フォームを表示する
         /// </summary>
         /// <param name="channel">番組</param>

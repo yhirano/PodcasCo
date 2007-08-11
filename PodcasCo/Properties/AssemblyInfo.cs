@@ -13,7 +13,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("PodcasCo")]
-[assembly: AssemblyCopyright("Copyright (C) 2006-2007 Uraroji")]
+[assembly: AssemblyCopyright("Copyright (C) 2006-2007 Y.Hirano")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: Guid("d86d2391-571d-440d-ac76-2debf31bf1bc")]
@@ -29,5 +29,5 @@ using System.Resources;
 // すべての値を指定するか、下のように '*' を使ってリビジョンおよびビルド番号を 
 // 既定値にすることができます:
 
-[assembly: AssemblyVersion("0.6.6.0")]
+[assembly: AssemblyVersion("0.7.0.0")]
 [assembly: NeutralResourcesLanguageAttribute("ja")]

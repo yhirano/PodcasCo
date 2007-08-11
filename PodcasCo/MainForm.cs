@@ -61,6 +61,7 @@ namespace PodcasCo
         /// 現在表示されている番組リスト
         /// </summary>
         private IChannel[] currentChannels;
+        private MenuItem stationStartupSettingMenuItem;
 
         /// <summary>
         /// アンカーコントロールのリスト
@@ -113,6 +114,7 @@ namespace PodcasCo
             this.clipSelectedPodcastMenuItem = new System.Windows.Forms.MenuItem();
             this.deleteSelectedPodcastMenuItem = new System.Windows.Forms.MenuItem();
             this.clipInfomationLabel = new System.Windows.Forms.Label();
+            this.stationStartupSettingMenuItem = new System.Windows.Forms.MenuItem();
             // 
             // mainMenu
             // 
@@ -122,6 +124,7 @@ namespace PodcasCo
             // 
             this.menuMenuItem.MenuItems.Add(this.stationsSettingMenuItem);
             this.menuMenuItem.MenuItems.Add(this.podcasCoSettingMenuItem);
+            this.menuMenuItem.MenuItems.Add(this.stationStartupSettingMenuItem);
             this.menuMenuItem.MenuItems.Add(this.separateMenuItem1);
             this.menuMenuItem.MenuItems.Add(this.versionInfoMenuItem);
             this.menuMenuItem.MenuItems.Add(this.separateMenuItem2);
@@ -135,7 +138,7 @@ namespace PodcasCo
             // 
             // podcasCoSettingMenuItem
             // 
-            this.podcasCoSettingMenuItem.Text = "podcasCo設定(&P)";
+            this.podcasCoSettingMenuItem.Text = "PodcasCo設定(&P)";
             this.podcasCoSettingMenuItem.Click += new System.EventHandler(this.PodcasCoSettingMenuItem_Click);
             // 
             // separateMenuItem1
@@ -273,6 +276,11 @@ namespace PodcasCo
             this.clipInfomationLabel.Location = new System.Drawing.Point(3, 248);
             this.clipInfomationLabel.Size = new System.Drawing.Size(74, 20);
             this.clipInfomationLabel.Text = "0/0/0";
+            // 
+            // stationStartupSettingMenuItem
+            // 
+            this.stationStartupSettingMenuItem.Text = "起動時の設定(&S)";
+            this.stationStartupSettingMenuItem.Click += new System.EventHandler(this.stationStartupSettingMenuItem_Click);
             // 
             // MainForm
             // 
@@ -776,13 +784,11 @@ namespace PodcasCo
                 // 起動直後には放送局切り替えボックスで"All"を選択する
                 stationFilterComboBox.SelectedIndex = 0;
 
-                // 番組リストがある場合
-                if (StationList.GetChannelsOfCurrentStationFromLocalHeadline().Length > 0)
+                // 放送局リストがある場合
+                if (StationList.GetStationList().Length > 0)
                 {
                     // ローカルヘッドラインのみの番組表をチェックする
                     CheckHeadlines(CheckHeadlinesOption.LocalOnly);
-
-                    UpdateChannelList();
                 }
             }
             catch (XmlException)
@@ -796,6 +802,120 @@ namespace PodcasCo
             catch (ArgumentNullException)
             {
                 MessageBox.Show("設定ファイルが読み込めませんでした", "設定ファイルの読み込みエラー");
+            }
+
+            #region 起動時自動ダウンロード
+
+            // クリップする番組の数をカウントする
+            int clipCount = 0;
+
+            foreach (Station station in StationList.GetStationList())
+            {
+                // 現在の放送局を設定する
+                StationList.ChangeCurrentStation(station);
+
+                // 指定の個数の番組を自動ダウンロードし、指定の日数より古い番組を自動削除する
+                if (station.StartupDownload == true && station.StartupDelete == true)
+                {
+                    // 指定の個数の番組を自動ダウンロードする
+                    if (station.StartupDownloadNum > 0)
+                    {
+                        // グローバルヘッドラインを取得する
+                        station.GlobalHeadline.FetchHeadline();
+                        // グローバル・ローカルの両方の番組
+                        IChannel[] channels = StationList.GetChannelsOfCurrentStationFromAllHeadline();
+                        // 日付で降順ソートする
+                        Array.Sort(channels, 0, channels.Length, (IComparer)new ChannelDateComparer());
+                        Array.Reverse(channels, 0, channels.Length);
+
+                        // これより古い日付のものはダウンロードしない
+                        DateTime undownloadDate = DateTime.Today.Subtract(new TimeSpan(station.StartupDeleteDay, 0, 0, 0));
+
+                        for (int i = 0; i < station.StartupDownloadNum; ++i)
+                        {
+                            if (station.ContainLocalHeadline(channels[i]) == false && channels[i].GetDate() > undownloadDate)
+                            {
+                                // チェックを立てる
+                                channels[i].Check = true;
+                                ++clipCount;
+                            }
+                        }
+                    }
+                }
+                else if (station.StartupDownload == true && station.StartupDelete == false)
+                {
+                    // 指定の個数の番組を自動ダウンロードする
+                    if (station.StartupDownloadNum > 0)
+                    {
+                        // グローバルヘッドラインを取得する
+                        station.GlobalHeadline.FetchHeadline();
+                        // グローバル・ローカルの両方の番組
+                        IChannel[] channels = StationList.GetChannelsOfCurrentStationFromAllHeadline();
+                        // 日付で降順ソートする
+                        Array.Sort(channels, 0, channels.Length, (IComparer)new ChannelDateComparer());
+                        Array.Reverse(channels, 0, channels.Length);
+
+                        for (int i = 0; i < station.StartupDownloadNum; ++i)
+                        {
+                            if (station.ContainLocalHeadline(channels[i]) == false)
+                            {
+                                // チェックを立てる
+                                channels[i].Check = true;
+                                ++clipCount;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 現在の放送局を全放送局に戻す
+            StationList.ChangeCurrentStationAt(-1);
+
+            // ダウンロードする番組が存在する場合
+            if (clipCount > 0)
+            {
+                // チェックのある番組をダウンロードする
+                ClipPodcast();
+            }
+
+            #endregion // 起動時自動ダウンロード
+
+            #region 起動時自動削除
+
+            // クリップする番組の数をカウントする
+            int deleteCount = 0;
+
+            foreach (Station station in StationList.GetStationList())
+            {
+                // 指定の日数より古い番組を自動削除する
+                if (station.StartupDeleteDay > 0)
+                {
+                    // これより古い日付のものは削除する
+                    DateTime deleteDate = DateTime.Today.Subtract(new TimeSpan(station.StartupDeleteDay, 0, 0, 0));
+                    foreach (IChannel channel in station.LocalHeadline.GetChannels())
+                    {
+                        if (channel.GetDate() <= deleteDate)
+                        {
+                            channel.Check = true;
+                            ++deleteCount;
+                        }
+                    }
+                }
+            }
+
+            // 削除する番組が存在する場合
+            if (deleteCount > 0)
+            {
+                // チェックのある番組を削除する
+                DeletePodcast();
+            }
+
+            #endregion // 起動時自動削除
+
+            // 番組リストがある場合
+            if (StationList.GetChannelsOfCurrentStationFromLocalHeadline().Length > 0)
+            {
+                UpdateChannelList();
             }
 
             SetAnchorControl();
@@ -827,6 +947,13 @@ namespace PodcasCo
             StationsSettingForm stationSettingForm = new StationsSettingForm();
             stationSettingForm.ShowDialog();
             stationSettingForm.Dispose();
+        }
+
+        private void stationStartupSettingMenuItem_Click(object sender, EventArgs e)
+        {
+            StationStartupSettingForm stationStartupSettingForm = new StationStartupSettingForm();
+            stationStartupSettingForm.ShowDialog();
+            stationStartupSettingForm.Dispose();
         }
 
         private void StationFilterComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -920,6 +1047,20 @@ namespace PodcasCo
         private void MainForm_Resize(object sender, EventArgs e)
         {
             FixWindowSize();
+        }
+
+        /// <summary>
+        /// 日付を比較
+        /// </summary>
+        private class ChannelDateComparer : IComparer
+        {
+            public int Compare(object object1, object object2)
+            {
+                IChannel channel1 = (IChannel)object1;
+                IChannel channel2 = (IChannel)object2;
+
+                return DateTime.Compare(channel1.GetDate(), channel2.GetDate());
+            }
         }
     }
 }
