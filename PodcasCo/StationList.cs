@@ -372,82 +372,62 @@ namespace PodcasCo
                 clippingForm.OnFile(new FileEventArgs(0, alSelectedGlobalChannels.Count));
             }
 
-            try
+            foreach (IChannel channel in (IChannel[])alSelectedGlobalChannels.ToArray(typeof(IChannel)))
             {
-                foreach (IChannel channel in (IChannel[])alSelectedGlobalChannels.ToArray(typeof(IChannel)))
+                try
                 {
-                    try
+                    // URLがnullの場合に対処
+                    if (channel.GetPlayUrl() == null)
                     {
-                        // URLがnullの場合に対処
-                        if (channel.GetPlayUrl() == null)
-                        {
-                            throw new WebException();
-                        }
-
-                        string directoryName = UserSetting.PodcastClipDirectoryPath
-                            + @"\" + channel.ParentHeadline.ParentStation.LocalHeadline.GetId();
-
-                        if (Directory.Exists(directoryName) == false)
-                        {
-                            Directory.CreateDirectory(directoryName);
-                        }
-
-                        string generateFilePath = directoryName + @"\"
-                            + Path.GetFileNameWithoutExtension(channel.GetPlayUrl().LocalPath)
-                            + "-" + channel.GetHash().ToString("x")
-                            + Path.GetExtension(channel.GetPlayUrl().LocalPath);
-
-                        PodcasCoUtility.FetchFile(channel.GetPlayUrl(), generateFilePath,
-                            new FetchEventHandler(clippingForm.ClipReceiver), 
-                            new FetchEventHandler(clippingForm.ClippingReceiver),
-                            null);
-
-                        // 番組をローカルヘッドラインに加える
-                        IChannel localChannel = (IChannel)channel.Clone(channel.ParentHeadline.ParentStation.LocalHeadline);
-                        localChannel.SetPlayUrl(new Uri(generateFilePath));
-                        localChannel.ParentHeadline.ParentStation.LocalHeadline.AddChannel(localChannel);
-
-                        // ダウンロードした番組の元のグローバル番組からはチェックを外す
-                        channel.Check = false;
-                    }
-                    catch (WebException)
-                    {
-                        cannotCliped = true;
-                        cannotClipedString += channel.ParentHeadline.ParentStation.Name + " - " +  channel.GetTitle() + "\n";
-                    }
-                    catch (UriFormatException)
-                    {
-                        cannotCliped = true;
-                        cannotClipedString += channel.ParentHeadline.ParentStation.Name + " - " + channel.GetTitle() + "\n";
-                    }
-                    catch (SocketException)
-                    {
-                        cannotCliped = true;
-                        cannotClipedString += channel.ParentHeadline.ParentStation.Name + " - " + channel.GetTitle() + "\n";
+                        throw new WebException();
                     }
 
-                    if (clippingForm != null)
+                    string directoryName = UserSetting.PodcastClipDirectoryPath
+                        + @"\" + channel.ParentHeadline.ParentStation.LocalHeadline.GetId();
+
+                    if (Directory.Exists(directoryName) == false)
                     {
-                        clippingForm.OnFiling(new FileEventArgs(++alreadyClippingFiles, alSelectedGlobalChannels.Count));
+                        Directory.CreateDirectory(directoryName);
                     }
+
+                    string generateFilePath = directoryName + @"\"
+                        + Path.GetFileNameWithoutExtension(channel.GetPlayUrl().LocalPath)
+                        + "-" + channel.GetHash().ToString("x")
+                        + Path.GetExtension(channel.GetPlayUrl().LocalPath);
+
+                    PodcasCoUtility.FetchFile(channel.GetPlayUrl(), generateFilePath,
+                        new FetchEventHandler(clippingForm.ClipReceiver),
+                        new FetchEventHandler(clippingForm.ClippingReceiver),
+                        null);
+
+                    // 番組をローカルヘッドラインに加える
+                    IChannel localChannel = (IChannel)channel.Clone(channel.ParentHeadline.ParentStation.LocalHeadline);
+                    localChannel.SetPlayUrl(new Uri(generateFilePath));
+                    localChannel.ParentHeadline.ParentStation.LocalHeadline.AddChannel(localChannel);
+
+                    // ダウンロードした番組の元のグローバル番組からはチェックを外す
+                    channel.Check = false;
+                }
+                catch (WebException)
+                {
+                    cannotCliped = true;
+                    cannotClipedString += channel.ParentHeadline.ParentStation.Name + " - " + channel.GetTitle() + "\n";
+                }
+                catch (UriFormatException)
+                {
+                    cannotCliped = true;
+                    cannotClipedString += channel.ParentHeadline.ParentStation.Name + " - " + channel.GetTitle() + "\n";
+                }
+                catch (SocketException)
+                {
+                    cannotCliped = true;
+                    cannotClipedString += channel.ParentHeadline.ParentStation.Name + " - " + channel.GetTitle() + "\n";
                 }
 
-            }
-            catch (OutOfMemoryException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
-            catch (ArgumentException)
-            {
-                throw;
-            }
-            catch (UnauthorizedAccessException)
-            {
-                throw;
+                if (clippingForm != null)
+                {
+                    clippingForm.OnFiling(new FileEventArgs(++alreadyClippingFiles, alSelectedGlobalChannels.Count));
+                }
             }
 
             // RSSを作成

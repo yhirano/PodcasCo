@@ -139,21 +139,6 @@ namespace PodcasCo
             {
                 ws = new WebStream(url);
 
-                if (fetchEventHandler != null)
-                {
-                    ws.Fetch += fetchEventHandler;
-                }
-                if (fetchingEventHandler != null)
-                {
-                    ws.Fetching += fetchingEventHandler;
-
-                }
-                if (fetchedEventHandler != null)
-                {
-                    ws.Fetched += fetchedEventHandler;
-
-                }
-
                 switch (PodcasCo.UserSetting.ProxyUse)
                 {
                     case UserSetting.ProxyConnect.Unuse:
@@ -170,12 +155,26 @@ namespace PodcasCo
                 ws.ProxyPort = PodcasCo.UserSetting.ProxyPort;
                 ws.TimeOut = PodcasCoInfo.WebRequestTimeoutMillSec;
                 ws.UserAgent = PodcasCoInfo.UserAgent;
-                ws.DownLoadBufferSize = PodcasCo.UserSetting.DownLoadBufferSize;
+                
                 ws.SetResume(fileName);
                 try
                 {
                     ws.CreateWebStream();
-                    ws.FetchFile(fileName);
+                    WebFileFetch fetch = new WebFileFetch(ws);
+                    fetch.DownLoadBufferSize = PodcasCo.UserSetting.DownLoadBufferSize;
+                    if (fetchEventHandler != null)
+                    {
+                        fetch.Fetch += fetchEventHandler;
+                    }
+                    if (fetchingEventHandler != null)
+                    {
+                        fetch.Fetching += fetchingEventHandler;
+                    }
+                    if (fetchedEventHandler != null)
+                    {
+                        fetch.Fetched += fetchedEventHandler;
+                    }
+                    fetch.FetchFile(fileName);
                 }
                 catch (MismatchFetchFileException)
                 {
@@ -184,7 +183,21 @@ namespace PodcasCo
                     File.Delete(fileName);
                     ws.RemoveResume();
                     ws.CreateWebStream();
-                    ws.FetchFile(fileName);
+                    WebFileFetch fetch = new WebFileFetch(ws);
+                    fetch.DownLoadBufferSize = PodcasCo.UserSetting.DownLoadBufferSize;
+                    if (fetchEventHandler != null)
+                    {
+                        fetch.Fetch += fetchEventHandler;
+                    }
+                    if (fetchingEventHandler != null)
+                    {
+                        fetch.Fetching += fetchingEventHandler;
+                    }
+                    if (fetchedEventHandler != null)
+                    {
+                        fetch.Fetched += fetchedEventHandler;
+                    }
+                    fetch.FetchFile(fileName);
                 }
                 catch (AlreadyFetchFileException)
                 {

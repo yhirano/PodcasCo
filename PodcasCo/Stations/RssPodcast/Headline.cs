@@ -66,18 +66,7 @@ namespace PodcasCo.Stations.RssPodcast
             this.parentStation = parentStation;
             setting = new UserSetting(this);
 
-            try
-            {
-                setting.LoadSetting();
-            }
-            catch (XmlException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
+            setting.LoadSetting();
         }
 
         /// <summary>
@@ -86,14 +75,7 @@ namespace PodcasCo.Stations.RssPodcast
         /// </summary>
         public static void StartUpInitialize()
         {
-            try
-            {
-                RssPodcastMimePriority.Initialize();
-            }
-            catch (ArgumentNullException)
-            {
-                throw;
-            }
+            RssPodcastMimePriority.Initialize();
         }
 
         /// <summary>
@@ -228,41 +210,6 @@ namespace PodcasCo.Stations.RssPodcast
 
                 // トップ下のtitleが見あたらないために、とりあえずUrlを返しておく
                 return ((title != null) ? title : setting.RssUrl.ToString());
-            }
-            catch (WebException)
-            {
-                throw;
-            }
-            catch (OutOfMemoryException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
-            catch (UriFormatException)
-            {
-                throw;
-            }
-            catch (SocketException)
-            {
-                throw;
-            }
-            catch (XmlException)
-            {
-                throw;
-            }
-            catch (ArgumentException)
-            {
-                throw;
-            }
-            catch (NotSupportedException)
-            {
-                // NotSupportedExceptionが何故起こるのかは不明。
-                // 存在するがRSSでない場合に起こるようではあるが、似た実装をしているFetchHeadline()
-                // では起こらないようである。
-                throw;
             }
             finally
             {
@@ -438,26 +385,6 @@ namespace PodcasCo.Stations.RssPodcast
 
                 channels = (Channel[])alChannels.ToArray(typeof(Channel));
             }
-            catch (WebException)
-            {
-                throw;
-            }
-            catch (OutOfMemoryException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
-            catch (UriFormatException)
-            {
-                throw;
-            }
-            catch (SocketException)
-            {
-                throw;
-            }
             catch (XmlException)
             {
                 // ローカルヘッドラインの解析に失敗した場合は、そのファイルを削除する
@@ -465,10 +392,6 @@ namespace PodcasCo.Stations.RssPodcast
                 {
                     File.Delete(setting.RssUrl.LocalPath);
                 }
-                throw;
-            }
-            catch (ArgumentException)
-            {
                 throw;
             }
             finally
@@ -565,10 +488,6 @@ namespace PodcasCo.Stations.RssPodcast
                 writer.WriteEndElement(); // End of rss.
 
                 writer.WriteEndDocument();
-            }
-            catch (IOException)
-            {
-                throw;
             }
             finally
             {

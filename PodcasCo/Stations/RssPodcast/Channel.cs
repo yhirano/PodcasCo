@@ -300,14 +300,7 @@ namespace PodcasCo.Stations.RssPodcast
 
             if (File.Exists(url.LocalPath))
             {
-                try
-                {
-                    File.Delete(url.LocalPath);
-                }
-                catch (IOException)
-                {
-                    throw;
-                }
+                File.Delete(url.LocalPath);
                 parentHeadline.RemoveChannel(this);
             }
             else

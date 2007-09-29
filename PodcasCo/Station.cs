@@ -193,62 +193,27 @@ namespace PodcasCo
             this.name = name;
             this.kind = stationKind;
 
-            try
+            if (kind.Equals(StationKind.RssPodcast))
             {
-                if (kind.Equals(StationKind.RssPodcast))
-                {
-                    globalHeadline = new PodcasCo.Stations.RssPodcast.Headline(id + "-global", this);
-                    globalHeadline.SetUrl(url);
-                    localHeadline = new PodcasCo.Stations.RssPodcast.Headline(id + "-local", this);
-                    localHeadline.SetUrl(new Uri(UserSetting.PodcastClipDirectoryPath + @"\" + localHeadline.GetId() + @"\" + PodcasCoInfo.LocalRssFile));
-                    localHeadline.FetchHeadline();
+                globalHeadline = new PodcasCo.Stations.RssPodcast.Headline(id + "-global", this);
+                globalHeadline.SetUrl(url);
+                localHeadline = new PodcasCo.Stations.RssPodcast.Headline(id + "-local", this);
+                localHeadline.SetUrl(new Uri(UserSetting.PodcastClipDirectoryPath + @"\" + localHeadline.GetId() + @"\" + PodcasCoInfo.LocalRssFile));
+                localHeadline.FetchHeadline();
 
-                    /*
-                     * 放送局の名前を得る（URLがNotFoundや、存在してもRSSで無いっぽい場合は例外が投げられるため
-                     * 以下の設定保存は実行されない）
-                     */
-                    FetchName();
+                /*
+                 * 放送局の名前を得る（URLがNotFoundや、存在してもRSSで無いっぽい場合は例外が投げられるため
+                 * 以下の設定保存は実行されない）
+                 */
+                FetchName();
 
-                    localHeadline.SaveSetting();
-                    globalHeadline.SaveSetting();
-                }
-                else
-                {
-                    // ここには到達しない
-                    Trace.Assert(false, "想定外の動作のため、終了します");
-                }
+                localHeadline.SaveSetting();
+                globalHeadline.SaveSetting();
             }
-            catch (WebException)
+            else
             {
-                throw;
-            }
-            catch (OutOfMemoryException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
-            catch (UriFormatException)
-            {
-                throw;
-            }
-            catch (SocketException)
-            {
-                throw;
-            }
-            catch (XmlException)
-            {
-                throw;
-            }
-            catch (ArgumentException)
-            {
-                throw;
-            }
-            catch (NotSupportedException)
-            {
-                throw;
+                // ここには到達しない
+                Trace.Assert(false, "想定外の動作のため、終了します");
             }
         }
 
@@ -257,38 +222,7 @@ namespace PodcasCo
         /// </summary>
         private void FetchName()
         {
-            try
-            {
-                name = globalHeadline.FetchStationName();
-            }
-            catch (WebException)
-            {
-                throw;
-            }
-            catch (OutOfMemoryException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
-            catch (UriFormatException)
-            {
-                throw;
-            }
-            catch (SocketException)
-            {
-                throw;
-            }
-            catch (XmlException)
-            {
-                throw;
-            }
-            catch (ArgumentException)
-            {
-                throw;
-            }
+            name = globalHeadline.FetchStationName();
         }
 
         /// <summary>

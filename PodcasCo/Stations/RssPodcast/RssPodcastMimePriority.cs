@@ -61,10 +61,6 @@ namespace PodcasCo.Stations.RssPodcast
                     }
                 }
             }
-            catch (ArgumentNullException)
-            {
-                throw;
-            }
             finally {
                 if (sr != null)
                 {

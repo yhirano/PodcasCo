@@ -48,25 +48,10 @@ namespace PodcasCo
         /// </summary>
         public static void StartUpInitialize()
         {
-            try
-            {
-                // 設定を読み込む
-                UserSetting.LoadSetting();
+            // 設定を読み込む
+            UserSetting.LoadSetting();
 
-                PodcasCo.Stations.RssPodcast.Headline.StartUpInitialize();
-            }
-            catch (XmlException)
-            {
-                throw;
-            }
-            catch (IOException)
-            {
-                throw;
-            }
-            catch (ArgumentNullException)
-            {
-                throw;
-            }
+            PodcasCo.Stations.RssPodcast.Headline.StartUpInitialize();
         }
 
         /// <summary>
@@ -74,15 +59,8 @@ namespace PodcasCo
         /// </summary>
         public static void ExitDisable()
         {
-            try
-            {
-                // 設定ファイルの書き込み
-                UserSetting.SaveSetting();
-            }
-            catch (IOException)
-            {
-                throw;
-            }
+            // 設定ファイルの書き込み
+            UserSetting.SaveSetting();
         }
     }
 }

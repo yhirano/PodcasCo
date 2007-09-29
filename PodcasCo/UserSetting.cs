@@ -423,14 +423,6 @@ namespace PodcasCo
                         }
                     }
                 }
-                catch (XmlException)
-                {
-                    throw;
-                }
-                catch (IOException)
-                {
-                    throw;
-                }
                 finally
                 {
                     reader.Close();
@@ -516,10 +508,6 @@ namespace PodcasCo
                 writer.WriteEndElement(); // End of Setting.
 
                 writer.WriteEndDocument();
-            }
-            catch (IOException)
-            {
-                throw;
             }
             finally
             {
