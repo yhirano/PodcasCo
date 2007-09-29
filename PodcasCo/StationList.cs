@@ -398,8 +398,8 @@ namespace PodcasCo
                             + Path.GetExtension(channel.GetPlayUrl().LocalPath);
 
                         PodcasCoUtility.FetchFile(channel.GetPlayUrl(), generateFilePath,
-                            new WebStream.FetchEventHandler(clippingForm.ClipReceiver), 
-                            new WebStream.FetchingEventHandler(clippingForm.ClippingReceiver),
+                            new FetchEventHandler(clippingForm.ClipReceiver), 
+                            new FetchEventHandler(clippingForm.ClippingReceiver),
                             null);
 
                         // 番組をローカルヘッドラインに加える

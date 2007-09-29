@@ -33,7 +33,7 @@ namespace PodcasCo
             {
                 throw new FileNotFoundException("Not found media player.");
             }
-            if (filePath == "")
+            if (filePath == string.Empty)
             {
                 return;
             }
@@ -89,17 +89,17 @@ namespace PodcasCo
         public static WebStream GetWebStream(Uri url)
         {
             WebStream ws = new WebStream(url);
-            if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
+            switch (PodcasCo.UserSetting.ProxyUse)
             {
-                ws.ProxyUse = WebStream.ProxyConnect.Unuse;
-            }
-            else if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.OsSetting)
-            {
-                ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
-            }
-            else if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.OriginalSetting)
-            {
-                ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
+                case UserSetting.ProxyConnect.Unuse:
+                    ws.ProxyUse = WebStream.ProxyConnect.Unuse;
+                    break;
+                case UserSetting.ProxyConnect.OsSetting:
+                    ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
+                    break;
+                case UserSetting.ProxyConnect.OriginalSetting:
+                    ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
+                    break;
             }
             ws.ProxyServer = PodcasCo.UserSetting.ProxyServer;
             ws.ProxyPort = PodcasCo.UserSetting.ProxyPort;
@@ -109,7 +109,6 @@ namespace PodcasCo
 
             return ws;
         }
-
 
         /// <summary>
         /// Web上のストリームをダウンロードする
@@ -130,9 +129,9 @@ namespace PodcasCo
         /// <param name="doSetDownloadProgressMaximum">ファイルサイズをセットするデリゲート</param>
         /// <param name="doSetDownloadProgressValue">ダウンロード済みのファイルサイズをセットするデリゲート</param>
         public static void FetchFile(Uri url, string fileName,
-            WebStream.FetchEventHandler fetchEventHandler,
-            WebStream.FetchingEventHandler fetchingEventHandler,
-            WebStream.FetchedEventHandler fetchedEventHandler)
+            FetchEventHandler fetchEventHandler,
+            FetchEventHandler fetchingEventHandler,
+            FetchEventHandler fetchedEventHandler)
         {
 
             WebStream ws = null;
@@ -155,17 +154,17 @@ namespace PodcasCo
 
                 }
 
-                if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.Unuse)
+                switch (PodcasCo.UserSetting.ProxyUse)
                 {
-                    ws.ProxyUse = WebStream.ProxyConnect.Unuse;
-                }
-                else if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.OsSetting)
-                {
-                    ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
-                }
-                else if (PodcasCo.UserSetting.ProxyUse == UserSetting.ProxyConnect.OriginalSetting)
-                {
-                    ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
+                    case UserSetting.ProxyConnect.Unuse:
+                        ws.ProxyUse = WebStream.ProxyConnect.Unuse;
+                        break;
+                    case UserSetting.ProxyConnect.OsSetting:
+                        ws.ProxyUse = WebStream.ProxyConnect.OsSetting;
+                        break;
+                    case UserSetting.ProxyConnect.OriginalSetting:
+                        ws.ProxyUse = WebStream.ProxyConnect.OriginalSetting;
+                        break;
                 }
                 ws.ProxyServer = PodcasCo.UserSetting.ProxyServer;
                 ws.ProxyPort = PodcasCo.UserSetting.ProxyPort;
