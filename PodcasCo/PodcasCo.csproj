@@ -43,11 +43,11 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FileDialog, Version=1.0.2.36120, Culture=neutral">
+    <Reference Include="FileDialog, Version=1.1.6.36562, Culture=neutral, PublicKeyToken=f5f24295a8529a9c">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Dll\FileDialog.dll</HintPath>
     </Reference>
-    <Reference Include="GetFileInfo, Version=1.0.2355.36119, Culture=neutral">
+    <Reference Include="GetFileInfo, Version=1.1.4.0, Culture=neutral, PublicKeyToken=f5f24295a8529a9c">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Dll\GetFileInfo.dll</HintPath>
     </Reference>
