@@ -199,7 +199,7 @@ namespace PodcasCo.Stations.RssPodcast
                 }
                 catch (FormatException)
                 {
-                    date = DateTime.Now;
+                    date = DateTime.MinValue;
                 }
             }
         }

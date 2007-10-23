@@ -309,6 +309,7 @@ namespace PodcasCo
         /// </summary>
         static void Main()
         {
+#if !DEBUG
             try
             {
                 Application.Run(new MainForm());
@@ -332,6 +333,19 @@ namespace PodcasCo
 
                 Trace.Assert(false, "予期しないエラーが発生したため、終了します");
             }
+#else
+            Application.Run(new MainForm());
+
+            // 終了時処理
+            try
+            {
+                PodcasCoSpecificProcess.ExitDisable();
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
+            }
+#endif
         }
 
         /// <summary>
@@ -888,7 +902,7 @@ namespace PodcasCo
             foreach (Station station in StationList.GetStationList())
             {
                 // 指定の日数より古い番組を自動削除する
-                if (station.StartupDeleteDay > 0)
+                if (station.StartupDelete == true && station.StartupDeleteDay > 0)
                 {
                     // これより古い日付のものは削除する
                     DateTime deleteDate = DateTime.Today.Subtract(new TimeSpan(station.StartupDeleteDay, 0, 0, 0));
