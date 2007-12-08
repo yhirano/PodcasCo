@@ -114,9 +114,14 @@ namespace PodcasCo
         }
 
         /// <summary>
+        /// 起動時にこの放送局がダウンロードするヘッドラインの数の下限値
+        /// </summary>
+        public const int STARTUP_DOWNLOAD_NUM_MIN = 1;
+
+        /// <summary>
         /// 起動時にこの放送局がダウンロードするヘッドラインの数
         /// </summary>
-        private int startupDownloadNum = 0;
+        private int startupDownloadNum = STARTUP_DOWNLOAD_NUM_MIN;
 
         /// <summary>
         /// 起動時にこの放送局がダウンロードするヘッドラインの数
@@ -124,7 +129,16 @@ namespace PodcasCo
         public int StartupDownloadNum
         {
             get { return startupDownloadNum; }
-            set { startupDownloadNum = value; }
+            set {
+                if (value >= STARTUP_DOWNLOAD_NUM_MIN)
+                {
+                    startupDownloadNum = value;
+                }
+                else
+                {
+                    startupDownloadNum = STARTUP_DOWNLOAD_NUM_MIN;
+                }
+            }
         }
 
         /// <summary>
@@ -142,9 +156,14 @@ namespace PodcasCo
         }
 
         /// <summary>
+        /// 起動時にこの放送局がこれよりも古いヘッドラインを削除する日数の下限値
+        /// </summary>
+        public const int STARTUP_DELETE_DAY_MIN = 1;
+
+        /// <summary>
         /// 起動時にこの放送局がこれよりも古いヘッドラインを削除する日数
         /// </summary>
-        private int startupDeleteDay = 0;
+        private int startupDeleteDay = STARTUP_DELETE_DAY_MIN;
 
         /// <summary>
         /// 起動時にこの放送局がこれよりも古いヘッドラインを削除する日数
@@ -152,7 +171,17 @@ namespace PodcasCo
         public int StartupDeleteDay
         {
             get { return startupDeleteDay; }
-            set { startupDeleteDay = value; }
+            set
+            {
+                if (value >= STARTUP_DELETE_DAY_MIN)
+                {
+                    startupDeleteDay = value;
+                }
+                else
+                {
+                    startupDeleteDay = STARTUP_DELETE_DAY_MIN;
+                }
+            }
         }
 
         /// <summary>
