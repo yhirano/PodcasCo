@@ -920,7 +920,7 @@ namespace PodcasCo
             foreach (Station station in StationList.GetStationList())
             {
                 // 指定の日数より古い番組を自動削除する
-                if (station.StartupDelete == true && station.StartupDeleteDay > 0)
+                if (station.StartupDelete == true)
                 {
                     // これより古い日付のものは削除する
                     DateTime deleteDate = DateTime.Today.Subtract(new TimeSpan(station.StartupDeleteDay, 0, 0, 0));
