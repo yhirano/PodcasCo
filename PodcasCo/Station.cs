@@ -158,28 +158,30 @@ namespace PodcasCo
         /// <summary>
         /// 起動時にこの放送局がこれよりも古いヘッドラインを削除する日数の下限値
         /// </summary>
-        public const int STARTUP_DELETE_DAY_MIN = 0;
+        public const int STARTUP_DELETE_REMAIN_DAY_MIN = 1;
 
         /// <summary>
-        /// 起動時にこの放送局がこれよりも古いヘッドラインを削除する日数
+        /// 起動時にヘッドラインを削除する場合に、残す番組の日数。
+        /// 起動時の時刻からこの日数以内の番組は削除されない。
         /// </summary>
-        private int startupDeleteDay = 7;
+        private int startupDeleteRemainDay = 7;
 
         /// <summary>
-        /// 起動時にこの放送局がこれよりも古いヘッドラインを削除する日数
+        /// 起動時にヘッドラインを削除する場合に、残す番組の日数。
+        /// 起動時の時刻からこの日数以内の番組は削除されない。
         /// </summary>
-        public int StartupDeleteDay
+        public int StartupDeleteRemainDay
         {
-            get { return startupDeleteDay; }
+            get { return startupDeleteRemainDay; }
             set
             {
-                if (value >= STARTUP_DELETE_DAY_MIN)
+                if (value >= STARTUP_DELETE_REMAIN_DAY_MIN)
                 {
-                    startupDeleteDay = value;
+                    startupDeleteRemainDay = value;
                 }
                 else
                 {
-                    startupDeleteDay = STARTUP_DELETE_DAY_MIN;
+                    startupDeleteRemainDay = STARTUP_DELETE_REMAIN_DAY_MIN;
                 }
             }
         }

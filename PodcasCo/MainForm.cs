@@ -861,7 +861,7 @@ namespace PodcasCo
                         Array.Reverse(channels, 0, channels.Length);
 
                         // これより古い日付のものはダウンロードしない
-                        DateTime undownloadDate = DateTime.Today.Subtract(new TimeSpan(station.StartupDeleteDay, 0, 0, 0));
+                        DateTime undownloadDate = DateTime.Today.Subtract(new TimeSpan(station.StartupDeleteRemainDay - 1, 0, 0, 0));
 
                         for (int i = 0; i < station.StartupDownloadNum; ++i)
                         {
@@ -923,7 +923,7 @@ namespace PodcasCo
                 if (station.StartupDelete == true)
                 {
                     // これより古い日付のものは削除する
-                    DateTime deleteDate = DateTime.Today.Subtract(new TimeSpan(station.StartupDeleteDay, 0, 0, 0));
+                    DateTime deleteDate = DateTime.Today.Subtract(new TimeSpan(station.StartupDeleteRemainDay - 1, 0, 0, 0));
                     foreach (IChannel channel in station.LocalHeadline.GetChannels())
                     {
                         if (channel.GetDate() <= deleteDate)
@@ -944,11 +944,8 @@ namespace PodcasCo
 
             #endregion // 起動時自動削除
 
-            // 番組リストがある場合
-            if (StationList.GetChannelsOfCurrentStationFromLocalHeadline().Length > 0)
-            {
-                UpdateChannelList();
-            }
+            // 番組リストを更新する
+            UpdateChannelList();
 
             SetAnchorControl();
             FixWindowSize();

@@ -24,10 +24,10 @@ namespace PodcasCo
         private CheckBox startupDownloadCheckBox;
         private CheckBox startupDeleteCheckBox;
         private Label downloadNumLabel;
-        private Label deleteDayLabel;
+        private Label deleteRemainDayLabel;
         private NumericUpDown downloadNumNumericUpDown;
-        private NumericUpDown deleteDayNumericUpDown;
-        private Label startupDeleteDiscriptionLabel;
+        private NumericUpDown deleteRemainDayNumericUpDown;
+        private Label startupDeleteRemainDiscriptionLabel;
 
         /// <summary>
         /// 放送局の設定の保持
@@ -61,10 +61,10 @@ namespace PodcasCo
             this.startupDownloadCheckBox = new System.Windows.Forms.CheckBox();
             this.startupDeleteCheckBox = new System.Windows.Forms.CheckBox();
             this.downloadNumLabel = new System.Windows.Forms.Label();
-            this.deleteDayLabel = new System.Windows.Forms.Label();
+            this.deleteRemainDayLabel = new System.Windows.Forms.Label();
             this.downloadNumNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.deleteDayNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.startupDeleteDiscriptionLabel = new System.Windows.Forms.Label();
+            this.deleteRemainDayNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.startupDeleteRemainDiscriptionLabel = new System.Windows.Forms.Label();
             // 
             // mainMenu
             // 
@@ -101,11 +101,11 @@ namespace PodcasCo
             this.downloadNumLabel.Size = new System.Drawing.Size(100, 20);
             this.downloadNumLabel.Text = "件ダウンロード";
             // 
-            // deleteDayLabel
+            // deleteRemainDayLabel
             // 
-            this.deleteDayLabel.Location = new System.Drawing.Point(75, 128);
-            this.deleteDayLabel.Size = new System.Drawing.Size(138, 20);
-            this.deleteDayLabel.Text = "日前までの放送を残す";
+            this.deleteRemainDayLabel.Location = new System.Drawing.Point(75, 128);
+            this.deleteRemainDayLabel.Size = new System.Drawing.Size(138, 20);
+            this.deleteRemainDayLabel.Text = "日以内の番組を残す";
             // 
             // downloadNumNumericUpDown
             // 
@@ -128,40 +128,40 @@ namespace PodcasCo
             0});
             this.downloadNumNumericUpDown.ValueChanged += new System.EventHandler(this.downloadNumNumericUpDown_ValueChanged);
             // 
-            // deleteDayNumericUpDown
+            // deleteRemainDayNumericUpDown
             // 
-            this.deleteDayNumericUpDown.Location = new System.Drawing.Point(21, 124);
-            this.deleteDayNumericUpDown.Maximum = new decimal(new int[] {
+            this.deleteRemainDayNumericUpDown.Location = new System.Drawing.Point(21, 124);
+            this.deleteRemainDayNumericUpDown.Maximum = new decimal(new int[] {
             99,
             0,
             0,
             0});
-            this.deleteDayNumericUpDown.Minimum = new decimal(new int[] {
+            this.deleteRemainDayNumericUpDown.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.deleteDayNumericUpDown.Size = new System.Drawing.Size(48, 22);
-            this.deleteDayNumericUpDown.Value = new decimal(new int[] {
+            this.deleteRemainDayNumericUpDown.Size = new System.Drawing.Size(48, 22);
+            this.deleteRemainDayNumericUpDown.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.deleteDayNumericUpDown.ValueChanged += new System.EventHandler(this.deletDayNumericUpDown_ValueChanged);
+            this.deleteRemainDayNumericUpDown.ValueChanged += new System.EventHandler(this.deletDayNumericUpDown_ValueChanged);
             // 
-            // startupDeleteDiscriptionLabel
+            // startupDeleteRemainDiscriptionLabel
             // 
-            this.startupDeleteDiscriptionLabel.Location = new System.Drawing.Point(21, 154);
-            this.startupDeleteDiscriptionLabel.Size = new System.Drawing.Size(216, 40);
-            this.startupDeleteDiscriptionLabel.Text = "Discription";
+            this.startupDeleteRemainDiscriptionLabel.Location = new System.Drawing.Point(21, 154);
+            this.startupDeleteRemainDiscriptionLabel.Size = new System.Drawing.Size(216, 40);
+            this.startupDeleteRemainDiscriptionLabel.Text = "Discription";
             // 
             // StationStartupSettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
-            this.Controls.Add(this.startupDeleteDiscriptionLabel);
-            this.Controls.Add(this.deleteDayNumericUpDown);
+            this.Controls.Add(this.startupDeleteRemainDiscriptionLabel);
+            this.Controls.Add(this.deleteRemainDayNumericUpDown);
             this.Controls.Add(this.downloadNumNumericUpDown);
-            this.Controls.Add(this.deleteDayLabel);
+            this.Controls.Add(this.deleteRemainDayLabel);
             this.Controls.Add(this.downloadNumLabel);
             this.Controls.Add(this.startupDeleteCheckBox);
             this.Controls.Add(this.startupDownloadCheckBox);
@@ -178,7 +178,7 @@ namespace PodcasCo
         private void StationStartupSettingForm_Load(object sender, EventArgs e)
         {
             downloadNumNumericUpDown.Minimum = Station.STARTUP_DOWNLOAD_NUM_MIN;
-            deleteDayNumericUpDown.Minimum = Station.STARTUP_DELETE_DAY_MIN;
+            deleteRemainDayNumericUpDown.Minimum = Station.STARTUP_DELETE_REMAIN_DAY_MIN;
 
             Station[] stations = StationList.GetStationList();
             stationStartupSettings = new StationStartupSetting[stations.Length];
@@ -202,7 +202,7 @@ namespace PodcasCo
                 startupDownloadCheckBox.Enabled = false;
                 downloadNumNumericUpDown.Enabled = false;
                 startupDeleteCheckBox.Enabled = false;
-                deleteDayNumericUpDown.Enabled = false;
+                deleteRemainDayNumericUpDown.Enabled = false;
             }
         }
 
@@ -226,14 +226,14 @@ namespace PodcasCo
             startupDeleteCheckBox.Checked = stationStartupSettings[stationListComboBox.SelectedIndex].StartupDelete;
             if (startupDeleteCheckBox.Checked == true)
             {
-                deleteDayNumericUpDown.Enabled = true;
+                deleteRemainDayNumericUpDown.Enabled = true;
             }
             else
             {
-                deleteDayNumericUpDown.Enabled = false;
+                deleteRemainDayNumericUpDown.Enabled = false;
             }
-            deleteDayNumericUpDown.Value = stationStartupSettings[stationListComboBox.SelectedIndex].StartupDeleteDay;
-            WriteStartupDeleteDescription((int)deleteDayNumericUpDown.Value);
+            deleteRemainDayNumericUpDown.Value = stationStartupSettings[stationListComboBox.SelectedIndex].StartupDeleteDay;
+            WriteStartupDeleteDescription((int)deleteRemainDayNumericUpDown.Value);
         }
 
         private void startupDownloadCheckBox_CheckStateChanged(object sender, EventArgs e)
@@ -254,13 +254,13 @@ namespace PodcasCo
         {
             if (startupDeleteCheckBox.Checked == true)
             {
-                deleteDayNumericUpDown.Enabled = true;
-                startupDeleteDiscriptionLabel.Enabled = true;
+                deleteRemainDayNumericUpDown.Enabled = true;
+                startupDeleteRemainDiscriptionLabel.Enabled = true;
             }
             else
             {
-                deleteDayNumericUpDown.Enabled = false;
-                startupDeleteDiscriptionLabel.Enabled = false;
+                deleteRemainDayNumericUpDown.Enabled = false;
+                startupDeleteRemainDiscriptionLabel.Enabled = false;
             }
 
             stationStartupSettings[stationListComboBox.SelectedIndex].StartupDelete = startupDeleteCheckBox.Checked;
@@ -273,16 +273,17 @@ namespace PodcasCo
 
         private void deletDayNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            stationStartupSettings[stationListComboBox.SelectedIndex].StartupDeleteDay = (int)deleteDayNumericUpDown.Value;
-            WriteStartupDeleteDescription((int)deleteDayNumericUpDown.Value);
+            stationStartupSettings[stationListComboBox.SelectedIndex].StartupDeleteDay = (int)deleteRemainDayNumericUpDown.Value;
+            WriteStartupDeleteDescription((int)deleteRemainDayNumericUpDown.Value);
         }
 
-        private void WriteStartupDeleteDescription(int deleteDay)
+        private void WriteStartupDeleteDescription(int deleteRemainDay)
         {
-            string description = "今日が{0}月{1}日の場合、{2}月{3}日0:00のまでの放送を残します。";
             DateTime today = DateTime.Today;
-            DateTime delete = today.Subtract(new TimeSpan((int)deleteDay, 0, 0, 0));
-            startupDeleteDiscriptionLabel.Text = string.Format(description, today.Month, today.Day, delete.Month, delete.Day);
+            DateTime delete = today.Subtract(new TimeSpan((int)deleteRemainDay - 1, 0, 0, 0));
+            startupDeleteRemainDiscriptionLabel.Text = string.Format(
+                "今日が{0}月{1}日の場合、{2}月{3}日0:00のまでの番組を残します。",
+                today.Month, today.Day, delete.Month, delete.Day);
         }
 
         private void StationStartupSettingForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -340,20 +341,20 @@ namespace PodcasCo
                 set { startupDelete = value; }
             }
 
-            private int startupDeleteDay = Station.STARTUP_DELETE_DAY_MIN;
+            private int startupDeleteRemainDay = Station.STARTUP_DELETE_REMAIN_DAY_MIN;
 
             public int StartupDeleteDay
             {
-                get { return startupDeleteDay; }
+                get { return startupDeleteRemainDay; }
                 set
                 {
-                    if (value >= Station.STARTUP_DELETE_DAY_MIN)
+                    if (value >= Station.STARTUP_DELETE_REMAIN_DAY_MIN)
                     {
-                        startupDeleteDay = value;
+                        startupDeleteRemainDay = value;
                     }
                     else
                     {
-                        startupDeleteDay = Station.STARTUP_DELETE_DAY_MIN;
+                        startupDeleteRemainDay = Station.STARTUP_DELETE_REMAIN_DAY_MIN;
                     }
                 }
             }
@@ -364,7 +365,7 @@ namespace PodcasCo
                 this.startupDownload = station.StartupDownload;
                 this.startupDownloadNum = station.StartupDownloadNum;
                 this.startupDelete = station.StartupDelete;
-                this.startupDeleteDay = station.StartupDeleteDay;
+                this.startupDeleteRemainDay = station.StartupDeleteRemainDay;
             }
 
             public void SetStationSetting()
@@ -372,7 +373,7 @@ namespace PodcasCo
                 station.StartupDownload = this.startupDownload;
                 station.StartupDownloadNum = this.startupDownloadNum;
                 station.StartupDelete = this.startupDelete;
-                station.StartupDeleteDay = this.startupDeleteDay;
+                station.StartupDeleteRemainDay = this.startupDeleteRemainDay;
             }
         }
     }

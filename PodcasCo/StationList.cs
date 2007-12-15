@@ -32,7 +32,7 @@ namespace PodcasCo
         /// </summary>
         public static string StationIdOfCurrentStation
         {
-            get { return (currentStation != null ? currentStation.Id : ""); }
+            get { return (currentStation != null ? currentStation.Id : string.Empty); }
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace PodcasCo
         /// </summary>
         public static string StationNameOfCurrentStation
         {
-            get { return (currentStation != null ? currentStation.Name : ""); }
+            get { return (currentStation != null ? currentStation.Name : string.Empty); }
         }
 
         /// <summary>
@@ -353,7 +353,7 @@ namespace PodcasCo
             bool cannotCliped = false;
 
             // クリップできなかった番組の情報
-            string cannotClipedString = "";
+            string cannotClipedString = string.Empty;
 
             // 選択された番組のリスト
             ArrayList alSelectedGlobalChannels = new ArrayList();

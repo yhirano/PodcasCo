@@ -225,13 +225,13 @@ namespace PodcasCo
                             {
                                 if (reader.LocalName == "Station")
                                 {
-                                    string id = "";
-                                    string name = "";
+                                    string id = string.Empty;
+                                    string name = string.Empty;
                                     Station.StationKind stationKind = Station.StationKind.RssPodcast;
                                     bool startupDownload = false;
-                                    int startupDownloadNum = 0;
+                                    int startupDownloadNum = Station.STARTUP_DOWNLOAD_NUM_MIN;
                                     bool startupDelete = false;
-                                    int startupDeleteDay = 0;
+                                    int startupDeleteRemainDay = Station.STARTUP_DELETE_REMAIN_DAY_MIN;
 
                                     if (reader.MoveToFirstAttribute())
                                     {
@@ -260,25 +260,28 @@ namespace PodcasCo
                                         }
 
                                         string startupDownloadNumString = reader.GetAttribute("startupDownloadNum");
-                                        try
+                                        if (startupDownloadNumString != null)
                                         {
-                                            startupDownloadNum = int.Parse(startupDownloadNumString);
+                                            try
+                                            {
+                                                startupDownloadNum = int.Parse(startupDownloadNumString);
+                                            }
+                                            catch (ArgumentException)
+                                            {
+                                                ;
+                                            }
+                                            catch (FormatException)
+                                            {
+                                                ;
+                                            }
+                                            catch (OverflowException)
+                                            {
+                                                ;
+                                            }
                                         }
-                                        catch (ArgumentException)
+                                        if (startupDownloadNum < Station.STARTUP_DOWNLOAD_NUM_MIN)
                                         {
-                                            ;
-                                        }
-                                        catch (FormatException)
-                                        {
-                                            ;
-                                        }
-                                        catch (OverflowException)
-                                        {
-                                            ;
-                                        }
-                                        if (startupDownloadNum<0)
-                                        {
-                                            startupDownloadNum = 0;
+                                            startupDownloadNum = Station.STARTUP_DOWNLOAD_NUM_MIN;
                                         }
 
                                         string startupDeleteString = reader.GetAttribute("startupDelete");
@@ -291,26 +294,53 @@ namespace PodcasCo
                                             startupDelete = false;
                                         }
 
+                                        string startupDeleteRemainDayString = reader.GetAttribute("startupDeleteRemainDay");
+                                        if (startupDeleteRemainDayString != null)
+                                        {
+                                            try
+                                            {
+                                                startupDeleteRemainDay = int.Parse(startupDeleteRemainDayString);
+                                            }
+                                            catch (ArgumentException)
+                                            {
+                                                ;
+                                            }
+                                            catch (FormatException)
+                                            {
+                                                ;
+                                            }
+                                            catch (OverflowException)
+                                            {
+                                                ;
+                                            }
+                                        }
+
+                                        #region Version 0.7 ` Version 0.8 TestRelease5ŒÝŠ·
                                         string startupDeleteDayString = reader.GetAttribute("startupDeleteDay");
-                                        try
+                                        if (startupDeleteDayString != null)
                                         {
-                                            startupDeleteDay = int.Parse(startupDeleteDayString);
+                                            try
+                                            {
+                                                startupDeleteRemainDay = int.Parse(startupDeleteDayString) + 1;
+                                            }
+                                            catch (ArgumentException)
+                                            {
+                                                ;
+                                            }
+                                            catch (FormatException)
+                                            {
+                                                ;
+                                            }
+                                            catch (OverflowException)
+                                            {
+                                                ;
+                                            }
                                         }
-                                        catch (ArgumentException)
+                                        #endregion // Version 0.7 ` Version 0.8 TestRelease5ŒÝŠ·
+
+                                        if (startupDeleteRemainDay < Station.STARTUP_DELETE_REMAIN_DAY_MIN)
                                         {
-                                            ;
-                                        }
-                                        catch (FormatException)
-                                        {
-                                            ;
-                                        }
-                                        catch (OverflowException)
-                                        {
-                                            ;
-                                        }
-                                        if (startupDeleteDay < 0)
-                                        {
-                                            startupDeleteDay = 0;
+                                            startupDeleteRemainDay = Station.STARTUP_DELETE_REMAIN_DAY_MIN;
                                         }
 
                                         try
@@ -319,7 +349,7 @@ namespace PodcasCo
                                             station.StartupDownload = startupDownload;
                                             station.StartupDownloadNum = startupDownloadNum;
                                             station.StartupDelete = startupDelete;
-                                            station.StartupDeleteDay = startupDeleteDay;
+                                            station.StartupDeleteRemainDay = startupDeleteRemainDay;
                                             alStation.Add(station);
                                         }
                                         // ƒ[ƒJƒ‹ƒwƒbƒhƒ‰ƒCƒ“‚Ì‰ðÍ‚ªŽ¸”s‚µ‚½ê‡‚ÍA‚»‚Ìƒwƒbƒhƒ‰ƒCƒ“‚ð–³Ž‹‚·‚é
@@ -476,7 +506,7 @@ namespace PodcasCo
                     writer.WriteAttributeString("startupDownload", station.StartupDownload.ToString());
                     writer.WriteAttributeString("startupDownloadNum", station.StartupDownloadNum.ToString());
                     writer.WriteAttributeString("startupDelete", station.StartupDelete.ToString());
-                    writer.WriteAttributeString("startupDeleteDay", station.StartupDeleteDay.ToString());
+                    writer.WriteAttributeString("startupDeleteRemainDay", station.StartupDeleteRemainDay.ToString());
                     writer.WriteEndElement(); // End of Station
                 }
                 writer.WriteEndElement(); // End of StationList
