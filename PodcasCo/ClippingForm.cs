@@ -261,15 +261,16 @@ namespace PodcasCo
             progress2ProgressBar.Update();
         }
 
-        public void ClipReceiver(object sender, FetchEventArgs e)
+        internal void ClipReceiver(object sender, FetchEventArgs e)
         {
             SetClipingProgressMinimum(0);
             SetClipingProgressMaximum((int)e.ContentSize);
         }
 
-        public void ClippingReceiver(object sender, FetchEventArgs e)
+        internal void ClippingReceiver(object sender, FetchEventArgs e)
         {
             SetClipingProgressValue((int)e.FetchedSize);
+            Application.DoEvents();
         }
 
         private void ClippingForm_Load(object sender, EventArgs e)
