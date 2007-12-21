@@ -287,7 +287,6 @@ namespace PodcasCo
             this.Menu = this.mainMenu;
             this.Text = "PodcasCo";
             this.Resize += new System.EventHandler(this.MainForm_Resize);
-            this.Activated += new System.EventHandler(this.MainForm_Activated);
             this.Load += new System.EventHandler(this.MainForm_Load);
 
         }
@@ -649,7 +648,7 @@ namespace PodcasCo
             // 選択されたクリップ済みの番組が無い場合は警告を出して終了
             if (alSelectedLocalChannels.Count == 0)
             {
-                MessageBox.Show("クリップ済の番組が選択されていません", "情報");
+                MessageBox.Show("クリップ済みの番組が選択されていません", "情報");
 
                 return;
             }
@@ -801,6 +800,8 @@ namespace PodcasCo
             {
                 // 起動時の初期化
                 PodcasCoSpecificProcess.StartUpInitialize();
+
+                StationList.StationListChanged += new EventHandler(StationList_StationListChanged);
 
                 AddStationFilterComboBoxItem();
 
@@ -971,6 +972,11 @@ namespace PodcasCo
             mainStatusBar.Refresh();
         }
 
+        void StationList_StationListChanged(object sender, EventArgs e)
+        {
+            AddStationFilterComboBoxItem();
+        }
+
         private void VersionInfoMenuItem_Click(object sender, EventArgs e)
         {
             VersionInfoForm versionInfoForm = new VersionInfoForm();
@@ -1020,11 +1026,6 @@ namespace PodcasCo
             {
                 UpdateChannelList();
             }
-        }
-
-        private void MainForm_Activated(object sender, EventArgs e)
-        {
-            AddStationFilterComboBoxItem();
         }
 
         private void UpdateButton_Click(object sender, EventArgs e)

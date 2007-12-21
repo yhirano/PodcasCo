@@ -117,10 +117,35 @@ namespace PodcasCo
         /// <returns></returns>
         public static void SetStationList(Station[] stations)
         {
-            StationList.stations = stations;
+            // 放送局に変化があったか
+            bool changed = false;
 
-            // 現在の放送局をクリアする
-            currentStation = null;
+            // 放送局に変化があったかを調べる
+            if (stations.Length != StationList.stations.Length)
+            {
+                changed = true;
+            }
+            else
+            {
+                for (int i = 0; i < stations.Length && i < StationList.stations.Length; ++i)
+                {
+                    if (stations[i] != StationList.stations[i])
+                    {
+                        changed = true;
+                        break;
+                    }
+                }
+            }
+
+            if (changed == true)
+            {
+                StationList.stations = stations;
+
+                // 現在の放送局をクリアする
+                currentStation = null;
+                
+                OnStationListChanged(EventArgs.Empty);
+            }
         }
 
         /// <summary>
@@ -774,5 +799,18 @@ namespace PodcasCo
         /// ヘッドラインを解析した後に発生するイベント
         /// </summary>
         public static event HeadlineAnalyzeEventHandler HeadlineAnalyzed;
+
+        /// <summary>
+        /// StationListに変化があった場合に起こるイベント
+        /// </summary>
+        public static event EventHandler StationListChanged;
+
+        private static void OnStationListChanged(EventArgs e)
+        {
+            if (StationListChanged != null)
+            {
+                StationListChanged(null, e);
+            }
+        }
     }
 }

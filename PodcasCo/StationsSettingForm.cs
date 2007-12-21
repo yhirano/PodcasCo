@@ -44,6 +44,9 @@ namespace PodcasCo
         /// アンカーコントロールのリスト
         /// </summary>
         private ArrayList anchorControlList = new ArrayList();
+        private Button downButton;
+        private Button upButton;
+        private Panel updownButtonPanel;
 
         /// <summary>
         /// フォームのメイン メニュー
@@ -85,6 +88,9 @@ namespace PodcasCo
             this.cutPodcastUrlMenuItem = new System.Windows.Forms.MenuItem();
             this.copyPodcastUrlMenuItem = new System.Windows.Forms.MenuItem();
             this.pastePodcastUrlMenuItem = new System.Windows.Forms.MenuItem();
+            this.downButton = new System.Windows.Forms.Button();
+            this.upButton = new System.Windows.Forms.Button();
+            this.updownButtonPanel = new System.Windows.Forms.Panel();
             // 
             // mainMenu
             // 
@@ -111,7 +117,8 @@ namespace PodcasCo
             // 
             this.stationListBox.ContextMenu = this.stationListBoxContextMenu;
             this.stationListBox.Location = new System.Drawing.Point(3, 99);
-            this.stationListBox.Size = new System.Drawing.Size(234, 142);
+            this.stationListBox.Size = new System.Drawing.Size(210, 142);
+            this.stationListBox.SelectedIndexChanged += new System.EventHandler(this.stationListBox_SelectedIndexChanged);
             // 
             // stationListBoxContextMenu
             // 
@@ -166,9 +173,31 @@ namespace PodcasCo
             this.pastePodcastUrlMenuItem.Text = "貼り付け(&P)";
             this.pastePodcastUrlMenuItem.Click += new System.EventHandler(this.PastePodcastUrlMenuItem_Click);
             // 
+            // downButton
+            // 
+            this.downButton.Location = new System.Drawing.Point(3, 88);
+            this.downButton.Size = new System.Drawing.Size(20, 40);
+            this.downButton.Text = "↓";
+            this.downButton.Click += new System.EventHandler(this.downButton_Click);
+            // 
+            // upButton
+            // 
+            this.upButton.Location = new System.Drawing.Point(3, 13);
+            this.upButton.Size = new System.Drawing.Size(20, 40);
+            this.upButton.Text = "↑";
+            this.upButton.Click += new System.EventHandler(this.upButton_Click);
+            // 
+            // updownButtonPanel
+            // 
+            this.updownButtonPanel.Controls.Add(this.upButton);
+            this.updownButtonPanel.Controls.Add(this.downButton);
+            this.updownButtonPanel.Location = new System.Drawing.Point(214, 100);
+            this.updownButtonPanel.Size = new System.Drawing.Size(26, 141);
+            // 
             // StationsSettingForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
+            this.Controls.Add(this.updownButtonPanel);
             this.Controls.Add(this.stationListLabel);
             this.Controls.Add(this.addPodcastUrlLabel);
             this.Controls.Add(this.stationListBox);
@@ -196,6 +225,9 @@ namespace PodcasCo
             anchorControlList.Add(new AnchorLayout(addButton, AnchorStyles.Top | AnchorStyles.Right, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
             anchorControlList.Add(new AnchorLayout(stationListLabel, AnchorStyles.Top | AnchorStyles.Left, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
             anchorControlList.Add(new AnchorLayout(stationListBox, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(updownButtonPanel, AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
+            anchorControlList.Add(new AnchorLayout(upButton, AnchorStyles.Top | AnchorStyles.Left, updownButtonPanel.Width, updownButtonPanel.Height));
+            anchorControlList.Add(new AnchorLayout(downButton, AnchorStyles.Bottom | AnchorStyles.Left, updownButtonPanel.Width, updownButtonPanel.Height));
             anchorControlList.Add(new AnchorLayout(deleteButton, AnchorStyles.Right | AnchorStyles.Bottom, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
         }
 
@@ -251,16 +283,65 @@ namespace PodcasCo
 
         }
 
+        /// <summary>
+        ///  スワップする
+        /// </summary>
+        /// <param name="list">リスト</param>
+        /// <param name="x">スワップ位置1</param>
+        /// <param name="y">スワップ位置2</param>
+        private static void Swap(IList list, int x, int y)
+        {
+            object tmp;
+
+            tmp = list[x];
+            list[x] = list[y];
+            list[y] = tmp;
+        }
+
         private void StationsSettingForm_Load(object sender, EventArgs e)
         {
             SetAnchorControl();
             FixWindowSize();
+            ButtonsEnable();
 
             // 放送局情報の読み込み
             foreach (Station station in StationList.GetStationList())
             {
                 alStationList.Add(station);
                 stationListBox.Items.Add(station.DisplayName);
+            }
+        }
+
+        /// <summary>
+        /// UPボタン、DOWNボタン、DELETEボタンの有効無効を切り替える
+        /// </summary>
+        private void ButtonsEnable()
+        {
+            if (stationListBox.SelectedIndex == -1)
+            {
+                upButton.Enabled = false;
+                downButton.Enabled = false;
+                deleteButton.Enabled = false;
+            }
+            else
+            {
+                if (stationListBox.SelectedIndex != 0)
+                {
+                    upButton.Enabled = true;
+                }
+                else
+                {
+                    upButton.Enabled = false;
+                }
+                if (stationListBox.SelectedIndex < stationListBox.Items.Count - 1)
+                {
+                    downButton.Enabled = true;
+                }
+                else
+                {
+                    downButton.Enabled = false;
+                }
+                deleteButton.Enabled = true;
             }
         }
 
@@ -416,6 +497,35 @@ namespace PodcasCo
             {
                 ClipboardTextBox.Copy(podcastUrlTextBox);
             }
+        }
+
+        private void downButton_Click(object sender, EventArgs e)
+        {
+            if (stationListBox.SelectedIndex != -1 && stationListBox.SelectedIndex < stationListBox.Items.Count - 1)
+            {
+                int selectIndex = stationListBox.SelectedIndex;
+                Swap(alStationList, selectIndex, selectIndex + 1);
+                stationListBox.Items.RemoveAt(selectIndex);
+                stationListBox.Items.Insert(selectIndex + 1, ((Station)alStationList[selectIndex + 1]).DisplayName);
+                stationListBox.SelectedIndex = selectIndex + 1;
+            }
+        }
+
+        private void upButton_Click(object sender, EventArgs e)
+        {
+            if (stationListBox.SelectedIndex > 0)
+            {
+                int selectIndex = stationListBox.SelectedIndex;
+                Swap(alStationList, selectIndex, selectIndex - 1);
+                stationListBox.Items.RemoveAt(selectIndex);
+                stationListBox.Items.Insert(selectIndex - 1, ((Station)alStationList[selectIndex - 1]).DisplayName);
+                stationListBox.SelectedIndex = selectIndex - 1;
+            }
+        }
+
+        private void stationListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ButtonsEnable();
         }
     }
 }

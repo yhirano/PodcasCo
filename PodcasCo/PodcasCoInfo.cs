@@ -29,7 +29,7 @@ namespace PodcasCo
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        private const string VERSION_NUMBER = "0.8 TestRelease8";
+        private const string VERSION_NUMBER = "0.8";
 
         /// <summary>
         /// アプリケーションのバージョン
