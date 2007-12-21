@@ -503,11 +503,6 @@ namespace PodcasCo
 
                 // 番組リストを更新する
                 UpdateChannelList();
-
-                mainStatusBar.Text = "Last " + DateTime.Now.ToString()
-                    + " - A:" + StationList.GetChannelsOfCurrentStationFromAllHeadline().Length
-                    + " C:" + StationList.GetChannelsOfCurrentStationFromLocalHeadline().Length
-                    + " U:" + StationList.GetUnclipedChannelsOfCurrentStation().Length;
             }
             catch (WebException)
             {
@@ -604,6 +599,11 @@ namespace PodcasCo
             }
 
             DrawChannelList(currentChannels);
+
+            mainStatusBar.Text = "Last " + DateTime.Now.ToString()
+                + " - A:" + StationList.GetChannelsOfCurrentStationFromAllHeadline().Length
+                + " C:" + StationList.GetChannelsOfCurrentStationFromLocalHeadline().Length
+                + " U:" + StationList.GetUnclipedChannelsOfCurrentStation().Length;
 
             #endregion
 
