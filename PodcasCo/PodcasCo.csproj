@@ -87,6 +87,7 @@
     <Compile Include="StationStartupSettingForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Stations\HeadlineAnalyzeEventArgs.cs" />
     <Compile Include="Stations\IChannel.cs" />
     <Compile Include="Stations\IHeadline.cs" />
     <Compile Include="Stations\RssPodcast\Channel.cs" />

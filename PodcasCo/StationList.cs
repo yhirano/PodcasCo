@@ -44,6 +44,19 @@ namespace PodcasCo
         }
 
         /// <summary>
+        /// 解析中の放送局
+        /// </summary>
+        private static Station fetchingStation;
+
+        /// <summary>
+        /// 解析中の放送局の名前
+        /// </summary>
+        public static string FetchingStationName
+        {
+            get { return (fetchingStation != null ? fetchingStation.Name : string.Empty); }
+        }
+
+        /// <summary>
         /// シングルトンのためprivate
         /// </summary>
         private StationList()
@@ -242,8 +255,72 @@ namespace PodcasCo
         {
             foreach (Station station in GetStationList())
             {
+                if (HeadlineFetch != null)
+                {
+                    station.LocalHeadline.HeadlineFetch += HeadlineFetch;
+                    station.GlobalHeadline.HeadlineFetch += HeadlineFetch;
+                }
+                if (HeadlineFetching != null)
+                {
+                    station.LocalHeadline.HeadlineFetching += HeadlineFetching;
+                    station.GlobalHeadline.HeadlineFetching += HeadlineFetching;
+                }
+                if (HeadlineFetched != null)
+                {
+                    station.LocalHeadline.HeadlineFetched += HeadlineFetched;
+                    station.GlobalHeadline.HeadlineFetched += HeadlineFetched;
+                }
+                if (HeadlineAnalyze != null)
+                {
+                    station.LocalHeadline.HeadlineAnalyze += HeadlineAnalyze;
+                    station.GlobalHeadline.HeadlineAnalyze += HeadlineAnalyze;
+                }
+                if (HeadlineAnalyzing != null)
+                {
+                    station.LocalHeadline.HeadlineAnalyzing += HeadlineAnalyzing;
+                    station.GlobalHeadline.HeadlineAnalyzing += HeadlineAnalyzing;
+                }
+                if (HeadlineAnalyzed != null)
+                {
+                    station.LocalHeadline.HeadlineAnalyzed += HeadlineAnalyzed;
+                    station.GlobalHeadline.HeadlineAnalyzed += HeadlineAnalyzed;
+                }
+                
+                fetchingStation = station;
+
                 station.LocalHeadline.FetchHeadline();
                 station.GlobalHeadline.FetchHeadline();
+
+                if (HeadlineFetch != null)
+                {
+                    station.LocalHeadline.HeadlineFetch -= HeadlineFetch;
+                    station.GlobalHeadline.HeadlineFetch -= HeadlineFetch;
+                }
+                if (HeadlineFetching != null)
+                {
+                    station.LocalHeadline.HeadlineFetching -= HeadlineFetching;
+                    station.GlobalHeadline.HeadlineFetching -= HeadlineFetching;
+                }
+                if (HeadlineFetched != null)
+                {
+                    station.LocalHeadline.HeadlineFetched -= HeadlineFetched;
+                    station.GlobalHeadline.HeadlineFetched -= HeadlineFetched;
+                }
+                if (HeadlineAnalyze != null)
+                {
+                    station.LocalHeadline.HeadlineAnalyze -= HeadlineAnalyze;
+                    station.GlobalHeadline.HeadlineAnalyze -= HeadlineAnalyze;
+                }
+                if (HeadlineAnalyzing != null)
+                {
+                    station.LocalHeadline.HeadlineAnalyzing -= HeadlineAnalyzing;
+                    station.GlobalHeadline.HeadlineAnalyzing -= HeadlineAnalyzing;
+                }
+                if (HeadlineAnalyzed != null)
+                {
+                    station.LocalHeadline.HeadlineAnalyzed -= HeadlineAnalyzed;
+                    station.GlobalHeadline.HeadlineAnalyzed -= HeadlineAnalyzed;
+                }
             }
         }
 
@@ -254,7 +331,59 @@ namespace PodcasCo
         {
             foreach (Station station in GetStationList())
             {
+                if (HeadlineFetch != null)
+                {
+                    station.GlobalHeadline.HeadlineFetch += HeadlineFetch;
+                }
+                if (HeadlineFetching != null)
+                {
+                    station.GlobalHeadline.HeadlineFetching += HeadlineFetching;
+                }
+                if (HeadlineFetched != null)
+                {
+                    station.GlobalHeadline.HeadlineFetch += HeadlineFetched;
+                }
+                if (HeadlineAnalyze != null)
+                {
+                    station.GlobalHeadline.HeadlineAnalyze += HeadlineAnalyze;
+                }
+                if (HeadlineAnalyzing != null)
+                {
+                    station.GlobalHeadline.HeadlineAnalyzing += HeadlineAnalyzing;
+                }
+                if (HeadlineAnalyzed != null)
+                {
+                    station.GlobalHeadline.HeadlineAnalyzed += HeadlineAnalyzed;
+                }
+
+                fetchingStation = station;
+
                 station.GlobalHeadline.FetchHeadline();
+
+                if (HeadlineFetch != null)
+                {
+                    station.GlobalHeadline.HeadlineFetch -= HeadlineFetch;
+                }
+                if (HeadlineFetching != null)
+                {
+                    station.GlobalHeadline.HeadlineFetching -= HeadlineFetching;
+                }
+                if (HeadlineFetched != null)
+                {
+                    station.GlobalHeadline.HeadlineFetched -= HeadlineFetched;
+                }
+                if (HeadlineAnalyze != null)
+                {
+                    station.GlobalHeadline.HeadlineAnalyze -= HeadlineAnalyze;
+                }
+                if (HeadlineAnalyzing != null)
+                {
+                    station.GlobalHeadline.HeadlineAnalyzing -= HeadlineAnalyzing;
+                }
+                if (HeadlineAnalyzed != null)
+                {
+                    station.GlobalHeadline.HeadlineAnalyzed -= HeadlineAnalyzed;
+                }
             }
         }
 
@@ -265,7 +394,59 @@ namespace PodcasCo
         {
             foreach (Station station in GetStationList())
             {
+                if (HeadlineFetch != null)
+                {
+                    station.LocalHeadline.HeadlineFetch += HeadlineFetch;
+                }
+                if (HeadlineFetching != null)
+                {
+                    station.LocalHeadline.HeadlineFetching += HeadlineFetching;
+                }
+                if (HeadlineFetched != null)
+                {
+                    station.LocalHeadline.HeadlineFetched += HeadlineFetched;
+                }
+                if (HeadlineAnalyze != null)
+                {
+                    station.LocalHeadline.HeadlineAnalyze += HeadlineAnalyze;
+                }
+                if (HeadlineAnalyzing != null)
+                {
+                    station.LocalHeadline.HeadlineAnalyzing += HeadlineAnalyzing;
+                }
+                if (HeadlineAnalyzed != null)
+                {
+                    station.LocalHeadline.HeadlineAnalyzed += HeadlineAnalyzed;
+                }
+
+                fetchingStation = station;
+
                 station.LocalHeadline.FetchHeadline();
+
+                if (HeadlineFetch != null)
+                {
+                    station.LocalHeadline.HeadlineFetch -= HeadlineFetch;
+                }
+                if (HeadlineFetching != null)
+                {
+                    station.LocalHeadline.HeadlineFetching -= HeadlineFetching;
+                }
+                if (HeadlineFetched != null)
+                {
+                    station.LocalHeadline.HeadlineFetched -= HeadlineFetched;
+                }
+                if (HeadlineAnalyze != null)
+                {
+                    station.LocalHeadline.HeadlineAnalyze -= HeadlineAnalyze;
+                }
+                if (HeadlineAnalyzing != null)
+                {
+                    station.LocalHeadline.HeadlineAnalyzing -= HeadlineAnalyzing;
+                }
+                if (HeadlineAnalyzed != null)
+                {
+                    station.LocalHeadline.HeadlineAnalyzed -= HeadlineAnalyzed;
+                }
             }
         }
 
@@ -276,8 +457,72 @@ namespace PodcasCo
         {
             if (currentStation != null)
             {
+                if (HeadlineFetch != null)
+                {
+                    currentStation.LocalHeadline.HeadlineFetch += HeadlineFetch;
+                    currentStation.GlobalHeadline.HeadlineFetch += HeadlineFetch;
+                }
+                if (HeadlineFetching != null)
+                {
+                    currentStation.LocalHeadline.HeadlineFetching += HeadlineFetching;
+                    currentStation.GlobalHeadline.HeadlineFetching += HeadlineFetching;
+                }
+                if (HeadlineFetched != null)
+                {
+                    currentStation.LocalHeadline.HeadlineFetched += HeadlineFetched;
+                    currentStation.GlobalHeadline.HeadlineFetched += HeadlineFetched;
+                }
+                if (HeadlineAnalyze != null)
+                {
+                    currentStation.LocalHeadline.HeadlineAnalyze += HeadlineAnalyze;
+                    currentStation.GlobalHeadline.HeadlineAnalyze += HeadlineAnalyze;
+                }
+                if (HeadlineAnalyzing != null)
+                {
+                    currentStation.LocalHeadline.HeadlineAnalyzing += HeadlineAnalyzing;
+                    currentStation.GlobalHeadline.HeadlineAnalyzing += HeadlineAnalyzing;
+                }
+                if (HeadlineAnalyzed != null)
+                {
+                    currentStation.LocalHeadline.HeadlineAnalyzed += HeadlineAnalyzed;
+                    currentStation.GlobalHeadline.HeadlineAnalyzed += HeadlineAnalyzed;
+                }
+
+                fetchingStation = currentStation;
+
                 currentStation.LocalHeadline.FetchHeadline();
                 currentStation.GlobalHeadline.FetchHeadline();
+
+                if (HeadlineFetch != null)
+                {
+                    currentStation.LocalHeadline.HeadlineFetch -= HeadlineFetch;
+                    currentStation.GlobalHeadline.HeadlineFetch -= HeadlineFetch;
+                }
+                if (HeadlineFetching != null)
+                {
+                    currentStation.LocalHeadline.HeadlineFetching -= HeadlineFetching;
+                    currentStation.GlobalHeadline.HeadlineFetching -= HeadlineFetching;
+                }
+                if (HeadlineFetched != null)
+                {
+                    currentStation.LocalHeadline.HeadlineFetched -= HeadlineFetched;
+                    currentStation.GlobalHeadline.HeadlineFetched -= HeadlineFetched;
+                }
+                if (HeadlineAnalyze != null)
+                {
+                    currentStation.LocalHeadline.HeadlineAnalyze -= HeadlineAnalyze;
+                    currentStation.GlobalHeadline.HeadlineAnalyze -= HeadlineAnalyze;
+                }
+                if (HeadlineAnalyzing != null)
+                {
+                    currentStation.LocalHeadline.HeadlineAnalyzing -= HeadlineAnalyzing;
+                    currentStation.GlobalHeadline.HeadlineAnalyzing -= HeadlineAnalyzing;
+                }
+                if (HeadlineAnalyzed != null)
+                {
+                    currentStation.LocalHeadline.HeadlineAnalyzed -= HeadlineAnalyzed;
+                    currentStation.GlobalHeadline.HeadlineAnalyzed -= HeadlineAnalyzed;
+                }
             }
             else
             {
@@ -292,7 +537,59 @@ namespace PodcasCo
         {
             if (currentStation != null)
             {
+                if (HeadlineFetch != null)
+                {
+                    currentStation.GlobalHeadline.HeadlineFetch += HeadlineFetch;
+                }
+                if (HeadlineFetching != null)
+                {
+                    currentStation.GlobalHeadline.HeadlineFetching += HeadlineFetching;
+                }
+                if (HeadlineFetched != null)
+                {
+                    currentStation.GlobalHeadline.HeadlineFetched += HeadlineFetched;
+                }
+                if (HeadlineAnalyze != null)
+                {
+                    currentStation.GlobalHeadline.HeadlineAnalyze += HeadlineAnalyze;
+                }
+                if (HeadlineAnalyzing != null)
+                {
+                    currentStation.GlobalHeadline.HeadlineAnalyzing += HeadlineAnalyzing;
+                }
+                if (HeadlineAnalyzed != null)
+                {
+                    currentStation.GlobalHeadline.HeadlineAnalyzed += HeadlineAnalyzed;
+                }
+
+                fetchingStation = currentStation;
+
                 currentStation.GlobalHeadline.FetchHeadline();
+
+                if (HeadlineFetch != null)
+                {
+                    currentStation.GlobalHeadline.HeadlineFetch -= HeadlineFetch;
+                }
+                if (HeadlineFetching != null)
+                {
+                    currentStation.GlobalHeadline.HeadlineFetching -= HeadlineFetching;
+                }
+                if (HeadlineFetched != null)
+                {
+                    currentStation.GlobalHeadline.HeadlineFetched -= HeadlineFetched;
+                }
+                if (HeadlineAnalyze != null)
+                {
+                    currentStation.GlobalHeadline.HeadlineAnalyze -= HeadlineAnalyze;
+                }
+                if (HeadlineAnalyzing != null)
+                {
+                    currentStation.GlobalHeadline.HeadlineAnalyzing -= HeadlineAnalyzing;
+                }
+                if (HeadlineAnalyzed != null)
+                {
+                    currentStation.GlobalHeadline.HeadlineAnalyzed -= HeadlineAnalyzed;
+                }
             }
             else
             {
@@ -447,5 +744,35 @@ namespace PodcasCo
         {
             channel.ShowPropertyForm();
         }
+
+        /// <summary>
+        /// ヘッドラインをネットから取得する前に発生するイベント
+        /// </summary>
+        public static event FetchEventHandler HeadlineFetch;
+
+        /// <summary>
+        /// ヘッドラインをネットから取得している最中に発生するイベント
+        /// </summary>
+        public static event FetchEventHandler HeadlineFetching;
+
+        /// <summary>
+        /// ヘッドラインをネットから取得した後に発生するイベント
+        /// </summary>
+        public static event FetchEventHandler HeadlineFetched;
+
+        /// <summary>
+        /// ヘッドラインを解析する前に発生するイベント
+        /// </summary>
+        public static event HeadlineAnalyzeEventHandler HeadlineAnalyze;
+
+        /// <summary>
+        /// ヘッドラインを解析している最中に発生するイベント
+        /// </summary>
+        public static event HeadlineAnalyzeEventHandler HeadlineAnalyzing;
+
+        /// <summary>
+        /// ヘッドラインを解析した後に発生するイベント
+        /// </summary>
+        public static event HeadlineAnalyzeEventHandler HeadlineAnalyzed;
     }
 }

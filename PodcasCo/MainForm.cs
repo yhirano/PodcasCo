@@ -38,10 +38,8 @@ namespace PodcasCo
         private RadioButton clipedRadioButton;
         private Panel clipFilterPanel;
         private RadioButton unclipedRadioButton;
-        private Label lastCheckInfomationLabel;
         private ListView channelListView;
         private ColumnHeader channelColumnHeader;
-        private Label clipInfomationLabel;
         private MenuItem separateMenuItem2;
         private MenuItem separateMenuItem1;
         private MenuItem podcasCoSettingMenuItem;
@@ -62,6 +60,7 @@ namespace PodcasCo
         /// </summary>
         private IChannel[] currentChannels;
         private MenuItem stationStartupSettingMenuItem;
+        private StatusBar mainStatusBar;
 
         /// <summary>
         /// アンカーコントロールのリスト
@@ -92,6 +91,7 @@ namespace PodcasCo
             this.menuMenuItem = new System.Windows.Forms.MenuItem();
             this.stationsSettingMenuItem = new System.Windows.Forms.MenuItem();
             this.podcasCoSettingMenuItem = new System.Windows.Forms.MenuItem();
+            this.stationStartupSettingMenuItem = new System.Windows.Forms.MenuItem();
             this.separateMenuItem1 = new System.Windows.Forms.MenuItem();
             this.versionInfoMenuItem = new System.Windows.Forms.MenuItem();
             this.separateMenuItem2 = new System.Windows.Forms.MenuItem();
@@ -104,7 +104,6 @@ namespace PodcasCo
             this.clipedRadioButton = new System.Windows.Forms.RadioButton();
             this.clipFilterPanel = new System.Windows.Forms.Panel();
             this.unclipedRadioButton = new System.Windows.Forms.RadioButton();
-            this.lastCheckInfomationLabel = new System.Windows.Forms.Label();
             this.channelListView = new System.Windows.Forms.ListView();
             this.channelColumnHeader = new System.Windows.Forms.ColumnHeader();
             this.stationListContextMenu = new System.Windows.Forms.ContextMenu();
@@ -113,8 +112,7 @@ namespace PodcasCo
             this.selectClipedMenuItem = new System.Windows.Forms.MenuItem();
             this.clipSelectedPodcastMenuItem = new System.Windows.Forms.MenuItem();
             this.deleteSelectedPodcastMenuItem = new System.Windows.Forms.MenuItem();
-            this.clipInfomationLabel = new System.Windows.Forms.Label();
-            this.stationStartupSettingMenuItem = new System.Windows.Forms.MenuItem();
+            this.mainStatusBar = new System.Windows.Forms.StatusBar();
             // 
             // mainMenu
             // 
@@ -140,6 +138,11 @@ namespace PodcasCo
             // 
             this.podcasCoSettingMenuItem.Text = "PodcasCo設定(&P)";
             this.podcasCoSettingMenuItem.Click += new System.EventHandler(this.PodcasCoSettingMenuItem_Click);
+            // 
+            // stationStartupSettingMenuItem
+            // 
+            this.stationStartupSettingMenuItem.Text = "起動時の設定(&S)";
+            this.stationStartupSettingMenuItem.Click += new System.EventHandler(this.stationStartupSettingMenuItem_Click);
             // 
             // separateMenuItem1
             // 
@@ -216,13 +219,6 @@ namespace PodcasCo
             this.unclipedRadioButton.Text = "&Uncliped";
             this.unclipedRadioButton.CheckedChanged += new System.EventHandler(this.ClipRadioButton_CheckedChanged);
             // 
-            // lastCheckInfomationLabel
-            // 
-            this.lastCheckInfomationLabel.Location = new System.Drawing.Point(83, 248);
-            this.lastCheckInfomationLabel.Size = new System.Drawing.Size(154, 20);
-            this.lastCheckInfomationLabel.Text = "No check";
-            this.lastCheckInfomationLabel.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
             // channelListView
             // 
             this.channelListView.CheckBoxes = true;
@@ -271,23 +267,17 @@ namespace PodcasCo
             this.deleteSelectedPodcastMenuItem.Text = "選択したPodcastを削除(&D)";
             this.deleteSelectedPodcastMenuItem.Click += new System.EventHandler(this.DeleteSelectedPodcastMenuItem_Click);
             // 
-            // clipInfomationLabel
+            // mainStatusBar
             // 
-            this.clipInfomationLabel.Location = new System.Drawing.Point(3, 248);
-            this.clipInfomationLabel.Size = new System.Drawing.Size(74, 20);
-            this.clipInfomationLabel.Text = "0/0/0";
-            // 
-            // stationStartupSettingMenuItem
-            // 
-            this.stationStartupSettingMenuItem.Text = "起動時の設定(&S)";
-            this.stationStartupSettingMenuItem.Click += new System.EventHandler(this.stationStartupSettingMenuItem_Click);
+            this.mainStatusBar.Location = new System.Drawing.Point(0, 246);
+            this.mainStatusBar.Size = new System.Drawing.Size(240, 22);
+            this.mainStatusBar.Text = "No check";
             // 
             // MainForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
-            this.Controls.Add(this.clipInfomationLabel);
+            this.Controls.Add(this.mainStatusBar);
             this.Controls.Add(this.channelListView);
-            this.Controls.Add(this.lastCheckInfomationLabel);
             this.Controls.Add(this.clipFilterPanel);
             this.Controls.Add(this.stationFilterComboBox);
             this.Controls.Add(this.playButton);
@@ -309,8 +299,8 @@ namespace PodcasCo
         /// </summary>
         static void Main()
         {
-            //try
-            //{
+            try
+            {
                 Application.Run(new MainForm());
 
                 // 終了時処理
@@ -322,49 +312,49 @@ namespace PodcasCo
                 {
                     MessageBox.Show("設定ファイルが書き込めませんでした", "設定ファイル書き込みエラー");
                 }
-//            }
-//            catch (Exception ex)
-//            {
-//                // ログに例外情報を書き込む
-//                Log exceptionLog = new Log(AssemblyUtility.GetExecutablePath() + @"\" + PodcasCoInfo.ExceptionLogFile);
-//                StringBuilder error = new StringBuilder();
+            }
+            catch (Exception ex)
+            {
+                // ログに例外情報を書き込む
+                Log exceptionLog = new Log(AssemblyUtility.GetExecutablePath() + @"\" + PodcasCoInfo.ExceptionLogFile);
+                StringBuilder error = new StringBuilder();
 
-//                error.Append("Application:       " +
-//                    PodcasCoInfo.ApplicationName + " " + PodcasCoInfo.VersionNumber + "\r\n");
-//                error.Append("Date:              " +
-//                    System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "\r\n");
-//                error.Append("OS:                " +
-//                    Environment.OSVersion.ToString() + "\r\n");
-//                error.Append("Culture:           " +
-//                    System.Globalization.CultureInfo.CurrentCulture.Name + "\r\n");
-//                error.Append("Exception class:   " +
-//                    ex.GetType().ToString() + "\r\n");
-//                error.Append("ToString:   " +
-//                    ex.ToString() + "\r\n");
-//                error.Append("Exception message: "
-//                     + "\r\n");
-//                error.Append(ex.Message);
+                error.Append("Application:       " +
+                    PodcasCoInfo.ApplicationName + " " + PodcasCoInfo.VersionNumber + "\r\n");
+                error.Append("Date:              " +
+                    System.DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + "\r\n");
+                error.Append("OS:                " +
+                    Environment.OSVersion.ToString() + "\r\n");
+                error.Append("Culture:           " +
+                    System.Globalization.CultureInfo.CurrentCulture.Name + "\r\n");
+                error.Append("Exception class:   " +
+                    ex.GetType().ToString() + "\r\n");
+                error.Append("ToString:   " +
+                    ex.ToString() + "\r\n");
+                error.Append("Exception message: "
+                     + "\r\n");
+                error.Append(ex.Message);
 
-//                Exception innnerEx = ex.InnerException;
-//                while (innnerEx != null)
-//                {
-//                    error.Append(innnerEx.Message);
-//                    error.Append("\r\n");
-//                    innnerEx = innnerEx.InnerException;
-//                }
+                Exception innnerEx = ex.InnerException;
+                while (innnerEx != null)
+                {
+                    error.Append(innnerEx.Message);
+                    error.Append("\r\n");
+                    innnerEx = innnerEx.InnerException;
+                }
 
-//                error.Append("\r\n");
-//                error.Append("\r\n");
+                error.Append("\r\n");
+                error.Append("\r\n");
 
-//                exceptionLog.LogThis(error.ToString(), Log.LogPrefix.date);
+                exceptionLog.LogThis(error.ToString(), Log.LogPrefix.date);
 
-//#if DEBUG
-//                // デバッガで例外内容を確認するため、例外をアプリケーションの外に出す
-//                throw ex;
-//#else
-//                Trace.Assert(false, "予期しないエラーが発生したため、終了します");
-//#endif
-//            }
+#if DEBUG
+                // デバッガで例外内容を確認するため、例外をアプリケーションの外に出す
+                throw ex;
+#else
+                Trace.Assert(false, "予期しないエラーが発生したため、終了します");
+#endif
+            }
         }
 
         /// <summary>
@@ -410,8 +400,6 @@ namespace PodcasCo
             anchorControlList.Add(new AnchorLayout(clipedRadioButton, AnchorStyles.Top | AnchorStyles.Left));
             anchorControlList.Add(new AnchorLayout(unclipedRadioButton, AnchorStyles.Top | AnchorStyles.Left));
             anchorControlList.Add(new AnchorLayout(channelListView, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
-            anchorControlList.Add(new AnchorLayout(clipInfomationLabel, AnchorStyles.Left | AnchorStyles.Bottom, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
-            anchorControlList.Add(new AnchorLayout(lastCheckInfomationLabel, AnchorStyles.Right | AnchorStyles.Bottom, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
         }
 
         /// <summary>
@@ -490,6 +478,9 @@ namespace PodcasCo
 
                 #endregion
 
+                mainStatusBar.Text = "接続中...";
+                mainStatusBar.Refresh();
+
                 #region 番組取得処理
 
                 if (option == CheckHeadlinesOption.GlobalAndLocal)
@@ -511,10 +502,13 @@ namespace PodcasCo
 
                 #endregion
 
-                lastCheckInfomationLabel.Text = "Last " + DateTime.Now.ToString();
-
                 // 番組リストを更新する
                 UpdateChannelList();
+
+                mainStatusBar.Text = "Last " + DateTime.Now.ToString()
+                    + " - A:" + StationList.GetChannelsOfCurrentStationFromAllHeadline().Length
+                    + " C:" + StationList.GetChannelsOfCurrentStationFromLocalHeadline().Length
+                    + " U:" + StationList.GetUnclipedChannelsOfCurrentStation().Length;
             }
             catch (WebException)
             {
@@ -617,10 +611,6 @@ namespace PodcasCo
             #region UI後処理
 
             AutoResizeColumnListView(channelListView);
-
-            clipInfomationLabel.Text = StationList.GetChannelsOfCurrentStationFromAllHeadline().Length
-                + "/" + StationList.GetChannelsOfCurrentStationFromLocalHeadline().Length
-                + "/" + StationList.GetUnclipedChannelsOfCurrentStation().Length;
 
             // フォームを選択可能に回復する
             this.Enabled = true;
@@ -837,6 +827,9 @@ namespace PodcasCo
                 MessageBox.Show("設定ファイルが読み込めませんでした", "設定ファイルの読み込みエラー");
             }
 
+            StationList.HeadlineFetching += new FetchEventHandler(StationList_HeadlineFetching);
+            StationList.HeadlineAnalyzing += new HeadlineAnalyzeEventHandler(StationList_HeadlineAnalyzing);
+
             #region 起動時自動ダウンロード
 
             // クリップする番組の数をカウントする
@@ -950,6 +943,32 @@ namespace PodcasCo
 
             SetAnchorControl();
             FixWindowSize();
+        }
+
+        void StationList_HeadlineFetching(object sender, FetchEventArgs e)
+        {
+            if (e.IsUnknownContentSize == false)
+            {
+                mainStatusBar.Text = string.Format("ヘッドライン取得 \"{0}\" {1}KB / {2}KB", StationList.FetchingStationName, e.FetchedSize / 1024, e.ContentSize / 1024);
+            }
+            else
+            {
+                mainStatusBar.Text = string.Format("ヘッドライン取得 \"{0}\" {1}KB", StationList.FetchingStationName, e.FetchedSize / 1024);
+            }
+            mainStatusBar.Refresh();
+        }
+
+        void StationList_HeadlineAnalyzing(object sender, HeadlineAnalyzeEventArgs e)
+        {
+            if (e.IsUnknownWholeCount == false)
+            {
+                mainStatusBar.Text = string.Format("番組解析中 \"{0}\" {1} / {2}", StationList.FetchingStationName, e.AnalyzedCount, e.WholeCount);
+            }
+            else
+            {
+                mainStatusBar.Text = string.Format("番組解析中 \"{0}\" {1}", StationList.FetchingStationName, e.AnalyzedCount);
+            }
+            mainStatusBar.Refresh();
         }
 
         private void VersionInfoMenuItem_Click(object sender, EventArgs e)

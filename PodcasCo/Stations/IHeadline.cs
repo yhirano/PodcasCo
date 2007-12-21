@@ -1,11 +1,19 @@
 ﻿#region ディレクティブを使用する
 
 using System;
+using MiscPocketCompactLibrary.Net;
 
 #endregion
 
 namespace PodcasCo.Stations
 {
+    /// <summary>
+    /// ヘッドライン解析のイベントハンドラ
+    /// </summary>
+    /// <param name="sender">送信元</param>
+    /// <param name="e">イベント</param>
+    public delegate void HeadlineAnalyzeEventHandler(object sender, HeadlineAnalyzeEventArgs e);
+
     /// <summary>
     /// ヘッドラインインターフェース
     /// </summary>
@@ -61,6 +69,36 @@ namespace PodcasCo.Stations
         /// ヘッドラインをネットから取得する
         /// </summary>
         void FetchHeadline();
+
+        /// <summary>
+        /// ヘッドラインをネットから取得する前に発生するイベント
+        /// </summary>
+        event FetchEventHandler HeadlineFetch;
+
+        /// <summary>
+        /// ヘッドラインをネットから取得している最中に発生するイベント
+        /// </summary>
+        event FetchEventHandler HeadlineFetching;
+
+        /// <summary>
+        /// ヘッドラインをネットから取得した後に発生するイベント
+        /// </summary>
+        event FetchEventHandler HeadlineFetched;
+
+        /// <summary>
+        /// ヘッドラインを解析する前に発生するイベント
+        /// </summary>
+        event HeadlineAnalyzeEventHandler HeadlineAnalyze;
+
+        /// <summary>
+        /// ヘッドラインを解析している最中に発生するイベント
+        /// </summary>
+        event HeadlineAnalyzeEventHandler HeadlineAnalyzing;
+
+        /// <summary>
+        /// ヘッドラインを解析した後に発生するイベント
+        /// </summary>
+        event HeadlineAnalyzeEventHandler HeadlineAnalyzed;
 
         /// <summary>
         /// ヘッドラインをネットから取得した時刻を返す
