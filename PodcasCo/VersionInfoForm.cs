@@ -25,6 +25,7 @@ namespace PodcasCo
         /// アンカーコントロールのリスト
         /// </summary>
         private ArrayList anchorControlList = new ArrayList();
+        private PictureBox iconPictureBox;
 
         /// <summary>
         /// フォームのメイン メニュー
@@ -52,11 +53,13 @@ namespace PodcasCo
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VersionInfoForm));
             this.mainMenu = new System.Windows.Forms.MainMenu();
             this.okMenuItem = new System.Windows.Forms.MenuItem();
             this.applicationNameLabel = new System.Windows.Forms.Label();
             this.versionNumberLabel = new System.Windows.Forms.Label();
             this.copyrightLabel = new System.Windows.Forms.Label();
+            this.iconPictureBox = new System.Windows.Forms.PictureBox();
             // 
             // mainMenu
             // 
@@ -69,25 +72,33 @@ namespace PodcasCo
             // 
             // applicationNameLabel
             // 
-            this.applicationNameLabel.Location = new System.Drawing.Point(3, 9);
+            this.applicationNameLabel.Location = new System.Drawing.Point(3, 54);
             this.applicationNameLabel.Size = new System.Drawing.Size(234, 20);
             this.applicationNameLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // versionNumberLabel
             // 
-            this.versionNumberLabel.Location = new System.Drawing.Point(3, 29);
+            this.versionNumberLabel.Location = new System.Drawing.Point(3, 74);
             this.versionNumberLabel.Size = new System.Drawing.Size(234, 20);
             this.versionNumberLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // copyrightLabel
             // 
-            this.copyrightLabel.Location = new System.Drawing.Point(3, 49);
+            this.copyrightLabel.Location = new System.Drawing.Point(3, 94);
             this.copyrightLabel.Size = new System.Drawing.Size(234, 20);
             this.copyrightLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // iconPictureBox
+            // 
+            this.iconPictureBox.BackColor = System.Drawing.Color.Transparent;
+            this.iconPictureBox.Image = ((System.Drawing.Image)(resources.GetObject("iconPictureBox.Image")));
+            this.iconPictureBox.Location = new System.Drawing.Point(96, 3);
+            this.iconPictureBox.Size = new System.Drawing.Size(48, 48);
             // 
             // VersionInfoForm
             // 
             this.ClientSize = new System.Drawing.Size(240, 268);
+            this.Controls.Add(this.iconPictureBox);
             this.Controls.Add(this.copyrightLabel);
             this.Controls.Add(this.versionNumberLabel);
             this.Controls.Add(this.applicationNameLabel);
@@ -106,6 +117,7 @@ namespace PodcasCo
         /// </summary>
         private void SetAnchorControl()
         {
+            anchorControlList.Add(new AnchorLayout(iconPictureBox, AnchorStyles.Top, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
             anchorControlList.Add(new AnchorLayout(applicationNameLabel, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
             anchorControlList.Add(new AnchorLayout(versionNumberLabel, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));
             anchorControlList.Add(new AnchorLayout(copyrightLabel, AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right, PodcasCoInfo.FormBaseWidth, PodcasCoInfo.FormBaseHight));

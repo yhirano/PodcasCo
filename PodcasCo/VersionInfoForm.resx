@@ -100,6 +100,52 @@
   <data name="mainMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </data>
+  <data name="iconPictureBox.Image" type="System.Drawing.Bitmap, System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+</value>
+  </data>
   <data name="$this.FormFactorShadowProperty">
     <value xml:space="preserve">POCKET_PC_2003_PORTRAIT</value>
   </data>
