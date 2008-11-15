@@ -92,7 +92,7 @@ namespace PodcasCo
         /// <summary>
         /// プロキシのサーバ名
         /// </summary>
-        private static string proxyServer = "";
+        private static string proxyServer = string.Empty;
 
         /// <summary>
         /// プロキシのサーバ名
@@ -170,6 +170,25 @@ namespace PodcasCo
                     ;
                 }
             }
+        }
+
+        public enum ChannelSorts
+        {
+            None, DateNewer, DateOlder
+        }
+
+        /// <summary>
+        /// 番組のソート方法
+        /// </summary>
+        private static ChannelSorts channelSort = ChannelSorts.None;
+
+        /// <summary>
+        /// 番組のソート方法を取得・設定する
+        /// </summary>
+        public static ChannelSorts ChannelSort
+        {
+            get { return channelSort; }
+            set { channelSort = value; }
         }
 
         /// <summary>
@@ -442,6 +461,23 @@ namespace PodcasCo
                                     }
                                 }
                             } // End of DownloadBuffer
+                            else if (reader.LocalName == "ChannelSort")
+                            {
+                                string sort = reader.GetAttribute("sort");
+                                if (sort == ChannelSorts.None.ToString())
+                                {
+                                    ChannelSort = ChannelSorts.None;
+                                }
+                                else if (sort == ChannelSorts.DateNewer.ToString())
+                                {
+                                    ChannelSort = ChannelSorts.DateNewer;
+                                }
+                                else if (sort == ChannelSorts.DateOlder.ToString())
+                                {
+                                    ChannelSort = ChannelSorts.DateOlder;
+                                }
+
+                            } // End of ChannelSort
                         }
                         else if (reader.NodeType == XmlNodeType.EndElement)
                         {
@@ -529,9 +565,9 @@ namespace PodcasCo
                 writer.WriteAttributeString("port", ProxyPort.ToString());
                 writer.WriteEndElement(); // End of Porxy
 
-                writer.WriteStartElement("DownloadBuffer");
-                writer.WriteAttributeString("size", DownLoadBufferSize.ToString());
-                writer.WriteEndElement(); // End of DownloadBuffer
+                writer.WriteStartElement("ChannelSort");
+                writer.WriteAttributeString("sort", ChannelSort.ToString());
+                writer.WriteEndElement(); // End of ChannelSort
 
                 writer.WriteEndElement(); // End of Content.
 

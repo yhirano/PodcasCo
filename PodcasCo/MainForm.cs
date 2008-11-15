@@ -61,6 +61,10 @@ namespace PodcasCo
         private IChannel[] currentChannels;
         private MenuItem stationStartupSettingMenuItem;
         private StatusBar mainStatusBar;
+        private MenuItem channelSortMenuItem;
+        private MenuItem unsortMenuItem;
+        private MenuItem dateNewerSortMenuItem;
+        private MenuItem dateOlderSortMenuItem;
 
         /// <summary>
         /// アンカーコントロールのリスト
@@ -92,6 +96,10 @@ namespace PodcasCo
             this.stationsSettingMenuItem = new System.Windows.Forms.MenuItem();
             this.podcasCoSettingMenuItem = new System.Windows.Forms.MenuItem();
             this.stationStartupSettingMenuItem = new System.Windows.Forms.MenuItem();
+            this.channelSortMenuItem = new System.Windows.Forms.MenuItem();
+            this.unsortMenuItem = new System.Windows.Forms.MenuItem();
+            this.dateNewerSortMenuItem = new System.Windows.Forms.MenuItem();
+            this.dateOlderSortMenuItem = new System.Windows.Forms.MenuItem();
             this.separateMenuItem1 = new System.Windows.Forms.MenuItem();
             this.versionInfoMenuItem = new System.Windows.Forms.MenuItem();
             this.separateMenuItem2 = new System.Windows.Forms.MenuItem();
@@ -123,6 +131,7 @@ namespace PodcasCo
             this.menuMenuItem.MenuItems.Add(this.stationsSettingMenuItem);
             this.menuMenuItem.MenuItems.Add(this.podcasCoSettingMenuItem);
             this.menuMenuItem.MenuItems.Add(this.stationStartupSettingMenuItem);
+            this.menuMenuItem.MenuItems.Add(this.channelSortMenuItem);
             this.menuMenuItem.MenuItems.Add(this.separateMenuItem1);
             this.menuMenuItem.MenuItems.Add(this.versionInfoMenuItem);
             this.menuMenuItem.MenuItems.Add(this.separateMenuItem2);
@@ -143,6 +152,29 @@ namespace PodcasCo
             // 
             this.stationStartupSettingMenuItem.Text = "起動時の設定(&S)";
             this.stationStartupSettingMenuItem.Click += new System.EventHandler(this.stationStartupSettingMenuItem_Click);
+            // 
+            // channelSortMenuItem
+            // 
+            this.channelSortMenuItem.MenuItems.Add(this.unsortMenuItem);
+            this.channelSortMenuItem.MenuItems.Add(this.dateNewerSortMenuItem);
+            this.channelSortMenuItem.MenuItems.Add(this.dateOlderSortMenuItem);
+            this.channelSortMenuItem.Text = "番組の表示順(&V)";
+            this.channelSortMenuItem.Popup += new System.EventHandler(this.channelSortMenuItem_Popup);
+            // 
+            // unsortMenuItem
+            // 
+            this.unsortMenuItem.Text = "標準";
+            this.unsortMenuItem.Click += new System.EventHandler(this.unsortMenuItem_Click);
+            // 
+            // dateNewerSortMenuItem
+            // 
+            this.dateNewerSortMenuItem.Text = "新しい順";
+            this.dateNewerSortMenuItem.Click += new System.EventHandler(this.dateNewerSortMenuItem_Click);
+            // 
+            // dateOlderSortMenuItem
+            // 
+            this.dateOlderSortMenuItem.Text = "古い順";
+            this.dateOlderSortMenuItem.Click += new System.EventHandler(this.dateOlderSortMenuItem_Click);
             // 
             // separateMenuItem1
             // 
@@ -286,8 +318,8 @@ namespace PodcasCo
             this.MaximizeBox = false;
             this.Menu = this.mainMenu;
             this.Text = "PodcasCo";
-            this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.Load += new System.EventHandler(this.MainForm_Load);
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
 
         }
 
@@ -596,6 +628,18 @@ namespace PodcasCo
             {
                 // ここに到達することはあり得ない
                 Trace.Assert(false, "想定外の動作のため、終了します");
+            }
+
+            switch(UserSetting.ChannelSort)
+            {
+                case UserSetting.ChannelSorts.DateOlder:
+                    Array.Sort(currentChannels, 0, currentChannels.Length, new DateOlderComparer());
+                    break;
+                case UserSetting.ChannelSorts.DateNewer:
+                    Array.Sort(currentChannels, 0, currentChannels.Length, new DateNewerComparer());
+                    break;
+                default:
+                    break;
             }
 
             DrawChannelList(currentChannels);
@@ -1111,6 +1155,47 @@ namespace PodcasCo
 
                 return DateTime.Compare(channel1.GetDate(), channel2.GetDate());
             }
+        }
+
+        private void channelSortMenuItem_Popup(object sender, EventArgs e)
+        {
+            switch (UserSetting.ChannelSort)
+            {
+                case UserSetting.ChannelSorts.DateNewer:
+                    unsortMenuItem.Checked = false;
+                    dateNewerSortMenuItem.Checked = true;
+                    dateOlderSortMenuItem.Checked = false;
+                    break;
+                case UserSetting.ChannelSorts.DateOlder:
+                    unsortMenuItem.Checked = false;
+                    dateNewerSortMenuItem.Checked = false;
+                    dateOlderSortMenuItem.Checked = true;
+                    break;
+                case UserSetting.ChannelSorts.None:
+                default:
+                    unsortMenuItem.Checked = true;
+                    dateNewerSortMenuItem.Checked = false;
+                    dateOlderSortMenuItem.Checked = false;
+                    break;
+            }
+        }
+
+        private void unsortMenuItem_Click(object sender, EventArgs e)
+        {
+            UserSetting.ChannelSort = UserSetting.ChannelSorts.None;
+            UpdateChannelList();
+        }
+
+        private void dateNewerSortMenuItem_Click(object sender, EventArgs e)
+        {
+            UserSetting.ChannelSort = UserSetting.ChannelSorts.DateNewer;
+            UpdateChannelList();
+        }
+
+        private void dateOlderSortMenuItem_Click(object sender, EventArgs e)
+        {
+            UserSetting.ChannelSort = UserSetting.ChannelSorts.DateOlder;
+            UpdateChannelList();
         }
     }
 }

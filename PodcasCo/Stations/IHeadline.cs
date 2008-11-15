@@ -1,6 +1,7 @@
 ﻿#region ディレクティブを使用する
 
 using System;
+using System.Collections;
 using MiscPocketCompactLibrary.Net;
 
 #endregion
@@ -127,5 +128,65 @@ namespace PodcasCo.Stations
         /// 設定を保存していたファイルを削除する
         /// </summary>
         void DeleteUserSettingFile();
+    }
+
+    class DateNewerComparer : IComparer
+    {
+        public int Compare(object x, object y)
+        {
+            IChannel cx = x as IChannel;
+            IChannel cy = y as IChannel;
+            if (cx == null || cy == null)
+            {
+                throw new ArgumentException();
+            }
+
+            if (cx.GetDate() != DateTime.MinValue && cy.GetDate() != DateTime.MinValue)
+            {
+                return -1 * cx.GetDate().CompareTo(cy.GetDate());
+            }
+            else if (cx.GetDate() == DateTime.MinValue && cy.GetDate() != DateTime.MinValue)
+            {
+                return 1;
+            }
+            else if (cx.GetDate() != DateTime.MinValue && cy.GetDate() == DateTime.MinValue)
+            {
+                return -1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+    }
+
+    class DateOlderComparer : IComparer
+    {
+        public int Compare(object x, object y)
+        {
+            IChannel cx = x as IChannel;
+            IChannel cy = y as IChannel;
+            if (cx == null || cy == null)
+            {
+                throw new ArgumentException();
+            }
+
+            if (cx.GetDate() != DateTime.MinValue && cy.GetDate() != DateTime.MinValue)
+            {
+                return cx.GetDate().CompareTo(cy.GetDate());
+            }
+            else if (cx.GetDate() == DateTime.MinValue && cy.GetDate() != DateTime.MinValue)
+            {
+                return 1;
+            }
+            else if (cx.GetDate() != DateTime.MinValue && cy.GetDate() == DateTime.MinValue)
+            {
+                return -1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 }

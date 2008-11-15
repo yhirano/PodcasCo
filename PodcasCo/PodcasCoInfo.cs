@@ -29,7 +29,7 @@ namespace PodcasCo
         /// <summary>
         /// アプリケーションのバージョン
         /// </summary>
-        private const string VERSION_NUMBER = "0.8";
+        private const string VERSION_NUMBER = "0.9";
 
         /// <summary>
         /// アプリケーションのバージョン
@@ -42,7 +42,7 @@ namespace PodcasCo
         /// <summary>
         /// 著作権情報
         /// </summary>
-        private const string COPYRIGHT = "Copyright (C) 2006-2007 Y.Hirano";
+        private const string COPYRIGHT = "Copyright (C) 2006-2008 Y.Hirano";
 
         /// <summary>
         /// 著作権情報
